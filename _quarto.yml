@@ -1,0 +1,47 @@
+project:
+  type: book
+
+book:
+  title: "Curso: Geoanálisis de Imágenes Satelitales para SII"
+  subtitle: "Centro de Inteligencia Territorial - UAI"
+  # affiliation-title: "Universidad Adolfo Ibáñez - Chile"
+  author: "Denis Berroeta González (denis.berroeta@uai.cl)"
+  date: "2023-04-11"
+  #number-sections: 3
+  page-footer: 
+    left: "Copyright 2023, Denis Berroeta" 
+  chapters:
+    - index.qmd
+    - objetivos.qmd
+    - fundamentos_PR.qmd
+
+    - part: "Tareas"
+      chapters:
+        - tarea_1.qmd
+        #- tarea_2.qmd
+    - part: "Anexos"
+      chapters:
+        - install_rgee.qmd
+        #- luces_nocturnas.qmd
+    - references.qmd
+
+bibliography: references.bib
+
+format:
+  html:
+    theme: cosmo
+    html-math-method: katex
+    css: styles/style.css
+    fig-align: "center"
+    fig-cap-location: "margin"
+    tab-cap-location: "left"
+    mailto: "denis.berroeta@uai.cl"
+  
+execute:
+  warning: false
+  
+editor: source
+always_allow_html: true
+
+
+

@@ -1,0 +1,13 @@
+# Objetivos
+
+## Objetivo General:
+
+El  objetivo  general  del  curso  es  entregar  a  los  participantes las herramientas  de  análisis  cuantitativo    territorial, introduciendo el    manejo  básico    de    la    plataforma    de almacenamiento, visualización y análisis de imágenes satelitales Google Earth Engine. 
+
+## Objetivos Específicos
+
+* Entregar a los asistentes las nociones básicas de Percepción Remota aplicada en diferentes ámbitos, tales como medio ambiente, urbanismo, contaminación, recursos y capital natural.
+
+* Capacitar  a  los  asistentes  en  el  manejo  básico  de  la  plataforma  de  almacenamiento, visualización  y  análisis  de  imágenes  satelitales Google  Earth Engine,  para  manipular, sistematizar y procesar insumos provenientes de diferentes sensores satelitales.
+
+* Entregar   a   los   asistentes   las   capacidades   metodológicas   base   para   el   diseño   y   la construcción de un conjunto de índices espectrales e indicadores ambientales, utilizando la imaginería satelital disponible a la comunidad. 

@@ -1,0 +1,163 @@
+---
+subtitle: "Registro e Instalación"
+---
+
+# Instalación de Rgee {#sec-installrgee}
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+\newpage
+
+## Registrarse en  GEE
+
+
+Para acceder de los recursos de la plataforma de Google Earth Engine desde R de acuerdo al programa del curso, correspondiendo a los siguientes pasos:
+
+* 1. Tener cuenta en google (gmail)
+
+* 2. Dirigirse a la siguiente página web [https://earthengine.google.com](https://earthengine.google.com)
+
+<center>![](imagenes/Pagina_GEE.png){width=80%}</center>
+
+* 3. Registrarse con la cuenta google, presionando botón "sing up" esquina superior derecha. 
+
+* 4. Recibir un correo de confirmación en el gmail.
+
+
+<br>
+
+## Instalación de librería Rgee en R
+
+
+El package **rgee** es una "librería cliente" de Earth Engine para R, que permite a los usuarios aprovechar las ventajas que presenta el ecosistema espacial de R dentro de Google Earth Engine y viceversa.
+
+Todas las clases, módulos y funciones de la API de *Python* de Earth Engine están disponibles en R gracias a la librería *[reticulate](https://rstudio.github.io/reticulate/)*; finalmente **rgee** adiciona nuevos features como el diseño del imput y output de datos, la visualización en mapas interactivos, la facil extracción de series de tiempo, el manejo y la visualización de metadato
+
+
+<br>
+
+![](imagenes/diagrama_rgee.png)
+
+<br>
+
+
+**Opción 1**: Diretamente desde CRAN
+
+```{r eval=FALSE}
+install.packages("rgee")
+```
+
+<br>
+
+**Opción de Desarrollo**: Desde la Versión de Desarrollo alojada en Github
+
+```{r eval=FALSE}
+# install.packages("remotes")
+remotes::install_github("r-spatial/rgee", force = TRUE)
+
+```
+
+
+Instalar Dependencias
+
+```{r eval=FALSE}
+library(rgee)
+ee_install() # Consulta sobre crear ambiente virtual python "Yes"
+# Ahora de debe reiniciar Rstudio
+```
+
+
+Revisión de Instalación correcta
+
+```{r eval=FALSE}
+
+# Iniciar Servicio
+library(rgee)
+ee_Initialize()
+
+# Selección de producto satelital (Modelo Digital de Elevación)
+srtm <- ee$Image("USGS/SRTMGL1_003")
+
+# parámetros de visualización
+viz <- list(
+  max = 4000,
+  min = 0,
+  palette = c("#000000","#5AAD5A","#A9AD84","#FFFFFF")
+)
+
+# Visualización map dinámico
+m <- Map$addLayer(
+  eeObject = srtm,
+  visParams =  viz,
+  name = 'SRTM'
+)
+m
+```
+
+
+<center>![](imagenes/map_dem.png){width=80%}</center>
+
+<br>
+
+
+## Usuarios con experiencie en enviroments virtuales
+
+```{r eval=FALSE}
+#Use ee_install_set_pyenv (Recommended for users with experience with Python environments)
+
+rgee::ee_install_set_pyenv(
+  py_path = "/home/csaybar/.virtualenvs/rgee/bin/python", # Change it for your own Python PATH
+  py_env = "rgee" # Change it for your own Python ENV
+)
+
+```
+
+
+
+## Otras Librerías que se deben instalar
+
+```{r eval=FALSE}
+install.packages("sf") # Mapas dinámicos
+install.packages("mapview") # Mapas dinámicos
+install.packages("reticulate") # interface python
+install.packages("jsonlite") #manipulación de datos tipo Json
+install.packages('tidyverse') # Para ciencia de datos
+install.packages('cptcity') #Para manejar paletas decolores
+install.packages('viridis') #Para manejar paletas decolores
+install.packages('ggmap') # Para manejar tipos de basemap
+install.packages('plot3D') #plot objetos 3d 
+```
+
+<br>
+
+## Referencias
+
+Google Earth Engine for R 
+[https://github.com/r-spatial/rgee](https://github.com/r-spatial/rgee)
+
+Ejemplos
+[https://csaybar.github.io/rgee-examples/](https://csaybar.github.io/rgee-examples/)
+
+Manual en Español [https://barja8.github.io/Handbook_rgee/pdf/vol01.pdf](https://barja8.github.io/Handbook_rgee/pdf/vol01.pdf)
+
+Introduction to rgee [https://cran.r-project.org/web/packages/rgee/vignettes/rgee01.html](https://cran.r-project.org/web/packages/rgee/vignettes/rgee01.html)
+
+
+
+## Contactos
+
+**Denis Berroeta G.**  
+Investigador, Centro Inteligencia Territorial, Design Lab UAI  
+denis.berroeta@uai.cl    
+Av. Presidente Errázuriz 3485, Las Condes
+
+**Felipe Matas*  
+Analista, Centro Inteligencia Territorial, Design Lab UAI  
+felipe.matas@edu.uai.cl  
+Av. Presidente Errázuriz 3485, Las Condes
+

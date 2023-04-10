@@ -1,0 +1,63 @@
+---
+subtitle: "Datos Raster"
+---
+
+
+# Tarea 1  {.unnumbered}
+
+
+![Estructura de una Raster Espacial](imagenes/Matrix-Raster.png){width="50%" fig-aling=center}
+
+## Antecedentes
+
+**Fecha de Entrega**: 21 de Abril del 2023
+
+**Formato de Entrega**: Documento de texto (word, pdf, markdown) + códigos (.R)
+
+**Integrantes**: 2 Personas
+
+
+## Enuncuciado
+
+
+
+1. Crear un raster de ncol = 500, nrow = 500, projection = crs_utm (objeto creado anteriormente), valores aleatorios y plot. (2 puntos). 
+
+::: {.callout-tip}
+## Tip: @sec-crearRaster
+:::
+
+<br>
+
+2. Desde el raster "r_test", crear una copia pero con la raiz cuadrada de los valores originales, y si existe un valor de pixel mayor a 35 debe ser cambiado por 35, finalmente plot (2 Puntos). 
+
+::: {.callout-tip}
+## Tip: @sec-funcRaster)
+:::
+
+
+<br>
+
+3. Desde el raster "r_test", crear una copia y reclasificar todos sus valores, de 0 a 500 valor 1,  501 a 1000 valor 2, 1001 a 1500 valor 3, mayor a 1500 será 4, finalmente plot (2 puntos). (Hint: )
+
+::: {.callout-tip}
+## Tip: @sec-reclRaster
+:::
+
+
+<br>
+
+
+## Adicional
+
+Se les recuerda seguir el manual de instalación del librería `rgee` que se encuentra en el siguiente anexo @sec-installrgee 
+
+## Referencias
+
+Learning R for Geoespatial Analysis
+
+[https://rspatial.org/raster/spatial/8-rastermanip.html](https://rspatial.org/raster/spatial/8-rastermanip.html)
+
+[https://r-spatial.github.io/mapview/](https://r-spatial.github.io/mapview/)
+
+<br>

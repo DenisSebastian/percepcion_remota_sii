@@ -1,0 +1,580 @@
+---
+subtitle: "Fundamentos Teóricos y Prácticos"
+author: "Centro de Inteligencia Territorial"
+date: "04-11-2023"
+---
+
+# S1: Percepción Remota
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 999, stringsAsFactors=F, encoding = "UTF-8")
+options("rgdal_show_exportToProj4_warnings"="none") 
+```
+
+![](imagenes/S1_diagrama.png){fig-align="center" width="800"}
+
+## Conceptos Teóricos
+
+### Definición de Percepción Remota
+
+Percepción Remota o en una disciplina científica que entrega un amplio conjunto de conocimientos y tecnologías utilizadas para observación, análisis, la interpretación de fenómenos en el territorio.
+
+La percepción remota nos permite efectuar **observaciones y mediciones** de la superficie terrestre mediante **dispositivos remotos** instalados sobre plataformas como satélites, aviones y actualmente hasta en drones. 
+
+Los sensores instalados en estas plataformas miden una gran variedad de datos como radiaciones electromagnéticas, espectro electromagnético, perturbaciones atmosféricas, firmas espectrales y captura de imágenes, entre otros.
+
+![](imagenes/solution_earth-1080.jpg){fig-align="center"}
+
+### Aplicaciones de la PR
+
+[**Monitoreo Ambiental**]{style="color: purple;"}**:**
+
+-   **Bosque Nativo**: Superficie anual, Vigor vegetacional Desforestación
+-   **Contaminación de Recursos Naturales**: Borde Costero, red clorhídrica, cuerpos de agua, suelos, aire.
+-   **Glaciares**: Superficie de cuerpos glaciares
+-   **Humedales Alto Andino**: Superficie anual vegetada e inundada en el humedal
+
+[**Monitoreo Urbano**]{style="color: purple;"}**:**
+
+-   **Crecimiento urbano**: Superficie urbana cambios en la ciudades y planificación
+-   **Crecimiento rural**: Superficie urbana cambios en la ruralidad
+-   **Crecimiento asentamientos irregulares**: Crecimiento de las asentamientos informales
+
+[**Desastres Naturales**]{style="color: purple;"}**:**
+
+-   **Incendios Forestales**: Estimación de superficie afectada
+-   **Terremotos y Tsunamis**: Estimación de daños gestión de riesgos
+-   **Deslizamientos de Tierra**: Estimación de superficie afectada
+-   **Aluviones**: Estimación de superficie afectada
+-   **Emergencias Volcánicas**: Estimación de superficie afectada
+
+[**Industrias**]{style="color: purple;"}**:**
+
+-   **Forestal**: Estimación de superficie afectada
+-   **Minería**: Estimación de superficie afectada
+-   **Agrícola**: Estimación de superficie afectada
+
+![](imagenes/aplicacionesPR.png){width="450" fig-align="center"}
+
+### ¿Qué es la Percepción Remota?
+
+La medición de una cantidad asociada con un objeto por un aparato no en contacto directo con el objeto.
+
+Aparatos: Antena, vehículo aéreo, satélites.
+
+![](imagenes/tipos_plataformas.png){fig-align="center"}
+
+**¿Qué se mide?**
+
+Los satélites llevan instrumentos o sensores que miden la [**radiación electromagnética**]{style="color: orange;"}**:** proveniente del sistema tierra - atmósfera. La intensidad de la radiación reflejada y emitida al espacio es influenciada por las condiciones en la superficie y la atmósfera.
+
+![](imagenes/radiacion.v1.png){fig-align="center" width="500"}
+
+
+### Radiación Electromagnética
+
+El principio básico se basa en que todos los cuerpos emiten radiación electromagnética, el tipo y la cantidad depende principalmente de la temperatura del cuerpo.
+
+El principal emisor de radiación es el Sol, cuyo reflejo en la superficie y atmósfera terrestre nos permite ver y analizar los objetos a nuestro alrededor.
+
+![La vegetación verde, absorbe las ondas azules (B) y rojas (R) y refleja las verdes (G) e infrarrojas (IR)](imagenes/rad_tree.png){fig-align="center" width="500"}
+
+### Espectro Electromanético
+
+
+Es un conjunto de frecuencias o longitudes de onda en los que se organiza la radiación electromagnética. Abarca las radiaciones entre los rayos gamma y las ondas de radio.
+
+![](imagenes/spectre.png){fig-align="center" width="700"}
+
+
+### Firmas Espectrales
+
+Cada tipo de superficie tiene su propia firma espectral. Las imágenes percibidas remotamente (satélites) adquieren información en diferentes longitudes de onda, representando diferentes partes del Espectro Electromagnético.
+
+
+![Ejemplo: Vegetación Sana, tiene peaks en Banda Verde (550 nm) y comienzo del Banda Infrarroja (750 nm)](imagenes/firma_esp.png){fig-align="center" width="500"}
+
+
+<br>
+
+<br>
+
+<br>
+
+## Conceptos Prácticos sobre Raster
+
+Para poder trabajar con información satelital, primero hay que conocer la estructura básica de una imagen y como la entiende en términos de estructura una herramienta informática como los equipos computacionales o servidores cloud para poder realizar todos los análisis que se pretenden. 
+
+La estructura matemática mínima de una imagen es un matriz, para operar operar sobre ella la usaremos a un nivel más complejo llamado raster.
+
+
+### Definición Raster
+
+Los objetos raster representan entidades geográficas dividiendo el espacio físico en celdas discretas cuadradas o rectangulares dispuestas en una cuadrícula. De igual forma,
+
+<center>![](imagenes/raster_concept.png){width="50%"}</center>
+
+### Matriz de un Raster
+
+Un ráster consta de una matriz de celdas (o píxeles) organizadas en filas y columnas (o una cuadrícula) en la que cada celda contiene un valor que representa información
+
+<center>![](imagenes/matriz.gif){width="50%"}</center>
+
+### Resolución Espacial
+
+Cuanto más pequeño sea el tamaño de celda, más suave o más detallado será el ráster. Sin embargo, cuanto mayor sea el número de celdas, más tiempo tardará en procesar, aumentándose a su vez la demanda de espacio de almacenamiento.
+
+<center>![](imagenes/raster_resolucion.gif){width="50%"}</center>
+
+### Referencia Espacial
+
+La matriz queda representada por un Sistema de coordenadas cartesianas, en las que las filas de la matriz son paralelas al eje x y las columnas al eje y del plano cartesiano
+
+<center>![](imagenes/crs_raster.gif){width="50%"}</center>
+
+### Clases Matriz y Array en R
+
+Un raster multibanda es un `array` de tres dimensiones con información de referencia espacial. Por lo anterior, debemos cubrir estos tipos de estructuras de datos en R.
+
+### Matrix
+
+Se crea con la función `matrix`
+
+```{r}
+mi_matriz <- matrix(ncol= 3,nrow = 3) # crear una matriz vacía
+mi_matriz
+# plot(raster(mi_matriz), col = heat.colors(9, rev = T))
+# image(mi_matriz)
+
+
+
+valores <- 1:9 # definir valores que contendrá mi matriz
+mi_matriz[] <- valores # asignación de valores a una matrix (forma no recomendada)
+mi_matriz
+# plot(raster(mi_matriz), col = heat.colors(9, rev = T))
+# 
+
+mi_matriz <- matrix(data = valores, ncol= 3, nrow = 3) # crear una matriz
+mi_matriz
+# plot(raster(mi_matriz), col = heat.colors(9, rev = T))
+```
+
+la función matrix, tiene los siguientes argumentos:
+
+-   **data**: The vector of values for the matrix (for example, 1:6)
+-   **nrow**: The number of rows
+-   **ncol**: The number of columns (for example, 3)
+-   **byrow**: Whether the matrix is filled column by column (FALSE, which is the default value) or row by row (TRUE)
+
+Para construir la misma matriz, utilizaremos el parámetro `nrow` (número de filas)
+
+```{r}
+valores <- 1:6
+valores
+matrix(valores, nrow = 2) #mismo resultado
+```
+
+Como se observa nosotros asignamos los valores que contiene la matriz, y se pasan como un vector, donde la matriz será llenada de acuerdo a los argumentos que le entreguemos:
+
+```{r}
+#le pasamos un vector de largo 12 (12:1), pero existen solo 8 espacias para almacenar información
+valores <- 12:1
+valores
+matrix(valores, ncol = 4, nrow = 2)
+
+# en este caso los espacios de almacenamiento de información es 16, mayor a los 12 que nosotros dimos
+# comienza a rellenar desde el principio del vector dado (12:1)
+matrix(valores, ncol = 4, nrow = 4)
+```
+
+Funciones básicas sobre las matrices (similar a Dataframe)
+
+```{r}
+valores <- 7:12
+valores
+x <- matrix(valores, ncol = 3, byrow = TRUE)
+x
+nrow(x) # consultar número de filas
+ncol(x) # consultar número de columnas
+dim(x) # consultar número de dimensiones
+vector_x <- as.vector(x) # reconvertir a vector
+```
+
+Subset sobre una Matriz
+
+```{r}
+x
+x[, c(1,3)] # leer todas las filas, y columnas 1 y 3
+x[2, ] # devolver fila 2 como vector 
+x[2, , drop = FALSE] # devolver fila 2 como dataframe
+```
+
+Trasponer una matriz
+
+```{r}
+mi_matriz
+t(mi_matriz)
+```
+
+Aplicar funciones con `apply()` sobre una matriz
+
+```{r}
+apply(x, 2, mean) # aplicar funciones estadísticas o propias
+```
+
+Funciones de alto performance (escritas en c++)
+
+```{r}
+x
+colSums(x) #suma de columnas
+colMeans(x) # promedio por columna
+
+x
+rowSums(x) #Suma por fila
+rowMeans(x) # promedio por fila
+
+# PD: sirven también para dataframe y arrays
+```
+
+Ejemplo de martiz sin referencia espacial
+
+```{r}
+# class(volcano)
+# dim(volcano)
+image(volcano, col = terrain.colors(30), asp = ncol(volcano) / nrow(volcano))
+contour(volcano, add = TRUE)
+
+```
+
+```{r}
+# install.packages("plot3D")
+library(plot3D)
+# reducir dimensionalidad
+Volcano <- volcano[seq(1, nrow(volcano), by = 3),
+                     seq(1, ncol(volcano), by = 3)]
+
+persp(Volcano, theta = 40, phi = 40, col =  "gold", border = NA, shade = 0.5)
+
+```
+
+subset
+
+```{r}
+r30 = volcano[30, ]  # Row 30
+r70 = volcano[70, ]  # Row 70
+plot(r30, type = "l", col = "blue", ylim = range(c(r30, r70)), ylab = "Elevation (m)")
+lines(r70, type = "l", col = "red")
+```
+
+### Arrays
+
+<center>![](imagenes/3D-array.jpg){width="50%"}</center>
+
+Representan estructuras de datos con dos o mas dimensiones, y se crean con la función "array". Crearemos un objeto de 2 filas, 2 columnas y 3 dimensiones.
+
+```{r}
+# ?array
+valores <- 1:24
+valores
+y <- array(data = valores, dim =  c(2,4,3)) # dim(n_filas, , n_col, n_dimensiones(capas)) 
+y
+```
+
+Subset un array
+
+```{r}
+y
+y[2,1,3] # seleccionar fila 2, columna 1, dimensión 3
+y[2,1,] # seleccionar fila 2, columna 1, de todas las dimensiones
+```
+
+### Estructura de Datos de Raster
+
+Un raster es una grilla rectangular de valores numéricos referenciados en cierta extensión geográfica. Puede tener una (matriz) o múltiples bandas (arrays).
+
+En R para el tratamiento de objetos Raster se utiliza el package `raster`, de acuerdo a contenidos programadas de esta clase solo veremos las funciones básicas, pero con ejemplos que representa el mundo real.
+
+Característica importante del package `raster` que tienen la capacidad de trabajar con grandes raster (de mayor peso que la RAM de nuestros Equipos), donde automáticamente escribe el archivo temporal en el disco duro.
+
+<center>![](imagenes/Matrix-Raster.png){width="50%"}</center>
+
+<br>
+
+```{r}
+library(raster)
+
+z <- raster() # crear un raster vacio
+z
+```
+
+## Crear Raster {#sec-crearRaster}
+
+agregar argumentos
+
+```{r}
+?raster()
+x <- raster(ncol=36, nrow=18, # cantidad de filas y columnas
+            xmn=-1000, xmx=1000, ymn=-100, ymx=900)# extent (representación espacial)
+x
+# plot(x)
+```
+
+Resolución espacial
+
+```{r}
+
+res(x)
+res(x) <- 100
+res(x)
+x
+```
+
+Cambiar Numero de columnas (afecta la resolución)
+
+```{r}
+ncol(x)
+ncol(x) <- 18
+ncol(x)
+res(x)
+```
+
+definir sistema de referencia de coordenadas
+
+```{r}
+### latlon Utilizado a escala mundial
+crs_latlon <- "+proj=longlat +datum=WGS84 +no_defs"
+
+### utm utilizado a nivel regional (depende de la zona y hemisferio)
+crs_utm <- "+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+```
+
+```{r}
+projection(x) <- crs_latlon
+x
+```
+
+Pero Hasta acá nuestro objeto Raster no tiene valores
+
+```{r}
+hasValues(x) # consultar si raster tiene valores
+ncell(x) #cantidad de celdas
+values(x) <- 1:ncell(x) # ncell (cantidad de celdas del raster)
+x
+```
+
+Visualización
+
+```{r}
+library(RColorBrewer)
+# display.brewer.all()
+colores <- brewer.pal(n = 8, name = 'BrBG') # YlGnBu 'YlGnBu
+pal_col <- colorRampPalette(c(colores))( 180 ) # 200 colores 
+plot(x, col = pal_col)
+x
+```
+
+modificación de valores del Raster
+
+```{r}
+set.seed(42)
+values(x) <- runif(ncell(x))
+plot(x, main = "Raster de 180 celdas", col = pal_col)
+```
+
+Funciones
+
+```{r}
+hasValues(x)
+res(x)
+dim(x)
+xmax(x)
+x
+```
+
+Cambiar el maximum de la coordenada x del extent (bounding box)
+
+```{r}
+xmax(x) <- 0
+hasValues(x)
+res(x)
+dim(x)
+x
+plot(x, main = "Raster de 180 celdas", col = pal_col)
+```
+
+si modifico `ncol` desaparece los valores
+
+```{r}
+ncol(x) <- 10
+hasValues(x)
+x
+# plot(x, col = pal_col)
+```
+
+### Operaciones básicas sobre un Raster {#sec-operRaster}
+
+-   Operaciones Básicas : \*\*+, -, \*, / \*\*
+-   Operadores Lógicos **\>, \>=, \<, ==, !**
+-   Otras Funciones: *abs, round, ceiling, floor, trunc, sqrt, log, log10, exp, cos, sin, atan, tan, max, min, range, prod, sum, any, all.*
+
+```{r}
+x
+values(x) <- 1:ncell(x)
+r <- x
+s <- r + 10
+s <- sqrt(s)
+s <- s * r + 5
+
+# plot(s, col = pal_col)
+
+
+r[] <- runif(ncell(r))
+r <- round(r)
+
+plot(r, col = pal_col)
+```
+
+### Funciones con `calc` {#sec-funcRaster}
+
+```{r}
+r <- raster(ncol=3, nrow=2)
+r[] <- 1:ncell(r)
+getValues(r)
+as.matrix(r)
+
+# cambiar los valores menores de 4 a NA
+s <- calc(r, fun=function(x){ x[x < 4] <- NA; return(x)} )
+as.matrix(s)
+```
+
+Funciones con `overlay` (entre layers)
+
+```{r}
+# Overlay
+w <- overlay(r, s, fun=function(x, y){ x / (2 * sqrt(y)) + 5 } )
+as.matrix(w)
+```
+
+Funciones con `reclasify`
+
+```{r}
+# Cambiar los valores entre 0 y 2 a 1, etc.
+x <- reclassify(w, c(0,2,1, 
+                     2,5,2, 
+                     4,10,3))
+as.matrix(x)
+```
+
+modificaciones sobre raster volcán
+
+```{r}
+class(volcano)
+dim(volcano)
+
+volcan <- raster(volcano)
+volcan
+
+
+colores <- brewer.pal(n = 8, name = 'GnBu') # YlGnBu 'YlGnBu
+pal_col <- colorRampPalette(colors = rev(colores))( 180 ) # 200 colores 
+plot(volcan, col =pal_col)
+
+
+```
+
+funciones con volcán
+
+```{r}
+# View(as.matrix(volcan))
+volcan_mod  <- calc(volcan, fun=function(x){ x[x < 100] <- NA; return(x)} )
+plot(volcan_mod, col =pal_col)
+
+vm <-  as.matrix(volcan_mod)
+persp(vm, theta = 40, phi = 10, col =  "gold", border = NA, shade = 0.5)
+
+# escenario de inundación
+volcan_mod  <- calc(volcan, fun=function(x){ x[x > 120] <- NA; return(x)} )
+plot(volcan_mod, col =pal_col)
+
+
+vm <-  as.matrix(volcan_mod)
+persp(vm, theta = 40, phi = 10, col =  "gold", border = NA, shade = 0.5)
+```
+
+### Reclasificar con volcan {#sec-reclRaster}
+
+```{r}
+volcan
+recla_vocan <- reclassify(x = volcan,
+                          rcl = c(0,100,NA, 
+                                  100,140,1, 
+                                  140,180,2,
+                                  180, 200, 3))
+plot(recla_vocan)
+
+```
+
+### Crear Raster Mulitibanda
+
+<center>![](imagenes/single_multi_raster.png){width="50%"}</center>
+
+Para crear una raster multibanda (RasterLayer) utilizaremos la función `stack()`
+
+```{r}
+r1 <- r2 <- r3 <- raster(nrow=10, ncol=10)
+# Assign random cell values
+values(r1) <- runif(ncell(r1))
+values(r2) <- runif(ncell(r2))
+values(r3) <- runif(ncell(r3))
+
+s <- stack(r1, r2, r3)
+s
+
+nlayers(s)
+```
+
+```{r}
+b1 <- brick(r1, r2, r3)
+```
+
+Leer un raster de ejemplo
+
+```{r}
+filename <- system.file("external/test.grd", package="raster")
+filename
+r_test <- raster(filename)
+# filename(r)
+hasValues(r_test)
+plot(r_test, main='RasterLayer from file', col = pal_col)
+```
+
+```{r}
+
+r1 <- r_test
+r2  <- calc(r_test, fun=function(x){ x[x < 500] <- NA; return(x)})
+
+r3 <- reclassify(x = r_test,
+                          rcl = c(0,300,1, 
+                                  300,500,2, 
+                                  500,1000,3,
+                                  1000, 2000, 4))
+
+brick_raster <- brick(r1, r2, r3)
+```
+
+Visualización dinámica
+
+```{r}
+library(mapview)
+pal = mapviewPalette("mapviewTopoColors")
+m <- mapview(brick_raster, alpha = 0.5)
+m@map
+```
+
+### Guardar Raster
+
+```{r eval= FALSE}
+# dir.create(path = "data/raster")
+writeRaster(r_test, "data/r_test1.tif")
+```
