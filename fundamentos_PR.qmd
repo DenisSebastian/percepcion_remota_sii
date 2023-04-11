@@ -14,19 +14,26 @@ options("rgdal_show_exportToProj4_warnings"="none")
 
 ![](imagenes/S1_diagrama.png){fig-align="center" width="800"}
 
+------
+
+![](imagenes/teorica.png){fig-align="center" width="200"}
+
+
 ## Conceptos Teóricos
 
 ### Definición de Percepción Remota
 
-Percepción Remota o en una disciplina científica que entrega un amplio conjunto de conocimientos y tecnologías utilizadas para observación, análisis, la interpretación de fenómenos en el territorio.
+La Percepción Remota es una disciplina científica que, en la actualidad, se presenta como una herramienta clave para el estudio de la Tierra y su entorno. Esta disciplina proporciona un amplio conjunto de conocimientos y tecnologías utilizados para la observación, el análisis y la interpretación de fenómenos en la superficie terrestre.
 
-La percepción remota nos permite efectuar **observaciones y mediciones** de la superficie terrestre mediante **dispositivos remotos** instalados sobre plataformas como satélites, aviones y actualmente hasta en drones. 
+En términos generales, la Percepción Remota nos permite llevar a cabo observaciones y mediciones mediante dispositivos remotos, como satélites, aviones y drones. Los sensores instalados en estas plataformas miden una gran variedad de datos, entre ellos radiaciones electromagnéticas, espectro electromagnético, perturbaciones atmosféricas, firmas espectrales y captura de imágenes.
 
-Los sensores instalados en estas plataformas miden una gran variedad de datos como radiaciones electromagnéticas, espectro electromagnético, perturbaciones atmosféricas, firmas espectrales y captura de imágenes, entre otros.
+La Percepción Remota se ha convertido en una disciplina fundamental para el estudio de la Tierra y su entorno, y su aplicación en la investigación y la gestión de recursos naturales ha demostrado ser de gran utilidad en la toma de decisiones en distintos ámbitos. En este sentido, el desarrollo de tecnologías cada vez más sofisticadas y eficientes en la captura y procesamiento de datos, así como la creciente cantidad de información disponible, hacen que la Percepción Remota siga siendo un campo en constante evolución y con un gran potencial para el futuro.
 
 ![](imagenes/solution_earth-1080.jpg){fig-align="center"}
 
 ### Aplicaciones de la PR
+
+La importancia de la Percepción Remota radica en su capacidad para capturar información valiosa sobre la superficie terrestre, lo que ha permitido importantes avances en áreas como la agricultura, la geología, la climatología y la gestión de recursos naturales. Por ejemplo, gracias a la Percepción Remota, hoy en día es posible monitorear la salud de los cultivos y prevenir enfermedades, identificar zonas de riesgo para la exploración de recursos minerales y petroleros, predecir desastres naturales y monitorear los efectos del cambio climático. A continuación se describen algunos ejemplos de usos de la perceción remota:
 
 [**Monitoreo Ambiental**]{style="color: purple;"}**:**
 
@@ -55,7 +62,7 @@ Los sensores instalados en estas plataformas miden una gran variedad de datos co
 -   **Minería**: Estimación de superficie afectada
 -   **Agrícola**: Estimación de superficie afectada
 
-![](imagenes/aplicacionesPR.png){width="450" fig-align="center"}
+<!-- ![](imagenes/aplicacionesPR.png){width="450" fig-align="center"} -->
 
 ### ¿Qué es la Percepción Remota?
 
@@ -65,48 +72,46 @@ Aparatos: Antena, vehículo aéreo, satélites.
 
 ![](imagenes/tipos_plataformas.png){fig-align="center"}
 
-**¿Qué se mide?**
+**¿Qué se mide la percepción remota satelital?**
 
-Los satélites llevan instrumentos o sensores que miden la [**radiación electromagnética**]{style="color: orange;"}**:** proveniente del sistema tierra - atmósfera. La intensidad de la radiación reflejada y emitida al espacio es influenciada por las condiciones en la superficie y la atmósfera.
+La percepción remota satelital utiliza instrumentos y sensores para medir la [**radiación electromagnética**]{style="color: orange;"} proveniente del sistema tierra-atmósfera. La intensidad de la radiación reflejada y emitida al espacio está influenciada por las condiciones en la superficie y la atmósfera.
 
 ![](imagenes/radiacion.v1.png){fig-align="center" width="500"}
 
+La radiación electromagnética producida por el Sol es la energía que emite en forma de ondas electromagnéticas. Esta radiación se divide en diferentes tipos según su longitud de onda, como los rayos X, los rayos gamma, la luz visible, las ondas de radio, entre otros.
+
+La atmósfera terrestre juega un papel importante en la radiación electromagnética que llega a la superficie terrestre. Parte de la radiación es absorbida por la atmósfera, mientras que otra parte es reflejada y dispersada en diferentes direcciones. El efecto de la atmósfera puede modificar la intensidad de la radiación que llega a la superficie terrestre y puede afectar las mediciones realizadas por los dispositivos de percepción remota. Por esta razón, es importante tener en cuenta las condiciones atmosféricas al interpretar las mediciones de sensores remotos.
 
 ### Radiación Electromagnética
 
-El principio básico se basa en que todos los cuerpos emiten radiación electromagnética, el tipo y la cantidad depende principalmente de la temperatura del cuerpo.
+El principio básico se basa en que todos los cuerpos emiten radiación electromagnética, el tipo y la cantidad depende principalmente de la temperatura del cuerpo (@fig-radiacion).
 
 El principal emisor de radiación es el Sol, cuyo reflejo en la superficie y atmósfera terrestre nos permite ver y analizar los objetos a nuestro alrededor.
 
-![La vegetación verde, absorbe las ondas azules (B) y rojas (R) y refleja las verdes (G) e infrarrojas (IR)](imagenes/rad_tree.png){fig-align="center" width="500"}
+![La vegetación verde, absorbe las ondas azules (B) y rojas (R) y refleja las verdes (G) e infrarrojas (IR)](imagenes/rad_tree.png){#fig-radiacion fig-align="center" width="500"}
 
 ### Espectro Electromanético
 
+El espectro electromagnético es el conjunto de todas las ondas electromagnéticas que existen, desde las ondas de radio hasta los rayos gamma (@fig-espec). Cada tipo de onda electromagnética tiene una longitud de onda y una frecuencia específicas que determinan su ubicación en el espectro. Las ondas de radio tienen la longitud de onda más larga y la frecuencia más baja, mientras que los rayos gamma tienen la longitud de onda más corta y la frecuencia más alta.
 
-Es un conjunto de frecuencias o longitudes de onda en los que se organiza la radiación electromagnética. Abarca las radiaciones entre los rayos gamma y las ondas de radio.
+La percepción remota satelital se basa en la medición de la radiación electromagnética que emiten los objetos de la superficie terrestre, y los sensores instalados en los satélites miden la radiación en diferentes longitudes de onda para obtener información sobre la composición y las características de los objetos que se están observando.
 
-![](imagenes/spectre.png){fig-align="center" width="700"}
-
+![Espectro Electromanético](imagenes/spectre.png){#fig-espec fig-align="center" width="700"}
 
 ### Firmas Espectrales
 
-Cada tipo de superficie tiene su propia firma espectral. Las imágenes percibidas remotamente (satélites) adquieren información en diferentes longitudes de onda, representando diferentes partes del Espectro Electromagnético.
-
+Una vez que la energía electromagnética llega a la superficie terrestre, interactúa con cada tipo de material ya sea por reflexión, absorción o transmisión, de acuerdo a un patrón de respuesta espectral particular. Este comportamiento distintivo de cada tipo de material es aprovechado en procesos de clasificación de imágenes, siendo común referirse a él como "firma espectral".
 
 ![Ejemplo: Vegetación Sana, tiene peaks en Banda Verde (550 nm) y comienzo del Banda Infrarroja (750 nm)](imagenes/firma_esp.png){fig-align="center" width="500"}
 
+------
 
-<br>
+![](imagenes/practica.png){fig-align="center" width="200"}
 
-<br>
-
-<br>
 
 ## Conceptos Prácticos sobre Raster
 
-Para poder trabajar con información satelital, primero hay que conocer la estructura básica de una imagen y como la entiende en términos de estructura una herramienta informática como los equipos computacionales o servidores cloud para poder realizar todos los análisis que se pretenden. 
-
-La estructura matemática mínima de una imagen es un matriz, para operar operar sobre ella la usaremos a un nivel más complejo llamado raster.
+La estructura matemática mínima de una imagen es un matriz, para operar operar sobre ella la usaremos a un nivel más complejo llamado raster. En el contexto de la percepción remota satelital, las imágenes se pueden representar como una matriz de píxeles, donde cada píxel se identifica por su ubicación en la fila y columna correspondiente de la matriz. Al analizar las propiedades de los píxeles, como su valor de reflectancia o su firma espectral, se puede obtener información sobre las características de los objetos que se están observando en la imagen. 
 
 
 ### Definición Raster
@@ -117,7 +122,7 @@ Los objetos raster representan entidades geográficas dividiendo el espacio fís
 
 ### Matriz de un Raster
 
-Un ráster consta de una matriz de celdas (o píxeles) organizadas en filas y columnas (o una cuadrícula) en la que cada celda contiene un valor que representa información
+Un ráster consta de una matriz de celdas (o píxeles) organizadas en filas y columnas (o una cuadrícula) en la que cada celda contiene un valor que representa información.
 
 <center>![](imagenes/matriz.gif){width="50%"}</center>
 
@@ -135,9 +140,12 @@ La matriz queda representada por un Sistema de coordenadas cartesianas, en las q
 
 ### Clases Matriz y Array en R
 
+Una matriz es una estructura matemática muy común en la cual se representan datos en forma de arreglos rectangulares de números o símbolos. Las matrices se componen de filas y columnas, y cada entrada en la matriz se identifica por su posición en la fila y columna correspondiente. 
+
 Un raster multibanda es un `array` de tres dimensiones con información de referencia espacial. Por lo anterior, debemos cubrir estos tipos de estructuras de datos en R.
 
 ### Matrix
+
 
 Se crea con la función `matrix`
 
