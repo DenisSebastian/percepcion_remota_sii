@@ -111,7 +111,7 @@ Una vez que la energía electromagnética llega a la superficie terrestre, inter
 
 ## Conceptos Prácticos sobre Raster
 
-La estructura matemática mínima de una imagen es un matriz, para operar operar sobre ella la usaremos a un nivel más complejo llamado raster. En el contexto de la percepción remota satelital, las imágenes se pueden representar como una matriz de píxeles, donde cada píxel se identifica por su ubicación en la fila y columna correspondiente de la matriz. Al analizar las propiedades de los píxeles, como su valor de reflectancia o su firma espectral, se puede obtener información sobre las características de los objetos que se están observando en la imagen. 
+La estructura matemática mínima de una imagen es una **matriz**, para operar operar sobre ella la usaremos a un nivel más complejo llamado raster. En el contexto de la percepción remota satelital, las imágenes se pueden representar como una matriz de píxeles, donde cada píxel se identifica por su ubicación en la fila y columna correspondiente de la matriz. Al analizar las propiedades de los píxeles, como su valor de reflectancia o su firma espectral, se puede obtener información sobre las características de los objetos que se están observando en la imagen. 
 
 
 ### Definición Raster

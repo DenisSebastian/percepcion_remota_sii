@@ -3,7 +3,7 @@ subtitle: "Datos Raster"
 ---
 
 
-# Tarea 1  {.unnumbered}
+# Tarea 1 (opcional) {.unnumbered}
 
 
 ![Estructura de una Raster Espacial](imagenes/Matrix-Raster.png){width="50%" fig-aling=center}

@@ -2,7 +2,7 @@
 subtitle: "Registro e Instalación"
 ---
 
-# Instalación de Rgee {#sec-installrgee}
+# Instalación de Rgee {#sec-installrgee .unnumbered}
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
