@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Curso: Geoanálisis de Imágenes Satelitales para SII - 10&nbsp; Instalación de Rgee</title>
+<title>Curso: Geoanálisis de Imágenes Satelitales para SII - 9&nbsp; Objetos Espaciales</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,8 +93,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
-<link href="./tarea_1.html" rel="prev">
+<link href="./tarea_1.html" rel="next">
+<link href="./tidyverse_R.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -134,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Instalación de Rgee</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Objetos Espaciales</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -207,7 +207,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./espacial_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Objetos Espaciales</span></a>
+  <a href="./espacial_R.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Objetos Espaciales</span></a>
   </div>
 </li>
       </ul>
@@ -237,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./install_rgee.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Instalación de Rgee</span></a>
+  <a href="./install_rgee.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Instalación de Rgee</span></a>
   </div>
 </li>
       </ul>
@@ -256,12 +256,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#registrarse-en-gee" id="toc-registrarse-en-gee" class="nav-link active" data-scroll-target="#registrarse-en-gee"><span class="toc-section-number">10.1</span>  Registrarse en GEE</a></li>
-  <li><a href="#instalación-de-librería-rgee-en-r" id="toc-instalación-de-librería-rgee-en-r" class="nav-link" data-scroll-target="#instalación-de-librería-rgee-en-r"><span class="toc-section-number">10.2</span>  Instalación de librería Rgee en R</a></li>
-  <li><a href="#usuarios-con-experiencie-en-enviroments-virtuales" id="toc-usuarios-con-experiencie-en-enviroments-virtuales" class="nav-link" data-scroll-target="#usuarios-con-experiencie-en-enviroments-virtuales"><span class="toc-section-number">10.3</span>  Usuarios con experiencie en enviroments virtuales</a></li>
-  <li><a href="#otras-librerías-que-se-deben-instalar" id="toc-otras-librerías-que-se-deben-instalar" class="nav-link" data-scroll-target="#otras-librerías-que-se-deben-instalar"><span class="toc-section-number">10.4</span>  Otras Librerías que se deben instalar</a></li>
-  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias"><span class="toc-section-number">10.5</span>  Referencias</a></li>
-  <li><a href="#contactos" id="toc-contactos" class="nav-link" data-scroll-target="#contactos"><span class="toc-section-number">10.6</span>  Contactos</a></li>
+  <li><a href="#introducción" id="toc-introducción" class="nav-link active" data-scroll-target="#introducción"><span class="toc-section-number">9.1</span>  Introducción</a></li>
+  <li><a href="#lectura-de-insumos-espaciales" id="toc-lectura-de-insumos-espaciales" class="nav-link" data-scroll-target="#lectura-de-insumos-espaciales"><span class="toc-section-number">9.2</span>  Lectura de Insumos Espaciales</a></li>
+  <li><a href="#transformar-a-objeto-sf-simple-features" id="toc-transformar-a-objeto-sf-simple-features" class="nav-link" data-scroll-target="#transformar-a-objeto-sf-simple-features"><span class="toc-section-number">9.3</span>  Transformar a objeto sf (simple features)</a></li>
+  <li><a href="#filtros-espaciales-por-data" id="toc-filtros-espaciales-por-data" class="nav-link" data-scroll-target="#filtros-espaciales-por-data"><span class="toc-section-number">9.4</span>  Filtros espaciales por data</a></li>
+  <li><a href="#visualización-cartográficas" id="toc-visualización-cartográficas" class="nav-link" data-scroll-target="#visualización-cartográficas"><span class="toc-section-number">9.5</span>  Visualización Cartográficas</a>
+  <ul class="collapse">
+  <li><a href="#visualización-estática-simple" id="toc-visualización-estática-simple" class="nav-link" data-scroll-target="#visualización-estática-simple"><span class="toc-section-number">9.5.1</span>  Visualización estática Simple</a></li>
+  <li><a href="#visualización-estática-con-ggplot2" id="toc-visualización-estática-con-ggplot2" class="nav-link" data-scroll-target="#visualización-estática-con-ggplot2"><span class="toc-section-number">9.5.2</span>  Visualización estática con <code>ggplot2</code></a></li>
+  <li><a href="#visualización-dinámica-con-mapview" id="toc-visualización-dinámica-con-mapview" class="nav-link" data-scroll-target="#visualización-dinámica-con-mapview"><span class="toc-section-number">9.5.3</span>  Visualización Dinámica con <code>mapview</code></a></li>
+  </ul></li>
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias"><span class="toc-section-number">9.6</span>  Referencias</a></li>
   </ul>
 </nav>
     </div>
@@ -270,8 +275,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><span id="sec-installrgee" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Instalación de Rgee</span></span></h1>
-<p class="subtitle lead">Registro e Instalación</p>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Objetos Espaciales</span></h1>
 </div>
 
 
@@ -286,126 +290,136 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<div style="page-break-after: always;"></div>
-<section id="registrarse-en-gee" class="level2" data-number="10.1">
-<h2 data-number="10.1" class="anchored" data-anchor-id="registrarse-en-gee"><span class="header-section-number">10.1</span> Registrarse en GEE</h2>
-<p>Para acceder de los recursos de la plataforma de Google Earth Engine desde R de acuerdo al programa del curso, correspondiendo a los siguientes pasos:</p>
-<ul>
-<li><ol type="1">
-<li>Tener cuenta en google (gmail)</li>
-</ol></li>
-<li><ol start="2" type="1">
-<li>Dirigirse a la siguiente página web <a href="https://earthengine.google.com">https://earthengine.google.com</a></li>
-</ol></li>
-</ul>
-<center>
-<img src="imagenes/Pagina_GEE.png" class="img-fluid" style="width:80.0%">
-</center>
-<ul>
-<li><ol start="3" type="1">
-<li>Registrarse con la cuenta google, presionando botón “sing up” esquina superior derecha.</li>
-</ol></li>
-<li><ol start="4" type="1">
-<li>Recibir un correo de confirmación en el gmail.</li>
-</ol></li>
-</ul>
-<p><br></p>
+<section id="introducción" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="introducción"><span class="header-section-number">9.1</span> Introducción</h2>
+<p>Un rasgo es una cosa, un objeto del mundo real, como un edificio o un árbol. Al igual que los objetos, suelen estar formados por otros objetos. Lo mismo ocurre con los rasgos: un conjunto de rasgos puede formar un único rasgo. Una masa forestal puede ser un rasgo, un bosque puede ser un rasgo, una ciudad puede ser un rasgo. Un píxel de una imagen de satélite puede ser un rasgo, una imagen completa también puede ser un rasgo.</p>
+<p>Los elementos tienen una geometría que describe su ubicación en la Tierra y atributos que describen otras propiedades. La geometría de un árbol puede ser la delineación de su copa, de su tallo o el punto que indica su centro. Otras propiedades pueden ser su altura, color, diámetro a la altura del pecho en una fecha determinada, etc.</p>
 </section>
-<section id="instalación-de-librería-rgee-en-r" class="level2" data-number="10.2">
-<h2 data-number="10.2" class="anchored" data-anchor-id="instalación-de-librería-rgee-en-r"><span class="header-section-number">10.2</span> Instalación de librería Rgee en R</h2>
-<p>El package <strong>rgee</strong> es una “librería cliente” de Earth Engine para R, que permite a los usuarios aprovechar las ventajas que presenta el ecosistema espacial de R dentro de Google Earth Engine y viceversa.</p>
-<p>Todas las clases, módulos y funciones de la API de <em>Python</em> de Earth Engine están disponibles en R gracias a la librería <em><a href="https://rstudio.github.io/reticulate/">reticulate</a></em>; finalmente <strong>rgee</strong> adiciona nuevos features como el diseño del imput y output de datos, la visualización en mapas interactivos, la facil extracción de series de tiempo, el manejo y la visualización de metadato</p>
-<p><br></p>
-<p><img src="imagenes/diagrama_rgee.png" class="img-fluid"></p>
-<p><br></p>
-<p><strong>Opción 1</strong>: Diretamente desde CRAN</p>
+<section id="lectura-de-insumos-espaciales" class="level2" data-number="9.2">
+<h2 data-number="9.2" class="anchored" data-anchor-id="lectura-de-insumos-espaciales"><span class="header-section-number">9.2</span> Lectura de Insumos Espaciales</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"rgee"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p><br></p>
-<p><strong>Opción de Desarrollo</strong>: Desde la Versión de Desarrollo alojada en Github</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("remotes")</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"r-spatial/rgee"</span>, <span class="at">force =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Instalar Dependencias</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgee)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_install</span>() <span class="co"># Consulta sobre crear ambiente virtual python "Yes"</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Ahora de debe reiniciar Rstudio</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>Revisión de Instalación correcta</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Iniciar Servicio</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgee)</span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_Initialize</span>()</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Selección de producto satelital (Modelo Digital de Elevación)</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>srtm <span class="ot">&lt;-</span> ee<span class="sc">$</span><span class="fu">Image</span>(<span class="st">"USGS/SRTMGL1_003"</span>)</span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co"># parámetros de visualización</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>viz <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">max =</span> <span class="dv">4000</span>,</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>  <span class="at">min =</span> <span class="dv">0</span>,</span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"#000000"</span>,<span class="st">"#5AAD5A"</span>,<span class="st">"#A9AD84"</span>,<span class="st">"#FFFFFF"</span>)</span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización map dinámico</span></span>
-<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> Map<span class="sc">$</span><span class="fu">addLayer</span>(</span>
-<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="at">eeObject =</span> srtm,</span>
-<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">visParams =</span>  viz,</span>
-<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">'SRTM'</span></span>
-<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>m</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<center>
-<img src="imagenes/map_dem.png" class="img-fluid" style="width:80.0%">
-</center>
-<p><br></p>
-</section>
-<section id="usuarios-con-experiencie-en-enviroments-virtuales" class="level2" data-number="10.3">
-<h2 data-number="10.3" class="anchored" data-anchor-id="usuarios-con-experiencie-en-enviroments-virtuales"><span class="header-section-number">10.3</span> Usuarios con experiencie en enviroments virtuales</h2>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Use ee_install_set_pyenv (Recommended for users with experience with Python environments)</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>rgee<span class="sc">::</span><span class="fu">ee_install_set_pyenv</span>(</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">py_path =</span> <span class="st">"/home/csaybar/.virtualenvs/rgee/bin/python"</span>, <span class="co"># Change it for your own Python PATH</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">py_env =</span> <span class="st">"rgee"</span> <span class="co"># Change it for your own Python ENV</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("sf")</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>crs_ll <span class="ot">&lt;-</span> <span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>crs_utm <span class="ot">&lt;-</span> <span class="st">"+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>censo <span class="ot">&lt;-</span>  <span class="fu">readRDS</span>(<span class="st">"data/rds/Zonas_Censales_2017_Nacional.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="otras-librerías-que-se-deben-instalar" class="level2" data-number="10.4">
-<h2 data-number="10.4" class="anchored" data-anchor-id="otras-librerías-que-se-deben-instalar"><span class="header-section-number">10.4</span> Otras Librerías que se deben instalar</h2>
+<section id="transformar-a-objeto-sf-simple-features" class="level2" data-number="9.3">
+<h2 data-number="9.3" class="anchored" data-anchor-id="transformar-a-objeto-sf-simple-features"><span class="header-section-number">9.3</span> Transformar a objeto sf (simple features)</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"sf"</span>) <span class="co"># Mapas dinámicos</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"mapview"</span>) <span class="co"># Mapas dinámicos</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"reticulate"</span>) <span class="co"># interface python</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"jsonlite"</span>) <span class="co">#manipulación de datos tipo Json</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'tidyverse'</span>) <span class="co"># Para ciencia de datos</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'cptcity'</span>) <span class="co">#Para manejar paletas decolores</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'viridis'</span>) <span class="co">#Para manejar paletas decolores</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'ggmap'</span>) <span class="co"># Para manejar tipos de basemap</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">'plot3D'</span>) <span class="co">#plot objetos 3d </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># transformar a objeto sf (simple features)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>censo_sf <span class="ot">&lt;-</span> <span class="fu">st_as_sf</span>(censo)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># head(censo_sf)</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(censo_sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "REGION"     "NOM_REGION" "PROVINCIA"  "NOM_PROVIN" "COMUNA"    
+ [6] "NOM_COMUNA" "URBANO"     "DISTRITO"   "LOC_ZON"    "GEOCODIGO" 
+[11] "SHAPE_Leng" "SHAPE_Area" "geometry"  </code></pre>
 </div>
-<p><br></p>
+</div>
 </section>
-<section id="referencias" class="level2" data-number="10.5">
-<h2 data-number="10.5" class="anchored" data-anchor-id="referencias"><span class="header-section-number">10.5</span> Referencias</h2>
-<p>Google Earth Engine for R <a href="https://github.com/r-spatial/rgee">https://github.com/r-spatial/rgee</a></p>
-<p>Ejemplos <a href="https://csaybar.github.io/rgee-examples/">https://csaybar.github.io/rgee-examples/</a></p>
-<p>Manual en Español <a href="https://barja8.github.io/Handbook_rgee/pdf/vol01.pdf">https://barja8.github.io/Handbook_rgee/pdf/vol01.pdf</a></p>
-<p>Introduction to rgee <a href="https://cran.r-project.org/web/packages/rgee/vignettes/rgee01.html">https://cran.r-project.org/web/packages/rgee/vignettes/rgee01.html</a></p>
+<section id="filtros-espaciales-por-data" class="level2" data-number="9.4">
+<h2 data-number="9.4" class="anchored" data-anchor-id="filtros-espaciales-por-data"><span class="header-section-number">9.4</span> Filtros espaciales por data</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>mi_communa <span class="ot">&lt;-</span>  <span class="st">"LAS CONDES"</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>zonas_com <span class="ot">&lt;-</span>  censo_sf <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(NOM_COMUNA <span class="sc">==</span> mi_communa)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>zonas_com <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Simple feature collection with 6 features and 12 fields
+Geometry type: MULTIPOLYGON
+Dimension:     XY
+Bounding box:  xmin: -70.56629 ymin: -33.41713 xmax: -70.47884 ymax: -33.36421
+Geodetic CRS:  +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0
+            REGION                       NOM_REGION PROVINCIA NOM_PROVIN COMUNA
+13114051001     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+13114041001     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+13114041003     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+13114161002     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+13114151003     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+13114021002     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+            NOM_COMUNA     URBANO DISTRITO LOC_ZON   GEOCODIGO SHAPE_Leng
+13114051001 LAS CONDES LAS CONDES        5       1 13114051001 0.02302722
+13114041001 LAS CONDES LAS CONDES        4       1 13114041001 0.09575698
+13114041003 LAS CONDES LAS CONDES        4       3 13114041003 0.06782420
+13114161002 LAS CONDES LAS CONDES       16       2 13114161002 0.06482893
+13114151003 LAS CONDES LAS CONDES       15       3 13114151003 0.04135677
+13114021002 LAS CONDES LAS CONDES        2       2 13114021002 0.04687558
+              SHAPE_Area                       geometry
+13114051001 3.357387e-05 MULTIPOLYGON (((-70.56008 -...
+13114041001 2.708800e-04 MULTIPOLYGON (((-70.47951 -...
+13114041003 2.451087e-04 MULTIPOLYGON (((-70.5267 -3...
+13114161002 1.450608e-04 MULTIPOLYGON (((-70.50789 -...
+13114151003 8.288767e-05 MULTIPOLYGON (((-70.51477 -...
+13114021002 5.754391e-05 MULTIPOLYGON (((-70.53606 -...</code></pre>
+</div>
+</div>
 </section>
-<section id="contactos" class="level2" data-number="10.6">
-<h2 data-number="10.6" class="anchored" data-anchor-id="contactos"><span class="header-section-number">10.6</span> Contactos</h2>
-<p><strong>Denis Berroeta G.</strong><br>
-Investigador, Centro Inteligencia Territorial, Design Lab UAI<br>
-denis.berroeta@uai.cl<br>
-Av. Presidente Errázuriz 3485, Las Condes</p>
-<p>**Felipe Matas*<br>
-Analista, Centro Inteligencia Territorial, Design Lab UAI<br>
-felipe.matas@edu.uai.cl<br>
-Av. Presidente Errázuriz 3485, Las Condes</p>
+<section id="visualización-cartográficas" class="level2" data-number="9.5">
+<h2 data-number="9.5" class="anchored" data-anchor-id="visualización-cartográficas"><span class="header-section-number">9.5</span> Visualización Cartográficas</h2>
+<section id="visualización-estática-simple" class="level3" data-number="9.5.1">
+<h3 data-number="9.5.1" class="anchored" data-anchor-id="visualización-estática-simple"><span class="header-section-number">9.5.1</span> Visualización estática Simple</h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Visualizar</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Consideración el plot se realiza sobre la columna geometry</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>nombre_plot <span class="ot">&lt;-</span>  <span class="fu">paste0</span>(<span class="st">"COMUNA DE "</span>, mi_communa)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(zonas_com<span class="sc">$</span>geometry, <span class="at">main =</span> nombre_plot,<span class="at">col =</span><span class="st">"orange"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="espacial_R_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="1152"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="visualización-estática-con-ggplot2" class="level3" data-number="9.5.2">
+<h3 data-number="9.5.2" class="anchored" data-anchor-id="visualización-estática-con-ggplot2"><span class="header-section-number">9.5.2</span> Visualización estática con <code>ggplot2</code></h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualización ggplot y sf</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_sf</span>(<span class="at">data =</span> zonas_com, <span class="at">fill =</span> <span class="st">"orange"</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(nombre_plot) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_bw</span>() <span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">"none"</span>)<span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.grid.major =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"gray80"</span>),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">panel.grid.minor =</span> <span class="fu">element_line</span>(<span class="at">colour =</span> <span class="st">"gray80"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="espacial_R_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="1152"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="visualización-dinámica-con-mapview" class="level3" data-number="9.5.3">
+<h3 data-number="9.5.3" class="anchored" data-anchor-id="visualización-dinámica-con-mapview"><span class="header-section-number">9.5.3</span> Visualización Dinámica con <code>mapview</code></h3>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages("mapview")</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(mapview)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> <span class="fu">mapview</span>(zonas_com, <span class="at">alpha =</span> <span class="fl">0.5</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">col.regions =</span> <span class="st">"orange"</span>, <span class="at">color=</span><span class="st">"gray80"</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend =</span><span class="cn">FALSE</span>, <span class="at">cex =</span> <span class="dv">3</span>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>m </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/mapa_mapview.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</section>
+</section>
+<section id="referencias" class="level2" data-number="9.6">
+<h2 data-number="9.6" class="anchored" data-anchor-id="referencias"><span class="header-section-number">9.6</span> Referencias</h2>
+<p><a href="https://r-spatial.github.io/sf/articles/sf1.html">Simple Features for R</a></p>
 
 
 </section>
@@ -546,13 +560,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./tarea_1.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tarea 1 (opcional)</span>
+      <a href="./tidyverse_R.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidyverse</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">Referencias Bibliográficas</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./tarea_1.html" class="pagination-link">
+        <span class="nav-page-text">Tarea 1 (opcional)</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

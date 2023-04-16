@@ -200,6 +200,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="./loops_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Estructuras de Control</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidyverse_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Tidyverse</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./espacial_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Objetos Espaciales</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -212,7 +222,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tarea_1.html" class="sidebar-item-text sidebar-link">Tarea 1</a>
+  <a href="./tarea_1.html" class="sidebar-item-text sidebar-link">Tarea 1 (opcional)</a>
   </div>
 </li>
       </ul>
@@ -227,7 +237,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./install_rgee.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Instalación de Rgee</span></a>
+  <a href="./install_rgee.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Instalación de Rgee</span></a>
   </div>
 </li>
       </ul>
@@ -336,19 +346,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ru <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="dv">10</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ru</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] 8.315020 2.801009 6.177692 4.366734 3.755047 3.806788 6.124477 9.630987
-  [9] 7.259577 4.840344 1.934428 6.115044 3.393551 9.055921 9.440785 8.794495
- [17] 7.693674 2.287188 7.549130 9.055910 4.699799 5.680732 2.485013 3.124626
- [25] 4.612829 5.071542 2.572648 8.880720 2.101669 4.730377 6.352730 7.991968
- [33] 1.176312 2.657698 6.998075 5.019458 8.642314 8.449694 1.074048 8.842926
- [41] 9.129757 4.991725 4.443086 8.521112 4.568566 9.088141 5.632828 2.098411
- [49] 4.620796 2.384418 8.195105 1.867798 5.896476 7.023919 1.120919 5.507175
- [57] 2.245327 9.043002 7.211708 7.390625 2.490903 8.359944 8.808764 7.892855
- [65] 2.793631 2.164417 5.860104 8.017518 9.915129 8.432961 9.109597 5.811628
- [73] 9.234334 8.395389 1.744740 2.231811 2.317130 6.283394 1.135348 3.311190
- [81] 1.889638 4.021137 4.495284 2.004904 9.056858 6.806635 7.016193 8.966180
- [89] 4.748942 4.811928 4.458273 5.326447 2.050705 9.304847 9.593750 2.935762
- [97] 6.055577 8.700428 3.251589 3.598496</code></pre>
+<pre><code>  [1] 1.559872 9.988177 7.449687 1.836324 1.281131 5.914672 1.465426 9.727165
+  [9] 9.940197 4.653978 8.080448 2.599789 4.063644 3.733111 2.946357 5.920480
+ [17] 3.863780 7.970747 4.505159 4.248734 2.305063 9.103359 1.849422 6.343132
+ [25] 8.726296 5.233099 7.532603 7.213837 4.872290 9.721449 7.909719 8.814071
+ [33] 7.744162 7.395876 6.450681 3.199713 5.513929 4.997493 3.986921 6.068081
+ [41] 4.272899 2.688972 9.339101 8.076381 1.356351 8.025168 8.884971 6.311847
+ [49] 3.470992 6.266787 5.246479 8.616911 5.219211 2.885066 7.998262 9.884886
+ [57] 8.289358 3.751072 7.293915 1.343621 3.947022 6.019135 7.020964 1.840262
+ [65] 6.328135 7.910779 3.497027 5.399068 4.364443 3.614399 7.994491 7.255970
+ [73] 8.045735 3.017022 7.069507 5.499993 7.982806 7.146562 6.492411 5.904727
+ [81] 9.126287 8.506646 6.460374 6.487902 6.189440 1.349556 9.366898 8.299616
+ [89] 9.518134 8.112169 7.157047 7.541375 8.423690 3.467553 9.517465 8.642934
+ [97] 6.601766 9.935446 8.936747 4.475428</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
@@ -367,7 +377,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample.int</span>(<span class="at">n =</span> <span class="dv">6</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 2 5 4 5 2 4 5 1 5 2</code></pre>
+<pre><code> [1] 5 1 6 6 1 2 1 5 2 2</code></pre>
 </div>
 </div>
 </section>
@@ -429,9 +439,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="estructuras-de-datos" class="level2" data-number="5.2">
 <h2 data-number="5.2" class="anchored" data-anchor-id="estructuras-de-datos"><span class="header-section-number">5.2</span> Estructuras de Datos</h2>
 <p>Las variables pueden ser un conjunto de números y caracteres ordenados de varias maneras. El orden que se les da depende de lo que queremos lograr con estos.</p>
+<ul>
+<li>Vector</li>
+<li>Matrices</li>
+<li>Dataframes</li>
+<li>Factores</li>
+<li>Listas</li>
+</ul>
 <section id="vectores" class="level3" data-number="5.2.1">
 <h3 data-number="5.2.1" class="anchored" data-anchor-id="vectores"><span class="header-section-number">5.2.1</span> Vectores</h3>
-<p>La estructura ordenada mas simple y común es el vector:</p>
+<p><strong>Vector</strong> Cadenas unidimensionales (es decir una sola columna o fila) de un tipo único de valores (numéricos, caracteres, etc.)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">16</span>)</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>vec</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
