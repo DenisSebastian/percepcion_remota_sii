@@ -14,6 +14,7 @@ book:
     - index.qmd
     - objetivos.qmd
     - fundamentos_PR.qmd
+    - satelites_sensores.qmd
     
     - part: "Tareas"
       chapters:

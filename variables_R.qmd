@@ -172,7 +172,7 @@ lista[[3]]
 ```
 
 Como inspeccionar una lista con Rstudio
-<center>![](../images/rstudio_environment_list.gif){width=90%}</center>
+<center>![](imagenes/rstudio_environment_list.gif){width=90%}</center>
 
 ### Matrices
 

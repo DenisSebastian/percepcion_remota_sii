@@ -1,0 +1,285 @@
+---
+subtitle: "Tipos y Características"
+author: "Centro de Inteligencia Territorial"
+date: "04-18-2023"
+---
+
+# S2: Satélites y Sensores
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 999, stringsAsFactors=F, encoding = "UTF-8")
+options("rgdal_show_exportToProj4_warnings"="none") 
+```
+
+![](imagenes/S2_diagrama.png){fig-align="center" width="800"}
+
+------------------------------------------------------------------------
+
+![](imagenes/teorica.png){fig-align="center" width="200"}
+
+## Satélites
+
+### Definición de Satélite
+
+Un satélite es una plataforma que describe una trayectoria definida alrededor de la Tierra denominada órbita. Existen dos tipos de satélites: geoestacionarios y heliosíncronos.
+
+![](imagenes/Sentinel-2Poster.jpg){fig-align="center"}
+
+### Clasificación de Satélites por tipo de órbita
+
+**Geoestacionarios**:
+
+:   Sobre la línea ecuatorial, a 36.000 km de la Tierra, realiza una vuelta alrededor de nuestro planeta al mismo tiempo que efectúa una rotación completa alrededor de su propio eje. Comunicaciones y meteorología.
+
+![](imagenes/geoestacionario.gif){fig-align="center" width="500"}
+
+**Heliosíncronos**:
+
+:   Orbitas circulares y polares relativo a la tierra a 160-2000 km. Captan imágenes con regularidad sobre un mismo punto o escena.
+
+![](imagenes/polar.gif){fig-align="center" width="400"}
+
+## Sensores
+
+### Definción de Sensor
+
+Un sensor es un instrumento a bordo de una plataforma capaz de adquirir remotamente información de diferentes regiones del espectro. Cada una de estas regiones se denomina canal o banda espectral. Existen dos tipos de sensores: activos y pasivos.
+
+### Clasificación de Sensores
+
+**Sensores Activos**:
+
+:   Generan su propia radiación y la reciben reflejada (Radar y LiDAR)
+
+**Sensores Pasivos**:
+
+:   Miden energía radiante reflejada o emitida por el sistema tierra- atmósfera. Ejemplo Landsat, Sentinel, MODIS.
+
+### Características de los Sesores
+
+La energía emitida o reflejada por la superficie terrestre es un fenómeno continuo en 4 cuatro dimensiones: espacio, tiempo, longitud de onda y radiancia.
+
+**Resolución espacial**:
+
+:   Tamaño del pixel o celda del raster que contiene a la banda espectral (Landsat: 30 m x 30 m)
+
+**Resolución temporal**:
+
+:   Tiempo entre imágenes sucesivas (Landsat 16 días)
+
+*Resolución espectral*:
+
+:   Número y rango de las regiones del espectro electromagnético para los que capta información el sensor .
+
+**Resolución radiométrica**:
+
+:   Indica el número de intervalos de intensidad que puede captar el sensor (escala de grises) (Landsat 5 y 7: 256)
+
+### Resolución Espacial
+
+Resolución espacial: Tamaño del pixel o celda del raster que contiene a la banda espectral (Landsat: 30 m x 30 m)
+
+![](imagenes/resolucion-baja-media-alta.jpg){fig-align="center"  width="600"}
+
+### Resolución Temporal:
+
+El tiempo que tarda un satélite en completar un ciclo orbital; también conocido como "tiempo de revisita".
+
+
+![](imagenes/revisita.png){fig-align="center"  width="300"}
+
+Depende de las capacidades, solapa de barrido y latitud del satélite/sensor. Algunos satélites pueden apuntar sus sensores y algunos además tienen una mayor solapa en latitudes superiores así que posiblemente tengan un mayor tiempo de repetición .
+
+### Resolución Espectral:
+
+Número y rango de las regiones del espectro electromagnético para los que capta información el sensor.
+
+![](imagenes/r_espectral.png){fig-align="center"  width="600"}
+
+
+
+Describe la habilidad del sensor de definir intérvalos de longitudes de onda. Cuanto más fina la resolución espectral, más estrecha la gama de longitudes de onda para un canal o banda en particular. Tener más y más finos canales permite la percepción remota de diferentes partes de la superficie de la Tierra.
+
+### Resolución Radiométrica:
+
+Indica el número de intervalos de intensidad que puede captar el sensor. El número máximo de niveles de luminosidad disponible depende del número de bits que se utilizan en la representación de la energía registrada.
+
+![](imagenes/r_radiometrica.png){fig-align="center"  width="600"}
+
+Cuanto mayor este número, más alta la resolución radiométrica y más nítidas las imágenes, representada por números digitales positivos que varían del 0 a (uno menos que) alguna potencia de 2.
+
+```{r echo=FALSE}
+suppressPackageStartupMessages(library(kableExtra))
+tbl_r_rad <- data.frame(
+  stringsAsFactors = FALSE,
+           Nro.Bits = c("12 Bits", "10 Bits", "8 Bits", "6 Bits"),
+  
+            Sensor = c("MODIS","AVHRR",
+                       "Landsat TM (Thematic Mapper)",
+                       "Landsat MSS (Multispectral Scanner System)"),
+         Potencias = c("2^12", "2^10", "2^8", "2^6"),
+           Niveles = c("4096 niveles","1024 niveles",
+                       "256 niveles","64 niveles")
+)
+
+
+tbl_r_rad %>% 
+  kbl() %>%
+   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), font_size = 16)
+```
+
+## Correcciones en Imágenes Satelitales
+
+Las imágenes satelitales se encuentran expuestas a una serie de interferencias que pueden llegar a perturbar la información espacial, principalmente asociadas a una serie de errores mecánicos de los sensores o a interferencias atmosféricas.
+
+-   **Corrección radiométrica**: Corrige fallos en los sensores.
+-   **Corrección geométrica**: Alteraciones en los movimientos de los satélites generan distorsiones en la imagen.
+-   **Corrección topográfica**: El efecto topográfico provoca una variación de la respuesta radiométrica de la superficie inclinada frente a la de una horizontal (efecto sombra)
+-   **Corrección atmosférica**: Corrige las interferencias atmosféricas (vapor de agua)
+
+![](imagenes/correcciones.png){fig-align="center"  width="500"}
+
+Algunos productos satelitales son diponibilizados con una o varias correcciones y dependendiendo los tipos de correcciones se dividen en niveles.
+
+![](imagenes/niv_proc.png){fig-align="center"  width="800"}
+
+## Satélites más Utilizados
+
+### Landsat 8
+
+![](imagenes/landsat8.png){fig-align="center"  width="400"}
+
+[Landsat 8](https://es.wikipedia.org/wiki/Landsat_8) es un satélite de observación terrestre estadounidense lanzado el 11 de febrero de 2013. operado en la colaboración de la NASA con el USGS. El estudio de los datos se realiza mediante dos sensores principales. El satélite opera en luz visible, infrarrojo cercano, infrarrojo de onda corta e infrarrojo térmico (de onda larga). Las bandas de Landsat 8 están configuradas en 11 diferentes en base a la longitud de onda de su visión.
+
+![](imagenes/L8_L7bands.jpg){fig-align="center"  width="800"}
+
+
+Uno de los sensores del Landsat 8, Operational Land Imager (OLI), usa 9 bandas en el espectro de la luz visible y el infrarrojo cercano. Otro de los sensores del Landsat 8, Thermal InfraRed Sensor (TIRS), opera en el rango de infrarrojos de onda larga (Longwave InfraRed Light). El satélite proporciona imágenes con una resolución moderada que varía en diferentes bandas desde 15 m por píxel en la más precisa hasta 100 m en el infrarrojo de onda larga, donde la precisión no es vital.
+
+```{r echo=FALSE}
+tbl_l8 <- data.frame(
+         stringsAsFactors = FALSE,
+              check.names = FALSE,
+                    Banda = c(1L, 2L, 3L, 4L, 5L, 6L, 10L, 11L, 7L, 8L, 9L),
+                   Nombre = c("Costera - Aerosoles","Azul","Verde","Rojo",
+                              "Infrarrojo cercano (NIR)","Infrarrojo de onda corta 1 (SWIR 1)",
+                              "(TIR 1)","(TIR 2)",
+                              "Infrarrojo de onda corta 2 (SWIR 2)","Pancromática","Cirrus"),
+  `Longitud_de_onda_(μm)` = c("0.435 - 0.451",
+                              "0.452 - 0.512","0.533 - 0.590","0.636 - 0.673",
+                              "0.851 - 0.879","1.566 - 1.651","10.60 - 11.19",
+                              "11.50 - 12.51","2.107 - 2.294",
+                              "0.503 - 0.676","1.363 - 1.384"),
+         `Resolución(m)` = c(30L,30L,30L,
+                              30L,30L,30L,100L,100L,30L,15L,30L)
+)
+
+tbl_l8 %>% 
+  kbl() %>%
+   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), font_size = 16)
+```
+
+
+
+
+### [Sentinel 2](https://www.esa.int/Space_in_Member_States/Spain/SENTINEL_2)
+
+![](imagenes/sentinel-2.jpeg){fig-align="center"  width="300"}
+
+[Sentinel-2](https://es.wikipedia.org/wiki/Sentinel-2) es una misión de observación terrestre desarrollada por la ESA dentro del programa Copérnico. Está compuesto por dos satélites idénticos: Sentinel-2A (junio de 2015) y Sentinel-2B (marzo de 2017)
+
+**Características:**
+
+-   Imagen multiespectral datos con 13 bandas
+-   Sentinel-2 realiza las labores cada 5 días, pero con diferentes ángulos de visión.
+-   La resolución espacial de 10 m, 20 m y 60 m
+-   Política de datos libre y en abierto
+
+```{r echo=FALSE}
+tbl_s2 <- data.frame(
+  stringsAsFactors = FALSE,
+  Banda = c(
+    "B1",
+    "B2",
+    "B3",
+    "B4",
+    "B5",
+    "B6",
+    "B7",
+    "B8",
+    "B8a",
+    "B9",
+    "B10",
+    "B11",
+    "B12"
+  ),
+  Nombre = c(
+    "Ultra Blue (Coastal and Aerosol)",
+    "Blue",
+    "Green",
+    "Red",
+    "Visible and Near Infrared (VNIR)",
+    "Visible and Near Infrared (VNIR)",
+    "Visible and Near Infrared (VNIR)",
+    "Visible and Near Infrared (VNIR)",
+    "Visible and Near Infrared (VNIR)",
+    "Short Wave Infrared (SWIR)",
+    "Short Wave Infrared (SWIR)",
+    "Short Wave Infrared (SWIR)",
+    "Short Wave Infrared (SWIR)"
+  ),
+  Central.Wavelength = c(
+    "443 nm",
+    "490 nm",
+    "560 nm",
+    "665 nm",
+    "705 nm",
+    "740 nm",
+    "783 nm",
+    "842 nm",
+    "865 nm",
+    "940 nm",
+    "1375 nm",
+    "1610 nm",
+    "2190 nm"
+  ),
+  `Resolución(m)` = c(
+    "60 m",
+    "10 m",
+    "10 m",
+    "10 m",
+    "20 m",
+    "20 m",
+    "20 m",
+    "10 m",
+    "20 m",
+    "60 m",
+    "60 m",
+    "20 m",
+    "20 m"
+  )
+)
+
+tbl_s2 %>% 
+  kbl() %>%
+   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), font_size = 16)
+```
+
+
+Mas referencias [aquí](http://www.gisandbeers.com/lo-deberias-saber-imagenes-sentinel-2/)
+
+------------------------------------------------------------------------
+
+Finalmente se presenta una comparación la resolución espectral Landsat 8 y Sentinel-2:
+
+![](imagenes/Comparison-of-Landsat-7-Landsat-8-and-Landsat-9-bands-with-Sentinel-2-ASTER-and-MODIS.png){fig-align="center"  width="800"}
+
+
+------------------------------------------------------------------------
+
+![](imagenes/practica.png){fig-align="center" width="200"}
+
+
+
+Pendiente hasta la Nivelación en R Project....
