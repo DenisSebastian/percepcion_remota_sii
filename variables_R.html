@@ -172,6 +172,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="./fundamentos_PR.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">S1: Percepción Remota</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./satelites_sensores.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">S2: Satélites y Sensores</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Tareas</a>
@@ -336,19 +341,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ru <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="dv">10</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ru</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] 5.685073 1.924844 3.245097 2.563006 3.787050 9.215320 3.344403 5.363431
-  [9] 4.841267 9.713579 4.550905 3.495824 2.479485 7.030775 6.545626 8.778671
- [17] 9.382131 9.186493 2.644215 9.771376 3.255952 7.115714 5.190407 7.901142
- [25] 8.858524 9.017855 4.539999 9.320982 3.400734 6.262089 1.273751 2.555298
- [33] 3.230347 8.195087 4.018464 1.210333 7.110614 2.767221 9.698351 9.884976
- [41] 8.368048 4.728223 1.622421 9.508127 3.911105 1.278911 2.166689 6.587000
- [49] 7.192630 8.399657 2.333762 1.576746 7.711056 5.902697 8.556554 6.771566
- [57] 2.831822 7.155366 2.103042 4.358694 5.789913 6.599206 5.264685 6.706261
- [65] 7.577738 2.292553 6.216158 8.541512 6.324545 8.493692 9.397588 1.916036
- [73] 4.117992 2.693525 5.968383 4.896397 5.818480 5.011085 4.806306 9.966530
- [81] 9.921465 7.548786 5.201058 5.838242 1.659744 4.293943 7.912322 5.041156
- [89] 7.228325 4.016953 9.557656 7.904393 6.338035 8.305628 2.499494 8.761957
- [97] 7.163797 4.600456 1.427856 5.145346</code></pre>
+<pre><code>  [1] 5.146217 4.807783 7.643826 8.371146 3.983278 9.286071 3.939246 8.947362
+  [9] 5.695502 8.868764 7.733030 2.689317 2.828589 3.388987 3.017312 7.128001
+ [17] 5.926434 5.292962 2.126105 3.994490 5.658763 8.434425 7.147396 8.116738
+ [25] 8.378067 7.404162 3.583805 4.883454 5.935568 2.772145 6.926752 8.868942
+ [33] 5.076424 4.071913 5.087087 8.249586 6.828147 3.771669 3.182555 2.963200
+ [41] 7.669476 3.142853 4.135670 2.437931 4.720514 7.632310 3.707480 2.096183
+ [49] 3.522656 9.702010 5.089856 1.695800 8.744764 6.368789 8.973890 5.458650
+ [57] 7.378945 4.970916 6.216725 5.344823 7.549956 5.915223 2.683836 6.036560
+ [65] 4.109033 6.645960 5.105905 6.535787 2.029302 3.749811 8.392663 9.303432
+ [73] 8.395584 4.977487 9.391697 1.690821 1.750119 5.557638 5.631566 9.369390
+ [81] 7.461723 2.749444 4.123199 2.308187 9.558648 7.339255 6.815031 5.727038
+ [89] 1.508670 4.253784 7.212105 8.479068 6.694131 1.304070 6.757669 1.935768
+ [97] 8.041847 3.233449 4.672254 6.611841</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
@@ -367,7 +372,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample.int</span>(<span class="at">n =</span> <span class="dv">6</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 3 6 5 6 5 5 5 1 3 2</code></pre>
+<pre><code> [1] 2 2 4 3 6 4 1 5 4 2</code></pre>
 </div>
 </div>
 </section>
@@ -538,7 +543,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 Como inspeccionar una lista con Rstudio
 <center>
-<img src="../images/rstudio_environment_list.gif" class="img-fluid" style="width:90.0%">
+<img src="imagenes/rstudio_environment_list.gif" class="img-fluid" style="width:90.0%">
 </center>
 </section>
 <section id="matrices" class="level3">
