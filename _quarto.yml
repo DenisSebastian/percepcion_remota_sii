@@ -21,18 +21,17 @@ book:
         - tarea_1.qmd
         #- tarea_2.qmd
         
-        
-    - part: "Anexos"
-      chapters:
-        - intro_R.qmd
-        - variables_R.qmd
-        - funciones.qmd
-        - loops_R.qmd
-        - tidyverse_R.qmd
-        - espacial_R.qmd
-        - install_rgee.qmd
-        #- luces_nocturnas.qmd
     - references.qmd
+        
+  appendices:
+    - intro_R.qmd
+    - variables_R.qmd
+    - funciones.qmd
+    - loops_R.qmd
+    - tidyverse_R.qmd
+    - espacial_R.qmd
+    - install_rgee.qmd
+      #- luces_nocturnas.qmd
 
 bibliography: references.bib
 

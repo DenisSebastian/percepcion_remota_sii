@@ -1,5 +1,5 @@
 
-# R: Introducción {.unnumbered}
+# Introducción a R
 
 ## ¿Qué es R Project?
 

@@ -1,5 +1,5 @@
 
-# R: Variables {.unnumbered}
+# Variables en R
 
 ## Tipos de Objetos en R
 

@@ -1,4 +1,4 @@
-# R: Tidyverse {.unnumbered}
+# Tidyverse en R
 
 ## Introducción a Tidyverse
 

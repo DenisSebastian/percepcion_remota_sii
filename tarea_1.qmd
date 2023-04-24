@@ -3,14 +3,14 @@ subtitle: "Datos Raster"
 ---
 
 
-# Tarea 1 (opcional) {.unnumbered}
+# Tarea 1 {.unnumbered}
 
 
 ![Estructura de una Raster Espacial](imagenes/Matrix-Raster.png){width="50%" fig-aling=center}
 
 ## Antecedentes
 
-**Fecha de Entrega**: 21 de Abril del 2023
+**Fecha de Entrega**: 05 de Mayo del 2023
 
 **Formato de Entrega**: Documento de texto (word, pdf, markdown) + códigos (.R)
 

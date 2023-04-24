@@ -1,4 +1,4 @@
-# R: Funciones {.unnumbered}
+# Funciones en R
 
 ## Operaciones Básicas en R
 

@@ -1,6 +1,6 @@
 
 
-# R: Estructura de Control {.unnumbered}
+# Estructura de Control en R
 
 Las estructuras de control en R son herramientas que permiten controlar el flujo de ejecución de un programa. Las estructuras de control son esenciales para cualquier lenguaje de programación, ya que permiten que el programa tome decisiones y realice acciones en función de ciertas condiciones.
 

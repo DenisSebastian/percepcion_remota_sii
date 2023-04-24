@@ -1,5 +1,5 @@
 
-# R: Objetos Espaciales {.unnumbered}
+# Objetos Espaciales en R
 
 ## Introducción
 

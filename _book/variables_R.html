@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Curso: Geoanálisis de Imágenes Satelitales para SII - R: Variables</title>
+<title>Curso: Geoanálisis de Imágenes Satelitales para SII - Appendix B — Variables en R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -134,7 +134,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">R: Variables</h1>
+      <h1 class="quarto-secondary-nav-title">Appendix B — Variables en R</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -192,9 +192,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">Referencias Bibliográficas</a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Anexos</a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Appendices</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -202,12 +207,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro_R.html" class="sidebar-item-text sidebar-link">R: Introducción</a>
+  <a href="./intro_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Introducción a R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./variables_R.html" class="sidebar-item-text sidebar-link active">R: Variables</a>
+  <a href="./variables_R.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Variables en R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -237,11 +242,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">Referencias Bibliográficas</a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -251,17 +251,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#tipos-de-objetos-en-r" id="toc-tipos-de-objetos-en-r" class="nav-link active" data-scroll-target="#tipos-de-objetos-en-r">Tipos de Objetos en R</a>
+  <li><a href="#tipos-de-objetos-en-r" id="toc-tipos-de-objetos-en-r" class="nav-link active" data-scroll-target="#tipos-de-objetos-en-r"><span class="toc-section-number">B.1</span>  Tipos de Objetos en R</a>
   <ul class="collapse">
-  <li><a href="#variables-numéricas" id="toc-variables-numéricas" class="nav-link" data-scroll-target="#variables-numéricas">Variables Numéricas</a></li>
-  <li><a href="#variables-de-caracter" id="toc-variables-de-caracter" class="nav-link" data-scroll-target="#variables-de-caracter">Variables de Caracter</a></li>
+  <li><a href="#variables-numéricas" id="toc-variables-numéricas" class="nav-link" data-scroll-target="#variables-numéricas"><span class="toc-section-number">B.1.1</span>  Variables Numéricas</a></li>
+  <li><a href="#variables-de-caracter" id="toc-variables-de-caracter" class="nav-link" data-scroll-target="#variables-de-caracter"><span class="toc-section-number">B.1.2</span>  Variables de Caracter</a></li>
   </ul></li>
-  <li><a href="#estructuras-de-datos" id="toc-estructuras-de-datos" class="nav-link" data-scroll-target="#estructuras-de-datos">Estructuras de Datos</a>
+  <li><a href="#estructuras-de-datos" id="toc-estructuras-de-datos" class="nav-link" data-scroll-target="#estructuras-de-datos"><span class="toc-section-number">B.2</span>  Estructuras de Datos</a>
   <ul class="collapse">
-  <li><a href="#vectores" id="toc-vectores" class="nav-link" data-scroll-target="#vectores">Vectores</a></li>
-  <li><a href="#listas" id="toc-listas" class="nav-link" data-scroll-target="#listas">Listas</a></li>
-  <li><a href="#matrices" id="toc-matrices" class="nav-link" data-scroll-target="#matrices">Matrices</a></li>
-  <li><a href="#dataframes" id="toc-dataframes" class="nav-link" data-scroll-target="#dataframes">Dataframes</a></li>
+  <li><a href="#vectores" id="toc-vectores" class="nav-link" data-scroll-target="#vectores"><span class="toc-section-number">B.2.1</span>  Vectores</a></li>
+  <li><a href="#listas" id="toc-listas" class="nav-link" data-scroll-target="#listas"><span class="toc-section-number">B.2.2</span>  Listas</a></li>
+  <li><a href="#matrices" id="toc-matrices" class="nav-link" data-scroll-target="#matrices"><span class="toc-section-number">B.2.3</span>  Matrices</a></li>
+  <li><a href="#dataframes" id="toc-dataframes" class="nav-link" data-scroll-target="#dataframes"><span class="toc-section-number">B.2.4</span>  Dataframes</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -271,7 +271,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">R: Variables</h1>
+<h1 class="title d-none d-lg-block">Appendix B — Variables en R</h1>
 </div>
 
 
@@ -286,8 +286,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="tipos-de-objetos-en-r" class="level2">
-<h2 class="anchored" data-anchor-id="tipos-de-objetos-en-r">Tipos de Objetos en R</h2>
+<section id="tipos-de-objetos-en-r" class="level2" data-number="B.1">
+<h2 data-number="B.1" class="anchored" data-anchor-id="tipos-de-objetos-en-r"><span class="header-section-number">B.1</span> Tipos de Objetos en R</h2>
 <p>Los Datos en R se pueden clasificar por su dimensiones y los tipos de Datos que permiten almacenar, como se muestra en la siguiente tabla:</p>
 <table class="table">
 <thead>
@@ -317,8 +317,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </table>
 <p>Fuente: <a href="http://adv-r.had.co.nz/Data-structures.html">http://adv-r.had.co.nz/Data-structures.html</a></p>
 <p>R nos permite definir variables que pueden ser luego usadas en las distintas operaciones. El lenguaje no solo permite definir escalares (variable de un numero), si no también variables que sean un conjunto de numero o caracteres ordenados.</p>
-<section id="variables-numéricas" class="level3">
-<h3 class="anchored" data-anchor-id="variables-numéricas">Variables Numéricas</h3>
+<section id="variables-numéricas" class="level3" data-number="B.1.1">
+<h3 data-number="B.1.1" class="anchored" data-anchor-id="variables-numéricas"><span class="header-section-number">B.1.1</span> Variables Numéricas</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># La asignación en R son válidos 2 métodos '&lt;-' o '='</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="dv">7</span> <span class="co"># Definir variable (escalar) x que sea igual a 7</span></span>
@@ -341,19 +341,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ru <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="dv">10</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ru</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] 5.146217 4.807783 7.643826 8.371146 3.983278 9.286071 3.939246 8.947362
-  [9] 5.695502 8.868764 7.733030 2.689317 2.828589 3.388987 3.017312 7.128001
- [17] 5.926434 5.292962 2.126105 3.994490 5.658763 8.434425 7.147396 8.116738
- [25] 8.378067 7.404162 3.583805 4.883454 5.935568 2.772145 6.926752 8.868942
- [33] 5.076424 4.071913 5.087087 8.249586 6.828147 3.771669 3.182555 2.963200
- [41] 7.669476 3.142853 4.135670 2.437931 4.720514 7.632310 3.707480 2.096183
- [49] 3.522656 9.702010 5.089856 1.695800 8.744764 6.368789 8.973890 5.458650
- [57] 7.378945 4.970916 6.216725 5.344823 7.549956 5.915223 2.683836 6.036560
- [65] 4.109033 6.645960 5.105905 6.535787 2.029302 3.749811 8.392663 9.303432
- [73] 8.395584 4.977487 9.391697 1.690821 1.750119 5.557638 5.631566 9.369390
- [81] 7.461723 2.749444 4.123199 2.308187 9.558648 7.339255 6.815031 5.727038
- [89] 1.508670 4.253784 7.212105 8.479068 6.694131 1.304070 6.757669 1.935768
- [97] 8.041847 3.233449 4.672254 6.611841</code></pre>
+<pre><code>  [1] 3.819661 2.463344 3.774733 8.997074 8.807298 1.673621 8.959624 7.802860
+  [9] 1.251279 3.461980 4.063309 9.732561 1.258599 3.392731 3.430941 7.578307
+ [17] 9.045962 9.122482 5.647927 9.783490 2.389920 8.167885 8.992419 6.397940
+ [25] 4.497514 4.526898 4.785277 5.235869 5.845033 8.349098 7.091740 6.924259
+ [33] 3.691594 9.966804 8.375974 8.743041 2.542347 8.637805 4.926613 9.111794
+ [41] 8.330294 9.258772 7.619181 9.848040 2.983080 1.647190 8.362233 4.510373
+ [49] 3.895551 1.814594 9.609128 9.354510 5.884009 3.452868 6.143050 3.483624
+ [57] 9.263395 6.102349 8.926137 4.449232 2.067851 2.077915 5.398725 1.266521
+ [65] 8.143455 7.210125 8.345353 2.854266 8.687103 2.174809 4.943239 8.949604
+ [73] 5.240195 7.960224 6.107377 2.599419 9.334297 9.674190 6.784337 5.917146
+ [81] 5.650466 2.746737 6.922152 3.863716 6.201341 5.003609 8.936681 1.702466
+ [89] 8.010214 7.605590 1.987394 3.071509 7.339031 3.442815 1.141031 6.930705
+ [97] 5.233710 9.487587 6.893614 7.495705</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
@@ -372,12 +372,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample.int</span>(<span class="at">n =</span> <span class="dv">6</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 2 2 4 3 6 4 1 5 4 2</code></pre>
+<pre><code> [1] 3 6 1 1 2 4 1 2 4 2</code></pre>
 </div>
 </div>
 </section>
-<section id="variables-de-caracter" class="level3">
-<h3 class="anchored" data-anchor-id="variables-de-caracter">Variables de Caracter</h3>
+<section id="variables-de-caracter" class="level3" data-number="B.1.2">
+<h3 data-number="B.1.2" class="anchored" data-anchor-id="variables-de-caracter"><span class="header-section-number">B.1.2</span> Variables de Caracter</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ch <span class="ot">&lt;-</span> <span class="st">"Chile"</span> <span class="co"># Definir variable (objeto) ch que sea la palabra "Chile"</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>sn <span class="ot">&lt;-</span> <span class="st">"Santiago"</span></span>
@@ -431,8 +431,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section>
 </section>
-<section id="estructuras-de-datos" class="level2">
-<h2 class="anchored" data-anchor-id="estructuras-de-datos">Estructuras de Datos</h2>
+<section id="estructuras-de-datos" class="level2" data-number="B.2">
+<h2 data-number="B.2" class="anchored" data-anchor-id="estructuras-de-datos"><span class="header-section-number">B.2</span> Estructuras de Datos</h2>
 <p>Las variables pueden ser un conjunto de números y caracteres ordenados de varias maneras. El orden que se les da depende de lo que queremos lograr con estos.</p>
 <ul>
 <li>Vector</li>
@@ -441,8 +441,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>Factores</li>
 <li>Listas</li>
 </ul>
-<section id="vectores" class="level3">
-<h3 class="anchored" data-anchor-id="vectores">Vectores</h3>
+<section id="vectores" class="level3" data-number="B.2.1">
+<h3 data-number="B.2.1" class="anchored" data-anchor-id="vectores"><span class="header-section-number">B.2.1</span> Vectores</h3>
 <p><strong>Vector</strong> Cadenas unidimensionales (es decir una sola columna o fila) de un tipo único de valores (numéricos, caracteres, etc.)</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>vec <span class="ot">&lt;-</span>  <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">3</span>, <span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">16</span>)</span>
@@ -498,8 +498,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="listas" class="level3">
-<h3 class="anchored" data-anchor-id="listas">Listas</h3>
+<section id="listas" class="level3" data-number="B.2.2">
+<h3 data-number="B.2.2" class="anchored" data-anchor-id="listas"><span class="header-section-number">B.2.2</span> Listas</h3>
 <p>Son estructuras eficientes y flexibles, que permiten combinar distintas clases de elementos :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>lista <span class="ot">&lt;-</span>  <span class="fu">list</span>(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="st">"cosa"</span>, x, y)</span>
@@ -546,8 +546,8 @@ Como inspeccionar una lista con Rstudio
 <img src="imagenes/rstudio_environment_list.gif" class="img-fluid" style="width:90.0%">
 </center>
 </section>
-<section id="matrices" class="level3">
-<h3 class="anchored" data-anchor-id="matrices">Matrices</h3>
+<section id="matrices" class="level3" data-number="B.2.3">
+<h3 data-number="B.2.3" class="anchored" data-anchor-id="matrices"><span class="header-section-number">B.2.3</span> Matrices</h3>
 <p>Son estructuras de datos con 2 dimensiones, horizontal y la vertical (filas y columnas). Podemos construirlas usando la función “matrix”, con un vector inicial y sus dimensiones:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>n <span class="ot">&lt;-</span> <span class="fu">matrix</span>(<span class="fu">c</span>(<span class="fl">1.3</span>, <span class="fl">2.8</span>, <span class="fl">3.5</span>, <span class="fl">6.4</span>, <span class="fl">5.3</span>, <span class="fl">6.2</span>, <span class="dv">7</span>, <span class="fl">4.5</span>, <span class="fl">2.4</span>, <span class="fl">6.3</span>, <span class="fl">5.6</span>, <span class="fl">5.3</span>, <span class="fl">6.6</span>, <span class="dv">7</span>, <span class="fl">4.3</span>),</span>
@@ -576,8 +576,8 @@ Como inspeccionar una lista con Rstudio
 </div>
 </div>
 </section>
-<section id="dataframes" class="level3">
-<h3 class="anchored" data-anchor-id="dataframes">Dataframes</h3>
+<section id="dataframes" class="level3" data-number="B.2.4">
+<h3 data-number="B.2.4" class="anchored" data-anchor-id="dataframes"><span class="header-section-number">B.2.4</span> Dataframes</h3>
 <p>Estructura mas clásica de datos, es una matriz pero con mas atributos como nombres de columna y/o fila. Es lo mas similar en R a una tabla excel o la tabla de atributos. La manera mas simple de crear un dataframe es a partir de una matriz usando la función as.data.frame() :</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb54"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">&lt;-</span> <span class="fu">as.data.frame</span>(n)</span>
@@ -772,7 +772,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./intro_R.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">R: Introducción</span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Introducción a R</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">

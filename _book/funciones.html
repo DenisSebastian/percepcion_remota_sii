@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Curso: Geoanálisis de Imágenes Satelitales para SII - R: Funciones</title>
+<title>Curso: Geoanálisis de Imágenes Satelitales para SII - Appendix C — Funciones en R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -153,7 +153,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">R: Funciones</h1>
+      <h1 class="quarto-secondary-nav-title">Appendix C — Funciones en R</h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -211,9 +211,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
       </ul>
   </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">Referencias Bibliográficas</a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Anexos</a>
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Appendices</a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -221,17 +226,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./intro_R.html" class="sidebar-item-text sidebar-link">R: Introducción</a>
+  <a href="./intro_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Introducción a R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./variables_R.html" class="sidebar-item-text sidebar-link">R: Variables</a>
+  <a href="./variables_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Variables en R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./funciones.html" class="sidebar-item-text sidebar-link active">R: Funciones</a>
+  <a href="./funciones.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Funciones en R</span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -256,11 +261,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
       </ul>
   </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./references.html" class="sidebar-item-text sidebar-link">Referencias Bibliográficas</a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -270,23 +270,23 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#operaciones-básicas-en-r" id="toc-operaciones-básicas-en-r" class="nav-link active" data-scroll-target="#operaciones-básicas-en-r">Operaciones Básicas en R</a>
+  <li><a href="#operaciones-básicas-en-r" id="toc-operaciones-básicas-en-r" class="nav-link active" data-scroll-target="#operaciones-básicas-en-r"><span class="toc-section-number">C.1</span>  Operaciones Básicas en R</a>
   <ul class="collapse">
-  <li><a href="#operaciones-matemáticas" id="toc-operaciones-matemáticas" class="nav-link" data-scroll-target="#operaciones-matemáticas">Operaciones Matemáticas</a></li>
-  <li><a href="#funciones-útiles-de-propósito-general" id="toc-funciones-útiles-de-propósito-general" class="nav-link" data-scroll-target="#funciones-útiles-de-propósito-general">Funciones Útiles de propósito general</a></li>
+  <li><a href="#operaciones-matemáticas" id="toc-operaciones-matemáticas" class="nav-link" data-scroll-target="#operaciones-matemáticas"><span class="toc-section-number">C.1.1</span>  Operaciones Matemáticas</a></li>
+  <li><a href="#funciones-útiles-de-propósito-general" id="toc-funciones-útiles-de-propósito-general" class="nav-link" data-scroll-target="#funciones-útiles-de-propósito-general"><span class="toc-section-number">C.1.2</span>  Funciones Útiles de propósito general</a></li>
   </ul></li>
-  <li><a href="#operaciones-lógicas" id="toc-operaciones-lógicas" class="nav-link" data-scroll-target="#operaciones-lógicas">Operaciones Lógicas</a>
+  <li><a href="#operaciones-lógicas" id="toc-operaciones-lógicas" class="nav-link" data-scroll-target="#operaciones-lógicas"><span class="toc-section-number">C.2</span>  Operaciones Lógicas</a>
   <ul class="collapse">
-  <li><a href="#operador-de-igualdad" id="toc-operador-de-igualdad" class="nav-link" data-scroll-target="#operador-de-igualdad">Operador de igualdad: (==)</a></li>
-  <li><a href="#operador-de-desigualdad" id="toc-operador-de-desigualdad" class="nav-link" data-scroll-target="#operador-de-desigualdad">Operador de desigualdad: (!=)</a></li>
-  <li><a href="#operador-de-mayor-que" id="toc-operador-de-mayor-que" class="nav-link" data-scroll-target="#operador-de-mayor-que">Operador de mayor que: (&gt;)</a></li>
-  <li><a href="#operador-de-menor-que" id="toc-operador-de-menor-que" class="nav-link" data-scroll-target="#operador-de-menor-que">Operador de menor que: (&lt;)</a></li>
-  <li><a href="#operador-de-mayor-o-igual-que" id="toc-operador-de-mayor-o-igual-que" class="nav-link" data-scroll-target="#operador-de-mayor-o-igual-que">Operador de mayor o igual que: (&gt;=)</a></li>
-  <li><a href="#operador-de-menor-o-igual-que" id="toc-operador-de-menor-o-igual-que" class="nav-link" data-scroll-target="#operador-de-menor-o-igual-que">Operador de menor o igual que: (&lt;=)</a></li>
-  <li><a href="#operador-lógico-and" id="toc-operador-lógico-and" class="nav-link" data-scroll-target="#operador-lógico-and">Operador lógico AND: (&amp;)</a></li>
-  <li><a href="#operador-lógico-or" id="toc-operador-lógico-or" class="nav-link" data-scroll-target="#operador-lógico-or">Operador lógico OR: (|)</a></li>
+  <li><a href="#operador-de-igualdad" id="toc-operador-de-igualdad" class="nav-link" data-scroll-target="#operador-de-igualdad"><span class="toc-section-number">C.2.1</span>  Operador de igualdad: (==)</a></li>
+  <li><a href="#operador-de-desigualdad" id="toc-operador-de-desigualdad" class="nav-link" data-scroll-target="#operador-de-desigualdad"><span class="toc-section-number">C.2.2</span>  Operador de desigualdad: (!=)</a></li>
+  <li><a href="#operador-de-mayor-que" id="toc-operador-de-mayor-que" class="nav-link" data-scroll-target="#operador-de-mayor-que"><span class="toc-section-number">C.2.3</span>  Operador de mayor que: (&gt;)</a></li>
+  <li><a href="#operador-de-menor-que" id="toc-operador-de-menor-que" class="nav-link" data-scroll-target="#operador-de-menor-que"><span class="toc-section-number">C.2.4</span>  Operador de menor que: (&lt;)</a></li>
+  <li><a href="#operador-de-mayor-o-igual-que" id="toc-operador-de-mayor-o-igual-que" class="nav-link" data-scroll-target="#operador-de-mayor-o-igual-que"><span class="toc-section-number">C.2.5</span>  Operador de mayor o igual que: (&gt;=)</a></li>
+  <li><a href="#operador-de-menor-o-igual-que" id="toc-operador-de-menor-o-igual-que" class="nav-link" data-scroll-target="#operador-de-menor-o-igual-que"><span class="toc-section-number">C.2.6</span>  Operador de menor o igual que: (&lt;=)</a></li>
+  <li><a href="#operador-lógico-and" id="toc-operador-lógico-and" class="nav-link" data-scroll-target="#operador-lógico-and"><span class="toc-section-number">C.2.7</span>  Operador lógico AND: (&amp;)</a></li>
+  <li><a href="#operador-lógico-or" id="toc-operador-lógico-or" class="nav-link" data-scroll-target="#operador-lógico-or"><span class="toc-section-number">C.2.8</span>  Operador lógico OR: (|)</a></li>
   </ul></li>
-  <li><a href="#crear-funciones-propias" id="toc-crear-funciones-propias" class="nav-link" data-scroll-target="#crear-funciones-propias">Crear Funciones Propias</a></li>
+  <li><a href="#crear-funciones-propias" id="toc-crear-funciones-propias" class="nav-link" data-scroll-target="#crear-funciones-propias"><span class="toc-section-number">C.3</span>  Crear Funciones Propias</a></li>
   </ul>
 </nav>
     </div>
@@ -295,7 +295,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">R: Funciones</h1>
+<h1 class="title d-none d-lg-block">Appendix C — Funciones en R</h1>
 </div>
 
 
@@ -310,10 +310,10 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<section id="operaciones-básicas-en-r" class="level2">
-<h2 class="anchored" data-anchor-id="operaciones-básicas-en-r">Operaciones Básicas en R</h2>
-<section id="operaciones-matemáticas" class="level3">
-<h3 class="anchored" data-anchor-id="operaciones-matemáticas">Operaciones Matemáticas</h3>
+<section id="operaciones-básicas-en-r" class="level2" data-number="C.1">
+<h2 data-number="C.1" class="anchored" data-anchor-id="operaciones-básicas-en-r"><span class="header-section-number">C.1</span> Operaciones Básicas en R</h2>
+<section id="operaciones-matemáticas" class="level3" data-number="C.1.1">
+<h3 data-number="C.1.1" class="anchored" data-anchor-id="operaciones-matemáticas"><span class="header-section-number">C.1.1</span> Operaciones Matemáticas</h3>
 <p>En R, es posible realizar operaciones matemáticas básicas utilizando los operadores aritméticos estándar. Estos operadores incluyen:</p>
 <ul>
 <li>Suma (+): se utiliza para sumar dos valores.</li>
@@ -393,8 +393,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="funciones-útiles-de-propósito-general" class="level3">
-<h3 class="anchored" data-anchor-id="funciones-útiles-de-propósito-general">Funciones Útiles de propósito general</h3>
+<section id="funciones-útiles-de-propósito-general" class="level3" data-number="C.1.2">
+<h3 data-number="C.1.2" class="anchored" data-anchor-id="funciones-útiles-de-propósito-general"><span class="header-section-number">C.1.2</span> Funciones Útiles de propósito general</h3>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rep</span>(<span class="dv">1</span>, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -441,8 +441,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </section>
 </section>
-<section id="operaciones-lógicas" class="level2">
-<h2 class="anchored" data-anchor-id="operaciones-lógicas">Operaciones Lógicas</h2>
+<section id="operaciones-lógicas" class="level2" data-number="C.2">
+<h2 data-number="C.2" class="anchored" data-anchor-id="operaciones-lógicas"><span class="header-section-number">C.2</span> Operaciones Lógicas</h2>
 <p>En R, los operadores lógicos se utilizan para realizar comparaciones lógicas entre valores o expresiones. Estos operadores devuelven valores booleanos (TRUE o FALSE) según se cumpla o no la condición.</p>
 <p>A continuación se presentan los operadores lógicos en R:</p>
 <div class="cell">
@@ -507,8 +507,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </div>
 </div>
-<section id="operador-de-igualdad" class="level3">
-<h3 class="anchored" data-anchor-id="operador-de-igualdad">Operador de igualdad: (==)</h3>
+<section id="operador-de-igualdad" class="level3" data-number="C.2.1">
+<h3 data-number="C.2.1" class="anchored" data-anchor-id="operador-de-igualdad"><span class="header-section-number">C.2.1</span> Operador de igualdad: (==)</h3>
 <p>Este operador se utiliza para comparar si dos valores son iguales. Retorna TRUE si la condición se cumple y FALSE en caso contrario.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
@@ -519,8 +519,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="operador-de-desigualdad" class="level3">
-<h3 class="anchored" data-anchor-id="operador-de-desigualdad">Operador de desigualdad: (!=)</h3>
+<section id="operador-de-desigualdad" class="level3" data-number="C.2.2">
+<h3 data-number="C.2.2" class="anchored" data-anchor-id="operador-de-desigualdad"><span class="header-section-number">C.2.2</span> Operador de desigualdad: (!=)</h3>
 <p>Este operador se utiliza para comparar si dos valores son diferentes. Retorna TRUE si la condición se cumple y FALSE en caso contrario.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
@@ -531,8 +531,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="operador-de-mayor-que" class="level3">
-<h3 class="anchored" data-anchor-id="operador-de-mayor-que">Operador de mayor que: (&gt;)</h3>
+<section id="operador-de-mayor-que" class="level3" data-number="C.2.3">
+<h3 data-number="C.2.3" class="anchored" data-anchor-id="operador-de-mayor-que"><span class="header-section-number">C.2.3</span> Operador de mayor que: (&gt;)</h3>
 <p>Este operador se utiliza para comparar si un valor es mayor que otro. Retorna TRUE si la condición se cumple y FALSE en caso contrario.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
@@ -543,8 +543,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="operador-de-menor-que" class="level3">
-<h3 class="anchored" data-anchor-id="operador-de-menor-que">Operador de menor que: (&lt;)</h3>
+<section id="operador-de-menor-que" class="level3" data-number="C.2.4">
+<h3 data-number="C.2.4" class="anchored" data-anchor-id="operador-de-menor-que"><span class="header-section-number">C.2.4</span> Operador de menor que: (&lt;)</h3>
 <p>Este operador se utiliza para comparar si un valor es menor que otro. Retorna TRUE si la condición se cumple y FALSE en caso contrario.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
@@ -555,8 +555,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="operador-de-mayor-o-igual-que" class="level3">
-<h3 class="anchored" data-anchor-id="operador-de-mayor-o-igual-que">Operador de mayor o igual que: (&gt;=)</h3>
+<section id="operador-de-mayor-o-igual-que" class="level3" data-number="C.2.5">
+<h3 data-number="C.2.5" class="anchored" data-anchor-id="operador-de-mayor-o-igual-que"><span class="header-section-number">C.2.5</span> Operador de mayor o igual que: (&gt;=)</h3>
 <p>Este operador se utiliza para comparar si un valor es mayor o igual que otro. Retorna TRUE si la condición se cumple y FALSE en caso contrario.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
@@ -567,8 +567,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="operador-de-menor-o-igual-que" class="level3">
-<h3 class="anchored" data-anchor-id="operador-de-menor-o-igual-que">Operador de menor o igual que: (&lt;=)</h3>
+<section id="operador-de-menor-o-igual-que" class="level3" data-number="C.2.6">
+<h3 data-number="C.2.6" class="anchored" data-anchor-id="operador-de-menor-o-igual-que"><span class="header-section-number">C.2.6</span> Operador de menor o igual que: (&lt;=)</h3>
 <p>Este operador se utiliza para comparar si un valor es menor o igual que otro. Retorna TRUE si la condición se cumple y FALSE en caso contrario.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb55"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
@@ -579,8 +579,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="operador-lógico-and" class="level3">
-<h3 class="anchored" data-anchor-id="operador-lógico-and">Operador lógico AND: (&amp;)</h3>
+<section id="operador-lógico-and" class="level3" data-number="C.2.7">
+<h3 data-number="C.2.7" class="anchored" data-anchor-id="operador-lógico-and"><span class="header-section-number">C.2.7</span> Operador lógico AND: (&amp;)</h3>
 <p>Este operador se utiliza para evaluar dos o más condiciones y retornar TRUE si todas se cumplen, de lo contrario retorna FALSE.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb57"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
@@ -592,8 +592,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </section>
-<section id="operador-lógico-or" class="level3">
-<h3 class="anchored" data-anchor-id="operador-lógico-or">Operador lógico OR: (|)</h3>
+<section id="operador-lógico-or" class="level3" data-number="C.2.8">
+<h3 data-number="C.2.8" class="anchored" data-anchor-id="operador-lógico-or"><span class="header-section-number">C.2.8</span> Operador lógico OR: (|)</h3>
 <p>Este operador se utiliza para evaluar dos o más condiciones y retornar TRUE si al menos una se cumple, de lo contrario retorna FALSE.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb59"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>a <span class="ot">&lt;-</span> <span class="dv">2</span></span>
@@ -616,8 +616,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Es importante tener en cuenta que los operadores lógicos se pueden utilizar en combinación para crear expresiones lógicas más complejas. Además, los operadores lógicos también se pueden utilizar en las estructuras de control condicionales, como if/else y switch, para tomar decisiones basadas en condiciones lógicas.</p>
 </section>
 </section>
-<section id="crear-funciones-propias" class="level2">
-<h2 class="anchored" data-anchor-id="crear-funciones-propias">Crear Funciones Propias</h2>
+<section id="crear-funciones-propias" class="level2" data-number="C.3">
+<h2 data-number="C.3" class="anchored" data-anchor-id="crear-funciones-propias"><span class="header-section-number">C.3</span> Crear Funciones Propias</h2>
 <p>En R, es posible crear funciones propias para realizar tareas específicas y reutilizarlas en diferentes partes de un programa. Para crear una función en R, se utiliza la siguiente estructura:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb63"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb63-1"><a href="#cb63-1" aria-hidden="true" tabindex="-1"></a>nombre_de_la_funcion <span class="ot">&lt;-</span> <span class="cf">function</span>(argumentos) {</span>
@@ -830,7 +830,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./variables_R.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">R: Variables</span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Variables en R</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
