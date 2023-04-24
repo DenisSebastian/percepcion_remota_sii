@@ -172,6 +172,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="./fundamentos_PR.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">S1: Percepción Remota</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./satelites_sensores.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">S2: Satélites y Sensores</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Tareas</a>
@@ -336,19 +341,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ru <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="dv">10</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ru</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] 6.318490 3.446388 9.827967 2.727201 8.600090 9.998560 2.244117 8.363583
-  [9] 6.502952 9.419950 9.418810 7.257122 6.716934 2.908748 2.430299 7.349137
- [17] 8.810012 7.697759 5.782379 8.075267 9.821972 3.903314 7.314460 1.405806
- [25] 4.115285 9.182942 5.593151 3.895625 9.155255 2.891794 5.844165 4.108022
- [33] 4.833510 1.544006 4.516141 1.734513 4.790038 6.097596 3.070270 7.619922
- [41] 9.578567 8.398367 6.488851 7.118266 7.685705 5.053256 9.304014 4.072895
- [49] 8.838962 5.443099 8.808721 1.507298 2.458060 5.096886 9.682921 8.927313
- [57] 2.636709 8.095294 2.531463 1.081970 4.280079 3.413403 1.485900 1.965205
- [65] 3.871925 9.081101 1.757311 3.415591 9.910457 4.027678 5.017822 9.036863
- [73] 5.669731 1.704321 2.959160 9.047335 3.808537 3.464653 1.072372 7.174624
- [81] 7.924471 1.619707 9.929881 8.295459 1.600540 2.180585 1.879495 2.025875
- [89] 8.448917 9.690600 8.290271 8.361209 9.685413 4.955718 8.400218 8.124531
- [97] 1.212842 3.361422 8.323722 9.534119</code></pre>
+<pre><code>  [1] 5.146217 4.807783 7.643826 8.371146 3.983278 9.286071 3.939246 8.947362
+  [9] 5.695502 8.868764 7.733030 2.689317 2.828589 3.388987 3.017312 7.128001
+ [17] 5.926434 5.292962 2.126105 3.994490 5.658763 8.434425 7.147396 8.116738
+ [25] 8.378067 7.404162 3.583805 4.883454 5.935568 2.772145 6.926752 8.868942
+ [33] 5.076424 4.071913 5.087087 8.249586 6.828147 3.771669 3.182555 2.963200
+ [41] 7.669476 3.142853 4.135670 2.437931 4.720514 7.632310 3.707480 2.096183
+ [49] 3.522656 9.702010 5.089856 1.695800 8.744764 6.368789 8.973890 5.458650
+ [57] 7.378945 4.970916 6.216725 5.344823 7.549956 5.915223 2.683836 6.036560
+ [65] 4.109033 6.645960 5.105905 6.535787 2.029302 3.749811 8.392663 9.303432
+ [73] 8.395584 4.977487 9.391697 1.690821 1.750119 5.557638 5.631566 9.369390
+ [81] 7.461723 2.749444 4.123199 2.308187 9.558648 7.339255 6.815031 5.727038
+ [89] 1.508670 4.253784 7.212105 8.479068 6.694131 1.304070 6.757669 1.935768
+ [97] 8.041847 3.233449 4.672254 6.611841</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
@@ -367,7 +372,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample.int</span>(<span class="at">n =</span> <span class="dv">6</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 2 6 2 1 6 3 5 2 3 5</code></pre>
+<pre><code> [1] 2 2 4 3 6 4 1 5 4 2</code></pre>
 </div>
 </div>
 </section>

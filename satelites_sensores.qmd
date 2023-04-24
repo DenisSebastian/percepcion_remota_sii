@@ -2,6 +2,8 @@
 subtitle: "Tipos y Características"
 author: "Centro de Inteligencia Territorial"
 date: "04-18-2023"
+editor_options: 
+  chunk_output_type: console
 ---
 
 # S2: Satélites y Sensores
@@ -36,7 +38,7 @@ Un satélite es una plataforma que describe una trayectoria definida alrededor d
 
 **Heliosíncronos**:
 
-:   Orbitas circulares y polares relativo a la tierra a 160-2000 km. Captan imágenes con regularidad sobre un mismo punto o escena.
+:   Órbitas circulares y polares relativo a la tierra a 160-2000 km. Captan imágenes con regularidad sobre un mismo punto o escena.
 
 ![](imagenes/polar.gif){fig-align="center" width="400"}
 
@@ -99,7 +101,7 @@ Número y rango de las regiones del espectro electromagnético para los que capt
 
 
 
-Describe la habilidad del sensor de definir intérvalos de longitudes de onda. Cuanto más fina la resolución espectral, más estrecha la gama de longitudes de onda para un canal o banda en particular. Tener más y más finos canales permite la percepción remota de diferentes partes de la superficie de la Tierra.
+Describe la habilidad del sensor de definir intervalos de longitudes de onda. Cuanto más fina la resolución espectral, más estrecha la gama de longitudes de onda para un canal o banda en particular. Tener más y más finos canales permite la percepción remota de diferentes partes de la superficie de la Tierra.
 
 ### Resolución Radiométrica:
 
@@ -280,6 +282,351 @@ Finalmente se presenta una comparación la resolución espectral Landsat 8 y Sen
 
 ![](imagenes/practica.png){fig-align="center" width="200"}
 
+## Tratamiento de Imágenes Satelitales
+
+A continuación se hara una serie de operaciones sobre una imagen satelital LANDSAT 8 recortada por un área de estudio correspondiente a la comuna de Las Condes.
+
+### Lectura de Imagen Satelital
+
+```{r}
+library(raster)
+LC <- brick("data/raster/OLI_LC.tif")
+names(LC) <- c("aerosol","blue", "green", "red", "nir", "swir1", "swir2", "tir1" )
+LC
+```
+
+### Visualización Básica Imagen Satelital
+
+<center>![](imagenes/RGBSTack_1.jpg){width=100%}</center>
 
 
-Pendiente hasta la Nivelación en R Project....
+```{r}
+# Color Natural
+plotRGB(LC, r = 4, g = 3, b = 2, stretch = "lin")
+```
+
+
+
+```{r}
+library(mapview)
+viewRGB(LC,   r = 4, g = 3, b = 2)
+```
+
+
+### Reproyección de Imagen Satelital
+
+
+Definir Sistemas de Referencias como variables
+
+```{r}
+### latlon Utilizado a escala mundial
+crs_latlon <- "+proj=longlat +datum=WGS84 +no_defs"
+
+### utm utilizado a nivel regional (depende de la zona y hemisferio)
+crs_utm <- "+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
+```
+
+
+```{r}
+LC_ll <- raster::projectRaster(LC, crs = crs_latlon)
+
+```
+
+
+
+
+
+### Recorte Imagen Satelital
+
+
+```{r}
+## crop y mask
+# ext <- drawExtent()
+ext <- extent(c(350638, 358235,  6299157, 6304228))
+LC_crop <- crop(x = LC, y = ext, snap="out")
+# LCondes <- mask(r2, ext)
+plotRGB(LC_crop, r = 4, g = 3, b = 2, stretch = "lin")
+```
+
+
+
+
+### Combinaciones de Bandas de Imagen Satelital
+
+<center>![](imagenes/l8-band-combinations.png){width=100%}</center>
+
+Número de bandas asignado a la Imagen OLI Landsat
+
+- aerosol = 1
+- blue    = 2
+- green   = 3
+- red     = 4
+- nir     = 5
+- swir1   = 6
+- swir2   = 7
+- thermal  = 8
+
+
+Las Condes: Color Natural (4,3,2)
+```{r fig.align="center"}
+plotRGB(LC, r = 4, g = 3, b = 2, stretch = "lin")
+```
+
+
+Las Condes: Falso Color (7,6,4)
+```{r fig.align="center"}
+plotRGB(LC, r = 7, g = 6, b = 4, stretch = "lin")
+```
+
+
+Las Condes: Infrarojo (5,4,3)
+```{r fig.align="center"}
+plotRGB(LC, r = 5, g = 4, b = 3, stretch = "lin")
+```
+
+
+Las Condes: Agricultura (6,5,2)
+
+```{r fig.align="center"}
+plotRGB(LC, r = 6, g = 5, b = 2, stretch = "lin")
+```
+
+
+Las Condes: Penetración de la Radiación en la Atmósfera (7,6,5)
+```{r fig.align="center"}
+plotRGB(LC, r = 7, g = 6, b = 5, stretch = "lin")
+```
+
+Las Condes: Uso del Suelo / Masas de Agua (5,6,4)
+
+```{r fig.align="center"}
+plotRGB(LC, r = 5, g = 6, b = 4, stretch = "lin")
+```
+
+
+Las Condes: Infrarojo de Onda Corta (7,5,4)
+
+```{r fig.align="center"}
+plotRGB(LC, r = 7, g = 5, b = 4, stretch = "lin")
+```
+
+
+Las Condes: Análisis de Vegetación (6,5,4)
+
+```{r fig.align="center"}
+plotRGB(LC, r = 6, g = 5, b = 4, stretch = "lin")
+```
+
+
+Las Condes: Análisis de Vegetación Sana (5,6,2)
+
+```{r fig.align="center"}
+plotRGB(LC, r = 5, g = 6, b = 2, stretch = "lin")
+```
+
+## NDVI
+
+
+### Cálculo de NDVI 
+
+<center>![Formula para el cáculo de NDVI](imagenes/NDVI_f.png)</center>
+
+Metódo 1
+
+```{r }
+#NDVI(img, red, NIR)
+NDVI <- function(img, r, n) {
+   br <- img[[r]]
+   bn <- img[[n]]
+   vi <- (bn - br) / (bn + br)
+   return(vi)
+}
+NDVI_lc <- NDVI(LC, 4, 5)
+plot(NDVI_lc , main = "NDVI Las Condes")
+
+```
+
+
+
+
+
+### Histograma de valores NDVI
+
+```{r fig.align="center"}
+# dev.off()
+hist(NDVI_lc, col="springgreen4", main="Histograma NDVI Las Condes",
+  ylab="Numero de Pixeles", xlab="valor NDVI")
+
+```
+
+
+
+### reclasificación de NDVI
+
+*Todo lo que sea igual o menor que value será lo demàs conserva su valor*
+
+```{r}
+
+corte_eq_menor<- function(value) {
+  function(x){ifelse(x <= value,NA, x)}
+}
+vegetacion <- calc(NDVI_lc, fun = corte_eq_menor(value = 0.4))
+plot(vegetacion)
+```
+
+
+## Visualización Avanzada de Raster 
+
+### Visualziación Estática 
+
+Zonas de Vegetación ALta en Las Condes
+
+```{r}
+# crear una paleta de colores con 200 niveles 
+pal_green <- colorRampPalette(c("green","springgreen4", "darkgreen"))( 200 )
+plot(vegetacion , main = "NDVI Vegetación Alta", col = pal_green)
+
+## agregar Las polígono de Las Condes
+LasCondes <- sf::st_read("data/shape/LasCondes.shp")
+plot(LasCondes$geometry, add = T, )
+```
+
+### Visualización Dinámica
+
+
+Versión  con Mapview 
+```{r}
+# install.packages("mapview")
+
+mview <- mapview(LasCondes, color = "#05A39B", alpha.region =0)+
+  viewRGB(LC, r = 4, g = 3, b = 2, na.color = "transparent")+ 
+  mapview(vegetacion, na.color = "transparent") +
+  mapview(NDVI_lc, na.color = "transparent") 
+
+  
+mview
+# Mostrar opciones de guardar resultados dinámicos
+```
+
+
+bonus guardar html
+```{r eval=FALSE}
+mapshot(x = mview, url = "mapa_veg.html")
+```
+
+
+Versión con librería Leaflet (compleja)
+```{r}
+suppressPackageStartupMessages(library(leaflet))
+NDVI_lc_ll <- projectRaster(vegetacion, 
+                            crs = "+proj=longlat +datum=WGS84 +no_defs")
+
+LasCondes <- sf::st_transform(LasCondes, crs_latlon)
+
+# se construye una función para asignar valores dado un valor
+pal <- colorNumeric(c("green","springgreen4", "darkgreen"), 
+                    values(NDVI_lc_ll), na.color = "transparent")
+
+map <- leaflet() %>% 
+  addTiles(group = "OSM (default)") %>%  
+  addProviderTiles(providers$Stamen.Toner, group = "Toner") %>%
+  addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite") %>%
+  addProviderTiles(providers$Esri.WorldImagery, group = "Satellite")%>%
+  addRasterImage(NDVI_lc_ll, colors = pal, opacity = 1, group = "NDVI") %>%
+  addLegend(position = "bottomright", pal = pal, values = values(NDVI_lc_ll),
+            opacity = 1, group = "NDVI", title = "NDVI")%>%
+  addPolygons(data = LasCondes, color =  "navy", 
+              fillOpacity = 0, weight = 3)%>%
+  addLayersControl(position = "topright",
+                   baseGroups = c("Toner Lite","Satellite", 
+                                  "OSM (default)", "Toner"),
+                   overlayGroups = "NDVI",
+                   options = layersControlOptions(collapsed = TRUE))
+map
+```
+
+
+## Repasar Instalación de Rgee
+
+
+Instalar Librerías Previas
+```{r eval=FALSE}
+
+install.packages("reticulate")
+install.packages("jsonlite")
+
+```
+
+
+Instalar Rgee
+
+```{r eval=FALSE}
+install.packages("remotes")
+remotes::install_github("r-spatial/rgee", force = TRUE)
+install.packages("rgee")
+
+```
+
+Instalar Ambiente Virtual
+
+```{r eval=FALSE}
+## It is necessary just once
+ee_install() 
+
+# indicar "Yes"
+# Ahora de debe reiniciar Rstudio
+```
+
+
+
+Test de Instalación Correcta
+
+```{r}
+library(tidyverse)
+library(rgee)
+library(sf)
+ee_Initialize()
+
+createTimeBand <-function(img) {
+  year <- ee$Date(img$get('system:time_start'))$get('year')$subtract(1991L)
+  ee$Image(year)$byte()$addBands(img)
+}
+
+collection <- ee$
+  ImageCollection('NOAA/DMSP-OLS/NIGHTTIME_LIGHTS')$
+  select('stable_lights')$
+  map(createTimeBand)
+
+col_reduce <- collection$reduce(ee$Reducer$linearFit())
+col_reduce <- col_reduce$addBands(
+  col_reduce$select('scale'))
+# ee_print(col_reduce)
+
+
+Map$setCenter(9.08203, 47.39835, 3)
+m <- Map$addLayer(
+  eeObject = col_reduce,
+  visParams = list( bands = c("scale", "offset", "scale"),
+                    min = 0,    max = c(0.18, 20, -0.18)),
+  name = "stable lights trend")
+m
+
+```
+
+
+<br>
+
+## Referencias
+
+Learning R for Geoespatial Analysis
+
+[https://rspatial.org/raster/spatial/8-rastermanip.html](https://rspatial.org/raster/spatial/8-rastermanip.html)
+
+Referencias de Mapview
+
+[https://r-spatial.github.io/mapview/reference/index.html](https://r-spatial.github.io/mapview/reference/index.html)
+
+Referencias de Leaflet
+
+[https://rstudio.github.io/leaflet/](https://rstudio.github.io/leaflet/)
+
