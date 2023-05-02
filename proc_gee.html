@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Centro de Inteligencia Territorial">
+<meta name="dcterms.date" content="2023-05-02">
 
-<title>Curso: Análisis de Imágenes Satelitales para SII - Tarea 1</title>
+<title>Curso: Análisis de Imágenes Satelitales para SII - 6&nbsp; S4: Procesamiento con GEE desde R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,7 +32,7 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./references.html" rel="next">
+<link href="./tarea_1.html" rel="next">
 <link href="./intro_gee.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -71,7 +73,7 @@ ul.task-list li input[type="checkbox"] {
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title">Tarea 1</h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">S4: Procesamiento con GEE desde R</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -119,6 +121,11 @@ ul.task-list li input[type="checkbox"] {
   <a href="./intro_gee.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">S3: Introducción a GEE</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./proc_gee.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">S4: Procesamiento con GEE desde R</span></a>
+  </div>
+</li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Tareas</a>
@@ -129,7 +136,7 @@ ul.task-list li input[type="checkbox"] {
       <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./tarea_1.html" class="sidebar-item-text sidebar-link active">Tarea 1</a>
+  <a href="./tarea_1.html" class="sidebar-item-text sidebar-link">Tarea 1</a>
   </div>
 </li>
       </ul>
@@ -193,10 +200,9 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#antecedentes" id="toc-antecedentes" class="nav-link active" data-scroll-target="#antecedentes">Antecedentes</a></li>
-  <li><a href="#enuncuciado" id="toc-enuncuciado" class="nav-link" data-scroll-target="#enuncuciado">Enuncuciado</a></li>
-  <li><a href="#adicional" id="toc-adicional" class="nav-link" data-scroll-target="#adicional">Adicional</a></li>
-  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias">Referencias</a></li>
+  <li><a href="#índice-de-diferencia-normalizada-de-agua-ndwi" id="toc-índice-de-diferencia-normalizada-de-agua-ndwi" class="nav-link active" data-scroll-target="#índice-de-diferencia-normalizada-de-agua-ndwi"><span class="toc-section-number">6.1</span>  Índice de Diferencia Normalizada de Agua (NDWI)</a></li>
+  <li><a href="#modelo-digital-de-elevación" id="toc-modelo-digital-de-elevación" class="nav-link" data-scroll-target="#modelo-digital-de-elevación"><span class="toc-section-number">6.2</span>  Modelo Digital de Elevación</a></li>
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias"><span class="toc-section-number">6.3</span>  Referencias</a></li>
   </ul>
 </nav>
     </div>
@@ -205,15 +211,27 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block">Tarea 1</h1>
-<p class="subtitle lead">Datos Raster</p>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">S4: Procesamiento con GEE desde R</span></h1>
+<p class="subtitle lead">Google Earth Engine</p>
 </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Centro de Inteligencia Territorial </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 2, 2023</p>
+    </div>
+  </div>
   
     
   </div>
@@ -221,82 +239,65 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<div class="quarto-figure quarto-figure-center page-columns page-full">
-<figure class="figure page-columns page-full">
-<p><img src="imagenes/Matrix-Raster.png" class="img-fluid figure-img" style="width:50.0%"></p>
-<p></p><figcaption class="figure-caption margin-caption">Estructura de una Raster Espacial</figcaption><p></p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/S4_diagrama.png" class="img-fluid figure-img" width="800"></p>
 </figure>
 </div>
-<section id="antecedentes" class="level2">
-<h2 class="anchored" data-anchor-id="antecedentes">Antecedentes</h2>
-<p><strong>Fecha de Entrega</strong>: 05 de Mayo del 2023</p>
-<p><strong>Formato de Entrega</strong>: Documento de texto (word, pdf, markdown) + códigos (.R)</p>
-<p><strong>Integrantes</strong>: 2 Personas</p>
+<p>En esta sección, exploraremos el procesamiento de imágenes satelitales y otros datos geoespaciales con Google Earth Engine (GEE) y R. Al utilizar GEE, podremos acceder a una amplia variedad de recursos satelitales y climáticos que nos serán útiles en nuestros análisis. También aprenderemos a crear nuevos índices normalizados para obtener información precisa y detallada sobre los cambios en la superficie terrestre. Por otro lado, R es un lenguaje de programación popular y flexible que nos permitirá realizar análisis avanzados de datos geoespaciales de manera eficiente y efectiva. La combinación de estas dos herramientas nos permitirá realizar análisis complejos y obtener resultados valiosos que nos ayudarán a comprender mejor nuestro entorno.</p>
+<section id="índice-de-diferencia-normalizada-de-agua-ndwi" class="level2 page-columns page-full" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="índice-de-diferencia-normalizada-de-agua-ndwi"><span class="header-section-number">6.1</span> Índice de Diferencia Normalizada de Agua (NDWI)</h2>
+<p>El índice de Diferencia Normalizada de Agua (NDWI) es un índice que se utiliza en percepción remota para identificar cuerpos de agua y humedad en la superficie de la tierra. Este índice es especialmente útil cuando se utiliza con imágenes satelitales de Landsat, ya que utiliza bandas espectrales específicas para detectar la presencia de agua.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="imagenes/ndwi_image.png" class="img-fluid figure-img" width="400"></p>
+<p></p><figcaption class="figure-caption margin-caption">Ejemplo de resultados de NDWI</figcaption><p></p>
+</figure>
+</div>
+<p>El índice NDWI se calcula como (NIR - SWIR) / (NIR + SWIR), donde NIR es la banda del infrarrojo cercano y SWIR es la banda del infrarrojo de onda corta. La razón detrás de este cálculo es que el agua absorbe más radiación en la banda del infrarrojo cercano y refleja menos radiación en la banda del infrarrojo de onda corta, en comparación con otros objetos en la superficie terrestre. Por lo tanto, los cuerpos de agua y la humedad en la superficie de la tierra tendrán un valor NDWI más alto que otros objetos en la imagen.</p>
+<p>El índice NDWI es especialmente útil para la detección de cuerpos de agua y humedad en áreas como los bosques y los cultivos, lo que puede ser importante para la comprensión de la salud del ecosistema y la evaluación de la disponibilidad de agua para los cultivos.</p>
+<p>Dependiendo de la extensión del área de estudio o la disponibilidad de imágenes de calidad (que hayan pasado filtros), a veces es necesario construir un mosaico que es una combinación o fusión de dos o más imágenes.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="imagenes/mosaico.png" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption margin-caption">Repressentación Gráfica de un Mosaico</figcaption><p></p>
+</figure>
+</div>
 </section>
-<section id="enuncuciado" class="level2">
-<h2 class="anchored" data-anchor-id="enuncuciado">Enuncuciado</h2>
-<ol type="1">
-<li>Crear un raster de ncol = 500, nrow = 500, projection = crs_utm (objeto creado anteriormente), valores aleatorios y plot. (2 puntos).</li>
-</ol>
-<div class="callout-tip callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
+<section id="modelo-digital-de-elevación" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="modelo-digital-de-elevación"><span class="header-section-number">6.2</span> Modelo Digital de Elevación</h2>
+<p>Un Modelo Digital de Elevación (MDE) es un conjunto de datos que representa la elevación de la superficie terrestre en una región en particular. Los datos del MDE se utilizan comúnmente en percepción remota para la creación de mapas topográficos y la identificación de características geográficas, como montañas, valles y cuerpos de agua.</p>
+<p>Los MDE se crean mediante la recopilación de datos de elevación a través de diversas técnicas, como la fotogrametría, el LiDAR y la interferometría de radar. Los datos resultantes se procesan para crear un modelo tridimensional de la superficie terrestre que se puede utilizar para análisis y visualizaciones. Los MDE son una herramienta esencial en la percepción remota y se utilizan en una variedad de aplicaciones, desde la gestión de recursos naturales hasta la planificación urbana y la navegación.</p>
+<dl>
+<dt>DSM:</dt>
+<dd>
+El Modelo Digital de Superficie representa las elevaciones sobre el nivel del mar de las superficies reflectantes de árboles, edificios y otras características elevadas sobre la “Tierra desnuda”.
+</dd>
+<dt>AVE:</dt>
+<dd>
+Elevation value calculated by average. Valor de elevación calculado mediante el re-muestreo promedio de un modelo de grilla de 5 metros.
+</dd>
+<dt>Aspect:</dt>
+<dd>
+La orientación puede pensarse como la dirección de la pendiente Slope (pendiente): La pendiente representa la inclinación de la superficie.
+</dd>
+</dl>
+<hr>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/teorica.png" class="img-fluid figure-img" width="200"></p>
+</figure>
 </div>
-<div class="callout-caption-container flex-fill">
-Tip: <a href="fundamentos_PR.html#sec-crearRaster"><span>Section&nbsp;3.3</span></a>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-
-</div>
-</div>
-<p><br></p>
-<ol start="2" type="1">
-<li>Desde el raster “r_test”, crear una copia pero con la raiz cuadrada de los valores originales, y si existe un valor de pixel mayor a 35 debe ser cambiado por 35, finalmente plot (2 Puntos).</li>
-</ol>
-<div class="callout-tip callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Tip: <a href="fundamentos_PR.html#sec-funcRaster"><span>Section&nbsp;3.3.2</span></a>)
-</div>
-</div>
-<div class="callout-body-container callout-body">
-
-</div>
-</div>
-<p><br></p>
-<ol start="3" type="1">
-<li>Desde el raster “r_test”, crear una copia y reclasificar todos sus valores, de 0 a 500 valor 1, 501 a 1000 valor 2, 1001 a 1500 valor 3, mayor a 1500 será 4, finalmente plot (2 puntos). (Hint: )</li>
-</ol>
-<div class="callout-tip callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Tip: <a href="fundamentos_PR.html#sec-reclRaster"><span>Section&nbsp;3.3.3</span></a>
-</div>
-</div>
-<div class="callout-body-container callout-body">
-
-</div>
+<hr>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/practica.png" class="img-fluid figure-img" width="200"></p>
+</figure>
 </div>
 <p><br></p>
 </section>
-<section id="adicional" class="level2">
-<h2 class="anchored" data-anchor-id="adicional">Adicional</h2>
-<p>Se les recuerda seguir el manual de instalación del librería <code>rgee</code> que se encuentra en el siguiente anexo <a href="install_rgee.html"><span>Appendix&nbsp;G</span></a></p>
-</section>
-<section id="referencias" class="level2">
-<h2 class="anchored" data-anchor-id="referencias">Referencias</h2>
-<p>Learning R for Geoespatial Analysis</p>
-<p><a href="https://rspatial.org/raster/spatial/8-rastermanip.html">https://rspatial.org/raster/spatial/8-rastermanip.html</a></p>
-<p><a href="https://r-spatial.github.io/mapview/">https://r-spatial.github.io/mapview/</a></p>
-<p><br></p>
+<section id="referencias" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="referencias"><span class="header-section-number">6.3</span> Referencias</h2>
 
 
 </section>
@@ -442,8 +443,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./references.html" class="pagination-link">
-        <span class="nav-page-text">Referencias Bibliográficas</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./tarea_1.html" class="pagination-link">
+        <span class="nav-page-text">Tarea 1</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Curso: Geoanálisis de Imágenes Satelitales para SII - Appendix B — Variables en R</title>
+<title>Curso: Análisis de Imágenes Satelitales para SII - Appendix B — Variables en R</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -147,7 +147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header">
     <div class="sidebar-title mb-0 py-0">
-      <a href="./">Curso: Geoanálisis de Imágenes Satelitales para SII</a> 
+      <a href="./">Curso: Análisis de Imágenes Satelitales para SII</a> 
     </div>
       </div>
       <div class="mt-2 flex-shrink-0 align-items-center">
@@ -175,6 +175,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./satelites_sensores.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">S2: Satélites y Sensores</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro_gee.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">S3: Introducción a GEE</span></a>
   </div>
 </li>
         <li class="sidebar-item sidebar-item-section">
@@ -341,19 +346,19 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ru <span class="ot">&lt;-</span> <span class="fu">runif</span>(<span class="at">n =</span> <span class="dv">100</span>, <span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="dv">10</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ru</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>  [1] 2.378592 8.510668 1.009644 7.976634 9.943159 6.826385 2.349774 4.887281
-  [9] 9.224942 5.101946 5.549782 3.337785 1.575982 4.212779 1.616465 6.772491
- [17] 5.091897 9.019967 9.595348 1.643052 4.793826 6.236573 4.504640 6.305901
- [25] 3.539953 5.068927 2.075049 4.647722 6.344421 5.327990 1.483521 8.084054
- [33] 2.352486 2.897160 8.470597 1.952818 5.324283 4.391858 8.717886 9.982485
- [41] 9.646472 4.454391 8.488909 6.099597 1.763380 4.553654 7.954823 1.826720
- [49] 1.085700 6.542766 4.308642 8.536859 9.574968 5.988494 8.142264 5.198851
- [57] 6.384469 4.400692 6.086543 5.025479 9.164648 5.556339 1.540107 7.781352
- [65] 9.611179 5.577390 1.465600 3.850201 2.346290 2.298495 1.417812 4.722531
- [73] 2.829685 2.777924 3.602798 9.203853 3.377204 4.910709 7.660788 8.982710
- [81] 8.428206 8.177204 6.783775 8.367895 6.940398 5.985600 7.260242 5.747590
- [89] 1.771847 2.574074 6.616360 4.714753 1.383631 3.730313 2.301753 1.338139
- [97] 5.804128 6.565664 8.290136 2.751328</code></pre>
+<pre><code>  [1] 6.356166 2.538187 6.497279 7.852601 6.753001 9.282314 6.701705 4.742223
+  [9] 8.004045 9.170340 3.327688 7.758273 3.316120 1.169493 4.849176 9.808568
+ [17] 7.202096 4.075355 1.474744 6.137622 9.339432 7.850328 2.845248 7.957629
+ [25] 9.476171 2.781767 4.542924 5.855728 7.140836 5.349037 3.025844 6.209470
+ [33] 2.764430 7.503437 9.719691 1.157545 3.305674 6.977481 1.274807 4.818168
+ [41] 2.085732 9.186400 9.551131 3.363764 3.419358 3.179348 3.728582 9.930465
+ [49] 4.117101 6.342451 4.855082 9.868525 2.074311 1.639036 7.047941 2.143113
+ [57] 6.842722 2.038572 5.154941 8.499934 4.588263 1.070926 6.558646 1.673231
+ [65] 9.513123 4.204125 7.419280 6.754275 2.354334 1.969920 9.986756 6.042079
+ [73] 1.878317 9.328998 6.077765 6.663016 1.506229 5.740807 5.322932 2.530313
+ [81] 8.094197 3.066471 8.749655 3.927427 8.687434 7.090279 5.977439 9.535851
+ [89] 8.191090 2.534609 7.328623 5.672402 5.328730 4.744982 3.002831 2.214470
+ [97] 1.721183 1.283388 2.332016 3.655152</code></pre>
 </div>
 </div>
 <div class="cell" data-layout-align="center">
@@ -372,7 +377,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sample.int</span>(<span class="at">n =</span> <span class="dv">6</span>, <span class="at">size =</span> <span class="dv">10</span>, <span class="at">replace =</span> T)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code> [1] 3 6 1 1 3 4 5 6 5 1</code></pre>
+<pre><code> [1] 4 2 1 6 4 4 4 6 6 6</code></pre>
 </div>
 </div>
 </section>
