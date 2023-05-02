@@ -1,0 +1,455 @@
+---
+subtitle: "Google Earth Engine"
+author: "Centro de Inteligencia Territorial"
+date: "04-25-2023"
+editor_options: 
+  chunk_output_type: console
+---
+
+# S3: Introducción a GEE
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 999, stringsAsFactors=F, encoding = "UTF-8")
+options("rgdal_show_exportToProj4_warnings"="none") 
+```
+
+![](imagenes/S3_diagrama.png){fig-align="center" width="800"}
+
+------------------------------------------------------------------------
+
+![](imagenes/teorica.png){fig-align="center" width="200"}
+
+## Plataforma de Google Earth Engine (GEE)
+
+[![](imagenes/logo_gee.jpeg){fig-align="center" width="200"}](https://earthengine.google.com)
+
+[Google Earth Engine](https://earthengine.google.com) es una plataforma de geomática basada en la nube que permite a los usuarios visualizar y analizar imágenes de satélite de nuestro planeta.
+
+Los científicos y las organizaciones sin ánimo de lucro utilizan Google Earth Engine para llevar a cabo estudios de teledetección remota, predecir brotes de enfermedades, gestionar recursos naturales, etc. Los estudiantes pueden acceder a esta información para participar en los debates y convertirse en científicos de datos.
+
+![](imagenes/3_gee.png){fig-align="center" width="600"}
+
+Uso es libre pero no es código abierto y contiene:
+
+-   Infraestructura
+-   Datos
+-   API
+-   Code Editor
+
+
+
+## Infraestructura de GEE
+
+La [**Infraestructura de Google**]{style="color: orange;"} pone a disposición del usuario sus servidores, permitiendo así hacer análisis en paralelo con cerca de 10.000 CPUs.
+
+![Diseño de general del flujo de trabajo en la infraestrucura de GEE](imagenes/infra_gee.png){fig-align="center" width="400"}
+
+**Ejemplo**: El desarrollo del mapa global sin nubes a 15 m de resolución de Google Earth y Google Maps, usando estos servidores, tardó un par de días, mientras que, si se hubiera usado una computadora personal la demora habría sido de 14 años [@GORELICK2017].
+
+
+![Compración del flujo de trabajo regular versus el flujo de trabajo con Google Earth Engine.](imagenes/workfows_gee.png){fig-align="center" width="600"}
+
+## Recursos Satelitales
+
+Google tiene almacenado todas las imágenes de varios sensores (Landsat, Sentinel, MODIS, entre otros). Estas bases de datos se actualizan a medida que se toman nuevas imágenes (cerca de 6000 nuevas escenas diarias). Sin necesidad de descargar ni solicitar acceso a las imágenes.
+
+[Datasets](https://developers.google.com/earth-engine/datasets/) disponibles.
+
+
+[![Rescursos Satelitales disponibles en Google Earth Engine.](imagenes/recursos_rgee.jpg){fig-align="center" width="600"}](https://developers.google.com/earth-engine/datasets/)
+
+
+## APIs
+
+Las [**API (Application Program Interface)**]{style="color: orange;"} consiste en utilizar una serie de comandos y funciones preestablecidas para el procesamiento geoespacial, escrita en Javascript y Python.
+
+![Los lenguajes ificiales para interactuar con GEE mediante APIs es  Javascript y Python](imagenes/py_js.png){fig-align="center" width="200"}
+
+[Documentación de la APIs general](https://developers.google.com/earth-engine/guides)
+
+Sin embargo, dichas funciones no pueden modificarse ni tampoco se puede acceder a su código, lo cual impide al usuario realizar modificaciones para lograr análisis alternativos a los preestablecidos.
+
+![Diferencias en la Sitanxis entre  Javascript y Python](imagenes/sintaxis_py_js.png){fig-align="center" width="800"}
+
+
+
+Python:
+: Es un lenguaje de programación interpretado cuya filosofía hace hincapié en la legibilidad de su código. Multipropósito.
+
+
+- [Documentación Python](https://developers.google.com/earth-engine/guides/python_install) 
+
+Javascript: 
+: Es un lenguaje de programación interpretado. Se define como orientado a objetos, basado en prototipos, imperativo, débilmente tipado y dinámico. Uso en la web.
+
+- [Documentación Javascript](https://developers.google.com/earth-engine/tutorials/tutorial_js_01)
+
+
+## Editor de Código GEE
+
+El [**Code Editor**]{style="color: orange;"} es el  entorno de desarrollo integrado en línea, donde se juntan todos los elementos. Aquí es donde el usuario puede, a través de código de trabajo (“scripts”), llamar a los datos, procesar y visualizarlos de manera virtual con los servidores de Google, teniendo así sus resultados e información en la nube.
+
+
+[![Interface del Code Editor en linea](imagenes/code_editor.png){fig-align="center" width="800"}](https://code.earthengine.google.com/d8efe6c33fd66a940267fa753a2967ef)
+
+
+
+------------------------------------------------------------------------
+
+![](imagenes/practica.png){fig-align="center" width="200"}
+
+
+
+## Introducción a Rgee
+
+
+![](imagenes/logo_rgee.png){fig-align="center" width="100"}
+
+[**Rgee**](https://github.com/r-spatial/rgee) es una "librería cliente" de Earth Engine para R, desarrollada por @AybarRgee que permite a los usuarios aprovechar las ventajas que presenta el ecosistema espacial de R dentro de Google Earth Engine y viceversa.
+
+Todas las clases, módulos y funciones de la API de *Python* de Earth Engine están disponibles en R gracias a la librerí a *[reticulate](https://rstudio.github.io/reticulate/)*, finalmente rgee adiciona nuevos features como el diseño del imput y output de datos, la visualización en mapas interactivos, la facil extracción de series de tiempo, el manejo y la visualización de metadatos.
+
+![](imagenes/diagrama_rgee.png){fig-align="center" width="800"}
+
+
+
+
+## Instalación de Rgee
+
+Instalar Librerías Previas (solo si no las tiene instaladas)
+
+```{r eval=FALSE}
+install.packages("jsonlite")
+install.packages("reticulate")
+install.packages('cptcity') #Para manejar paletas decolores
+install.packages('viridis') #Para manejar paletas decolores
+install.packages('ggmap') # Para manejar tipos de basemap
+```
+
+Instalar [Rgee](https://github.com/r-spatial/rgee) (solo si no tiene la librería instalada)
+
+```{r eval=FALSE}
+# remotes::install_github("r-spatial/rgee", force = TRUE)
+library(rgee)
+ee_install() 
+# en la consola poner "y" 
+
+# Eventuales soluciones a problemas de  version
+# * rgee::ee_install_upgrade()
+# * reticulate::py_install('earthengine-api==0.1.277')
+# * pip install earthengine-api==0.1.277 (Linux and Mac0S)
+# * conda install earthengine-api==0.1.277 (Linux, Mac0S, and Windows)
+
+```
+
+
+Cargar Librerías complementarias
+```{r}
+library(mapview) 
+library(tidyverse) 
+library(sf) 
+library(raster) 
+library(cptcity) 
+library(ggmap)
+```
+
+## Estructura de Información RGEE
+
+
+**rgee** presenta una sintaxis muy similar *python* o *javasript*, como se ilusta a continuación
+
+![](imagenes/sintaxis.png){fig-align="center" width="800"}
+
+
+```{r}
+library(rgee)
+# ee_check() #
+ee_Initialize('denis.berroeta@gmail.com', drive = TRUE)
+
+```
+
+Cuando se apliquen funciones de gee a través de su interprete de python se debe reemplazar el operador `.` por `$` al momento de anidar funciones. 
+
+Aunque si se debe tener en cuena otras consideraciones que se encuetran en esta página [https://r-spatial.github.io/rgee/articles/considerations.html](https://r-spatial.github.io/rgee/articles/considerations.html)
+
+
+Acceso a Recursos Satelitales
+
+![](imagenes/recursos_rgee.jpg){fig-align="center" width="800"}
+
+
+Los cátalogos de información satelitan se enuentran en [https://developers.google.com/earth-engine/datasets/](https://developers.google.com/earth-engine/datasets/), donde insluso tiene un buscador.
+
+Se puede explorar los catálos de Información con **rgee**, por ejemplo:
+
+
+
+```{r}
+
+dataset <- ee$ImageCollection('LANDSAT/LC08/C01/T1_8DAY_EVI')$
+  filterDate('2017-01-01', '2017-12-31')
+
+# ee_print(dataset)
+
+
+landsat <- dataset$select('EVI')
+# class(landsat)
+
+# ee_print(landsat)
+
+```
+
+
+## Filtros de Ubicación  Fechas y Metadata
+
+ A continuación se hara un consulta de imágenes disponibles en una obicación específica (punto), fechas (rango), y con cierta calidad (cobertura de nubes).
+ 
+Se definirán las coordenadas variables hacer la consulta de disponibilidad de recursos
+
+
+```{r}
+
+# Ubicación:
+coordendas <- c(-71.6838, -33.4427) # isla negra
+# coordendas <- c(-70.66, -33.45) # Santiago
+# coordendas <- c(-70.15027, -20.21326) # Iquique
+# coordendas <- c(-73.04977, 36.82699) # Concepción
+# https://www.geodatos.net/coordenadas/chile/la-serena
+# Las coornadas se deben invertir
+
+```
+
+
+
+
+```{r}
+disponible <- ee$ImageCollection('LANDSAT/LC08/C01/T1_TOA')$
+  filterDate('2021-01-01','2021-10-01')$
+  filterBounds(ee$Geometry$Point(coords = coordendas))$
+  filterMetadata('CLOUD_COVER','less_than', 10)
+
+df_disponible <- ee_get_date_ic(disponible)%>%
+  arrange(time_start)# ordenar por fecha
+
+df_disponible
+
+```
+
+Visualizar  una escena satelital  de la lista
+
+```{r}
+escena <- df_disponible$id[1] # selección de primera
+escena
+viz = list(min = 0, max = 0.7, bands = c('B4','B3','B2'), gamma = 1.75)
+landsat <- ee$Image(escena) 
+Map$centerObject(eeObject = landsat,zoom = 8) 
+Map$addLayer(eeObject = landsat,visParams = viz)
+
+```
+
+
+## Cálculo de NDVI Las Condes
+
+Lectura de Las Condes
+
+```{r}
+
+# Lectura de Las condes
+LasCondes <- sf::st_read("data/shape/LasCondes.shp")%>%
+  st_transform("+proj=longlat +datum=WGS84 +no_defs")
+
+```
+
+Transformar a formato Earth Engine
+
+```{r}
+LC_ee <- LasCondes%>%
+  sf_as_ee()
+
+region <- LC_ee$geometry()$bounds()# selección bound
+```
+
+
+
+Cortar por Geometria de Las Condes
+
+```{r}
+landsat_LC <- landsat$clip(LC_ee)
+```
+
+
+Crear la Función NDVI
+
+```{r}
+NDVI_f <- function(image){
+   ndvi = image$expression("(nir - red) / (nir + red)", 
+                           list(nir =  image$select("B5"),
+                                red = image$select("B4")))$
+     rename("NDVI")
+    return(ndvi)
+ }
+
+
+```
+
+Aplicar la Función NDVI
+
+```{r}
+ndvi_lc <- NDVI_f(landsat_LC)
+```
+
+
+Visualización de Resultados de NDVI
+
+```{r}
+pal_green <- colorRampPalette(c("green","springgreen4", "darkgreen"))( 200 )
+# pal_green <- c("#d73027", "#f46d43", "#fdae61", "#fee08b", "#d9ef8b", "#a6d96a", "#66bd63", "#1a9850")
+
+viz <- list(palette = c(pal_green))
+Map$centerObject(region, zoom = 12) 
+Map$addLayer(eeObject = ndvi_lc, visParams = viz)
+```
+
+
+
+## Transformar de Gee Object a Raster
+
+
+Para hacer esto lo que debe exportar la imagen satelital de dos forma  principales
+
+Forma 1: función `ee_as_raster()`
+
+```{r eval=FALSE}
+ndvi <- ee_as_raster(ndvi_lc)
+```
+
+Forma 2: Generando link de descarga
+
+```{r}
+geom_params <-   list(scale = 30,  crs = 'EPSG:4326', region = region)
+path <- ndvi_lc$getDownloadUrl(geom_params)
+print(path)
+
+# https://github.com/r-spatial/rgee/blob/examples/image/download.R
+```
+
+
+
+Forma 3: usando google drive. (recomendable para áreas de estudio mayores)
+
+```{r eval=FALSE}
+
+ndvi_dl <- ee_image_to_drive(
+  image = ndvi_lc,
+  description = "NDVI_LC_2021",
+  folder = "SII_Export",
+  fileFormat = "GEO_TIFF",
+  crs='EPSG:4326', 
+  region = region,
+  scale = 30
+)
+ndvi_dl$start()
+ee_monitoring(ndvi_dl)
+ndvi_dl$status()$state
+
+if(ndvi_dl$status()$state=="COMPLETED"){
+  img <- ee_drive_to_local(
+    task = ndvi_dl,
+    metadata = TRUE,
+    dsn = "data/raster/dl_ndvi_lc_2021.tif"
+  )
+}
+```
+
+Visualización de NDVI Las Condes
+
+```{r}
+ndvi <- raster("data/raster/dl_ndvi_lc_2021.tif")
+hist(ndvi,col="springgreen4", main="Histograma NDVI Las Condes",
+  ylab="Numero de Pixeles", xlab="valor NDVI")
+plot(ndvi)
+
+```
+
+
+### Filtrar Vegetación Alta
+
+Función de filtro por valor
+```{r}
+fn_gte <- function(value) {
+  function(x){ifelse(x >= value,x, NA)}
+}
+```
+
+Asumiremos que nuestro valor de NDVI que corresponde a vegetación alta es de mayor a 0.4
+```{r}
+vegetacion <- calc(ndvi, fun = fn_gte(value = 0.4))
+```
+
+
+### Visualización de Resultados
+
+Visualización estática
+```{r}
+pal_green <-
+  colorRampPalette(c("green", "springgreen4", "darkgreen"))(200)
+
+
+plot(vegetacion , main = "NDVI Vegetación Alta", col = pal_green)
+
+## agregar Las polígono de Las Condes
+plot(LasCondes$geometry, add = T)
+```
+
+
+Versión Dinámica con Mapview 
+```{r}
+# install.packages("mapview")
+suppressPackageStartupMessages(library(mapview))
+
+mview <- mapview(LasCondes, color = "#05A39B", alpha.region =0)+
+  mapview(vegetacion, na.color = "transparent") +
+  mapview(ndvi, na.color = "transparent", hide =TRUE) 
+
+  
+mview
+# Mostrar opciones de guardar resultados dinámicos
+```
+
+Versión Dinámica con leaflet
+
+
+
+```{r}
+library(leaflet)
+pal <- colorNumeric(c("green","springgreen4", "darkgreen"), values(vegetacion), na.color = "transparent")
+
+map <- leaflet() %>% 
+  addTiles(group = "OSM (default)") %>%  
+  addProviderTiles(providers$Stamen.Toner, group = "Toner") %>%
+  addProviderTiles(providers$Stamen.TonerLite, group = "Toner Lite") %>%
+  addProviderTiles(providers$Esri.WorldImagery, group = "Satellite")%>%
+  addRasterImage(vegetacion,  colors = pal, opacity = 1, group = "Vegetación") %>%
+  addLegend(position = "bottomright", pal = pal, values = values(vegetacion),
+            opacity = 1, group = "Vegetación", title = "Vegetación")%>%
+  addPolygons(data = LasCondes, color =  "navy",fillOpacity = 0, weight = 3)%>%
+  addLayersControl(position = "topright",
+                   baseGroups = c("Toner Lite","Satellite", 
+                                  "OSM (default)", "Toner"),
+                   overlayGroups = "Vegetación",
+                   options = layersControlOptions(collapsed = TRUE))
+map
+```
+
+
+
+
+
+
+## Referencias
+
+
+* [Github Rgee](https://github.com/r-spatial/rgee)
+* [Earth Engine with R (Book)](https://r-earthengine.com/rgeebook/)
+

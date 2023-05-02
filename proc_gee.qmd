@@ -1,0 +1,39 @@
+---
+subtitle: "Google Earth Engine"
+author: "Centro de Inteligencia Territorial"
+date: "05-02-2023"
+editor_options: 
+  chunk_output_type: console
+---
+
+# S4: Procesamiento a GEE
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 999, stringsAsFactors=F, encoding = "UTF-8")
+options("rgdal_show_exportToProj4_warnings"="none") 
+```
+
+![](imagenes/S3_diagrama.png){fig-align="center" width="800"}
+
+
+
+
+------------------------------------------------------------------------
+
+![](imagenes/teorica.png){fig-align="center" width="200"}
+
+
+
+
+
+------------------------------------------------------------------------
+
+![](imagenes/practica.png){fig-align="center" width="200"}
+
+
+<br>
+
+## Referencias

@@ -2,7 +2,7 @@ project:
   type: book
 
 book:
-  title: "Curso: Geoanálisis de Imágenes Satelitales para SII"
+  title: "Curso: Análisis de Imágenes Satelitales para SII"
   subtitle: "Centro de Inteligencia Territorial - UAI"
   # affiliation-title: "Universidad Adolfo Ibáñez - Chile"
   author: "Denis Berroeta González (denis.berroeta@uai.cl)"
@@ -15,6 +15,7 @@ book:
     - objetivos.qmd
     - fundamentos_PR.qmd
     - satelites_sensores.qmd
+    - intro_gee.qmd
     
     - part: "Tareas"
       chapters:
