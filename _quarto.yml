@@ -16,11 +16,13 @@ book:
     - fundamentos_PR.qmd
     - satelites_sensores.qmd
     - intro_gee.qmd
+    - proc_gee.qmd
+    - indices.qmd
     
     - part: "Tareas"
       chapters:
         - tarea_1.qmd
-        #- tarea_2.qmd
+        - tarea_2.qmd
         
     - references.qmd
         
@@ -32,7 +34,6 @@ book:
     - tidyverse_R.qmd
     - espacial_R.qmd
     - install_rgee.qmd
-      #- luces_nocturnas.qmd
 
 bibliography: references.bib
 

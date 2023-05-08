@@ -313,7 +313,7 @@ Map$addLayer(eeObject = ndvi_lc, visParams = viz)
 
 
 
-## Transformar de Gee Object a Raster
+### Transformar de Gee Object a Raster
 
 
 Para hacer esto lo que debe exportar la imagen satelital de dos forma  principales

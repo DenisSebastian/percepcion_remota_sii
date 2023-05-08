@@ -1,0 +1,475 @@
+---
+subtitle: "Índices Espectrales con R y Rgee"
+author: "Centro de Inteligencia Territorial"
+date: "05-09-2023"
+editor_options: 
+  chunk_output_type: console
+---
+
+# S5: Índices Espectrales
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+options(scipen = 999, stringsAsFactors=F, encoding = "UTF-8")
+options("rgdal_show_exportToProj4_warnings"="none") 
+
+suppressMessages(library(tidyverse))
+suppressMessages(library(ggplot2))
+suppressMessages(library(viridis))
+suppressMessages(library(sf))
+suppressMessages(library(mapview))
+suppressMessages(library(rgee))
+suppressMessages(library(DT))
+ee_Initialize('denis.berroeta@gmail.com', drive = TRUE)
+```
+
+
+## Introducción
+
+
+Los índices espectrales son herramientas utilizadas en percepción remota para analizar la reflectancia de la superficie terrestre en diferentes longitudes de onda del espectro electromagnético. Estos índices se basan en la relación entre la reflectancia en dos o más bandas espectrales y se utilizan para medir diferentes propiedades de la vegetación, como la salud, la humedad y la densidad.
+
+Algunos de los índices espectrales más utilizados son:
+
+- **NDVI (Índice de Vegetación de Diferencia Normalizada)**: Este índice se utiliza para medir la salud y densidad de la vegetación. Se calcula utilizando la reflectancia en la banda roja y la banda infrarroja cercana. Un valor alto de NDVI indica una vegetación densa y saludable.
+- **EVI (Índice de Vegetación Mejorado)**: Este índice también se utiliza para medir la salud y densidad de la vegetación, pero tiene en cuenta factores como la influencia del suelo y la atmósfera. Se calcula utilizando la reflectancia en la banda azul, roja e infrarroja cercana.
+- **SAVI (Índice de Vegetación Ajustado para Suelo)**: Este índice se utiliza para reducir la influencia del suelo en la medición de la vegetación. Se calcula utilizando la reflectancia en la banda roja y la infrarroja cercana y tiene en cuenta la cantidad de luz reflejada por el suelo.
+- **NLI (Índice de Línea de Agua Normalizado)**: Este índice se utiliza para medir la cantidad de agua en una superficie. Se calcula utilizando la reflectancia en la banda verde y la banda infrarroja cercana.
+- **NDWI (Índice de Agua Normalizado)**: Este índice también se utiliza para medir la cantidad de agua en una superficie, pero tiene en cuenta la reflectancia en la banda del infrarrojo de onda corta y la banda verde.
+
+Estos índices espectrales son solo algunos ejemplos de las muchas herramientas disponibles para analizar la vegetación y el agua utilizando percepción remota.
+
+
+
+
+
+
+## Índices Urbanos {#sec-indurb}
+
+Algunos ejemplos de índices espectrales normalizados utilizados para analizar el entorno urbano con percepción remota son:
+
+
+- **NDBI (Índice de Brillo de la Edificación Normalizado)**: Este índice se utiliza para identificar y mapear áreas urbanas construidas. Se calcula utilizando la reflectancia en la banda del infrarrojo cercano y la banda del rojo.
+- **SI (Índice de Suelo)**: Este índice se utiliza para detectar y mapear la presencia de suelo desnudo en áreas urbanas. Se calcula utilizando la reflectancia en la banda del rojo y la banda del infrarrojo cercano.
+
+Estos índices espectrales normalizados pueden ser útiles para el análisis de la planificación urbana, la gestión del medio ambiente y otros fines relacionados con la ciudad.
+
+Haciendo uso de proyecto [awesome spectral indices](https://github.com/awesome-spectral-indices/espectro) que ofrece a los usuarios las herramientas para consultar índices espectrales y las bandas requeridas para el cálculo de un índice. Incluso cuentan con [Aplicación web](https://davemlz-espectro-espectro-91350i.streamlit.app)
+
+
+
+## Calculo de Índices de Urbanos
+
+Cargar Librerías 
+
+
+```{r eval=FALSE}
+library(sf)
+library(rgee)
+ee_Initialize('denis.berroeta@gmail.com', drive = TRUE)
+```
+
+
+```{r eval=FALSE}
+library(tidyverse)
+library(ggplot2)
+library(viridis)
+library(mapview)
+```
+
+<!-- ![Aplicación de Awesome Spectral Indices](imagenes/espectro_app.gif){fig-align="center" width="600"} -->
+
+Si seleccionamos los índices espectrales obtendremos la siguente lista
+
+
+```{r echo=FALSE}
+urban_list <- read.csv("data/csv/all-spectral-indices.csv") %>% 
+  select(Dominio =application_domain, 
+         Sigla = short_name, 
+         Nombre = long_name, 
+         Formula = formula, 
+         ) %>% 
+  datatable(filter = 'top', 
+            options = list(pageLength = 10))
+
+urban_list
+```
+
+
+
+<br>
+
+
+Seleccionares índices espectrales urbanos ([comparaciones de indices urbanos](https://dergipark.org.tr/en/download/article-file/2810383)) y escogeremos el [NDBI](https://www.tandfonline.com/doi/abs/10.1080/01431160304987) (Normalized Difference Built-Up Index).
+
+
+
+
+![NDBI Normalized Difference Built-Up Index](imagenes/NDBI.png){fig-align="center" width="600"}
+
+
+
+### Selección de Área de Estudio
+
+```{r}
+mi_comuna <-  "LAS CONDES"
+roi <-  readRDS("data/rds/zonas_urb_consolidadas.rds") %>% 
+  st_as_sf() %>% 
+  filter( NOM_COMUNA == mi_comuna) %>% 
+  st_transform(4326) 
+
+
+plot(roi$geometry)
+```
+
+
+```{r}
+roi_ee <-  roi%>%
+  st_union() %>% 
+  st_geometry() %>% 
+  sf_as_ee()
+```
+
+
+### Selección Imagen Satelital {#sec-psat}
+
+[Harmonized Sentinel-2 MSI: MultiSpectral Instrument, Level-1C](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_HARMONIZED#bands)
+
+
+```{r}
+maskS2clouds <- function(image) {
+  qa <- image$select("QA60")
+  # Bits 10 and 11 are clouds and cirrus, respectively.
+  cloudBitMask <- bitwShiftL(1, 10)
+  cirrusBitMask <- bitwShiftL(1, 11)
+
+  # Both flags should be set to zero, indicating clear conditions.
+  mask <- qa$bitwiseAnd(cloudBitMask)$eq(0)$And(
+    qa$bitwiseAnd(cirrusBitMask)$eq(0)
+  )
+
+  # Return the masked and scaled data, without the QA bands.
+  image$updateMask(mask)$
+    divide(10000)$
+    select("B.*")$
+    copyProperties(image, list("system:time_start"))
+}
+```
+
+
+```{r}
+# Map the function over one year of data and take the median.
+# Load Sentinel-2 TOA reflectance data.
+S2 <- ee$ImageCollection("COPERNICUS/S2_HARMONIZED")$
+  filterDate("2016-01-01", "2016-12-31")$
+  filter(ee$Filter$lt("CLOUDY_PIXEL_PERCENTAGE", 20))$
+  map(maskS2clouds)$
+  median()$
+  clip(roi_ee)
+
+
+
+```
+
+
+```{r}
+
+viz <- list(bands = c("B4", "B3", "B2"), min = 0, max = 0.3)
+Map$centerObject(eeObject = S2,zoom = 12) 
+Map$addLayer(S2, viz, "RGB")
+
+```
+
+
+
+
+### Aplicar Índice {#sec-findex}
+
+la función NDBI corresponde a la siguiente:
+
+$$NDBI = \frac{S1-N}{S1+N}$$
+Por lo anterior es muy importante conocer los nombres de la bandas para crear correctamente la función, a continuación de exponen las bandas del producto satelital sentinel.
+
+```{r echo=FALSE}
+bands <- data.frame(
+  stringsAsFactors = FALSE,
+              Name = c("B1","B2","B3","B4","B5",
+                       "B6","B7","B8","B8A","B9","B11","B12"),
+        Pixel.Size = c("60 meters","10 meters",
+                       "10 meters","10 meters","20 meters","20 meters",
+                       "20 meters","10 meters","20 meters","60 meters","20 meters",
+                       "20 meters"),
+        Wavelength = c("443.9nm (S2A) / 442.3nm (S2B)",
+                       "496.6nm (S2A) / 492.1nm (S2B)",
+                       "560nm (S2A) / 559nm (S2B)","664.5nm (S2A) / 665nm (S2B)",
+                       "703.9nm (S2A) / 703.8nm (S2B)","740.2nm (S2A) / 739.1nm (S2B)",
+                       "782.5nm (S2A) / 779.7nm (S2B)","835.1nm (S2A) / 833nm (S2B)",
+                       "864.8nm (S2A) / 864nm (S2B)","945nm (S2A) / 943.2nm (S2B)",
+                       "1613.7nm (S2A) / 1610.4nm (S2B)",
+                       "2202.4nm (S2A) / 2185.7nm (S2B)"),
+       Description = c("Aerosols","Blue","Green",
+                       "Red","Red Edge 1","Red Edge 2","Red Edge 3","NIR",
+                       "Red Edge 4","Water vapor","SWIR 1","SWIR 2")
+)
+bands %>%   
+  datatable(
+            options = list(pageLength = 12))
+```
+
+
+```{r}
+F_NDBI<- function (image){
+  ndbi<-image$expression('float(S1-N)/float(S1+N)',
+                         opt_map=list("N"=image$select("B8"),
+                                      "S1"=image$select("B11")))$
+    rename("NDBI")
+  return(ndbi)
+}
+
+```
+
+
+```{r}
+S2_NDBI <- F_NDBI(S2)
+```
+
+
+
+
+
+### Visualizar Resultados
+
+
+```{r}
+pal_ndbi <- c('white' , 'white', 'white', 'red' , 'red', 'red')
+
+viz_ndbi<- list(min=-1,
+                max=1,
+                palette=pal_ndbi)
+
+Map$centerObject(eeObject = roi_ee,zoom = 12) 
+Map$addLayer(S2_NDBI,visParams =viz_ndbi)
+```
+
+
+
+### Calcular un índice
+
+```{r}
+mz_sii <- readRDS("data/rds/mz_constru_SII.rds") %>% 
+  st_as_sf() %>% 
+  filter(n_com == mi_comuna) %>% 
+  mutate(id = 1:nrow(.))
+```
+
+
+Extraer los valores con la función `ee_extract` cuya documentación se encuentra en el siguiente [link](https://r-spatial.github.io/rgee/reference/ee_extract.html)
+
+
+```{r eval=FALSE}
+#Extract values - getInfo
+ee_com_urb <- ee_extract(
+ x = S2_NDBI,
+ y = mz_sii["id"],
+ scale = 10,
+ fun = ee$Reducer$mean(),
+ sf = TRUE
+)
+```
+
+```{r echo = FALSE}
+# saveRDS(ee_com_urb, file = "data/rds/ndbi_2016.rds")
+ee_com_urb <- readRDS("data/rds/ndbi_2016.rds")
+```
+
+
+
+```{r}
+mz_sii_urb <- mz_sii %>% 
+  left_join(ee_com_urb %>% st_drop_geometry(), by = "id")
+
+```
+
+
+
+### Corrección
+
+
+```{r}
+mz_sii_urb <- mz_sii_urb %>% 
+  mutate(NDBI = ifelse(total == 0, NA, NDBI))
+```
+
+### Histograma de NDVI
+
+```{r}
+ggplot(mz_sii_urb, aes(x = NDBI)) +
+  geom_histogram(bins = 50, fill = "#1d91c0", color ="gray80")+
+  theme_bw()+
+  labs(title="Histograma de Índice de Urbanismo", x ="NDBI", y = "Frecuencias")+
+  theme(plot.title = element_text(face = "bold",colour= "gray60", size=10)) 
+```
+
+
+### Visualización espacial de NDBI {#sec-vismap}
+
+```{r}
+mapview(mz_sii_urb, zcol= "NDBI")
+```
+
+```{r}
+library(ggplot2)
+library(viridis)
+
+# Visualización ggplot y sf
+ggplot() +
+  geom_sf(data = mz_sii_urb, aes(fill = NDBI), alpha=0.7)+
+  scale_fill_viridis_c(option = "E", direction = -1)+
+  ggtitle("Urban Index: NDBI") +
+  theme_bw() +
+  theme(legend.position="none")+
+  theme(panel.grid.major = element_line(colour = "gray80"),
+        panel.grid.minor = element_line(colour = "gray80"))
+```
+
+### Guardar los resultados
+
+```{r eval=FALSE}
+saveRDS(ee_com_urb, file = "data/rds/ndbi_2016.rds")
+```
+
+
+## Monitoreo de Sequía Laguna de Aculeo
+
+Para el siguiente análisis utilizaremos el NDWI: Normalized Difference Water Index)
+
+
+### El Problema
+
+![](imagenes/aculeo2.png){fig-align="center" width="600"}
+
+
+**Noticias Relacionadas:**
+
+
+["Laguna de Aculeo, una de las primeras víctimas del cambio climático y megasequía según estudio". Biobiochile.cl 20-JUN-2019](Laguna de Aculeo, una de las primeras víctimas del cambio climático y megasequía según estudio)
+
+
+["La sequía de Aculeo vista desde el espacio". Diario La Tercera 11-MAY-2018 ](https://www.latercera.com/la-tercera-pm/noticia/la-sequia-aculeo-vista-desde-espacio/161215/)
+
+
+["En desaparecida laguna de Aculeo proponen que nueva Constitución tenga sello medioambiental: Greenpeace ilustra la grave emergencia climática en Chile" Greenpeace 28-NOV-2019](https://www.greenpeace.org/chile/noticia/uncategorized/en-desaparecida-laguna-de-aculeo-proponen-que-nueva-constitucion-tenga-sello-medioambiental-greenpeace-ilustra-la-grave-emergencia-climatica-en-chile/)
+
+
+
+
+### Lectura de Insumo Cuerpos de Agua Nacional
+
+```{r}
+masas_agua <- st_read("data/shape/masas_agua.shp", quiet = T)
+masas_agua
+
+#Buscar nombre del cuerpo de aguar por patrón de texto
+grep(pattern = "Aculeo$", x = masas_agua$NOMBRE, value = T)
+
+# Leer Laguna Aculeo
+lag_aculeo <- masas_agua%>%
+  filter(NOMBRE == "Laguna de Aculeo")%>%
+  sfheaders::sf_remove_holes() ## remover poligonos internos%>%>%
+```
+
+
+```{r}
+plot(lag_aculeo$geometry,col = "skyblue",  main = "Laguna Aculeo")
+```
+
+
+```{r}
+#Laguna Formato ee
+lag_aculeo_ee <- lag_aculeo%>%
+  st_buffer(500)%>%
+  st_transform(4326)%>%  #crs atlon
+  sf_as_ee()
+
+# regiòn  para definir regiòn de interès para los mapas
+region <- lag_aculeo_ee$geometry()$bounds()
+
+```
+
+### Lectura de insumo satelital visualización previa
+
+```{r}
+
+imagen <- ee$ImageCollection('LANDSAT/LC08/C01/T1_TOA')$
+  filterBounds(region)$
+  filterDate('2018-01-01','2018-12-31')$
+  filterMetadata('CLOUD_COVER','less_than', 5)$
+  median()$
+  clip(region)
+
+
+ndwi <- imagen$normalizedDifference(c("B3", "B5"))$clip(region)
+ndwiMask <- ndwi$updateMask(ndwi$gte(0))#greater than or equal to the given value.
+
+
+
+ndwiViz <- list(min = 0, max = 1, palette = c("white", "#00FFFF",'#0080FF', "#0000FF"))
+imgViz <- list(min = 0, max = 0.5,  bands = c("B4", "B3", "B2"), gamma = c(0.95, 1.1, 1))
+
+Map$centerObject(region, zoom = 13)
+mapa <- Map$addLayer(imagen, imgViz,'RGB')+
+  Map$addLayer(ndwiMask, ndwiViz,'NDWI')
+mapa
+
+```
+
+
+### Construcción de un Mosaico con NDWI y Falso Color
+
+```{r}
+imageRGB <- imagen$visualize(bands = c('B5', 'B4', 'B3'), max = 0.5, gamma = c(0.95, 1.1, 1))
+ndwiRGB <- ndwiMask$visualize(min = 0, max = 1, palette = c('#00FFFF', '#0000FF'))
+mosaic <- ee$ImageCollection(c(imageRGB, ndwiRGB))$mosaic() #función crea mo
+Map$centerObject(region, zoom = 13)
+Map$addLayer(mosaic , list(), 'mosaic')
+```
+
+### Creación de Serie Anual desde el 2015 al 2020
+
+```{r}
+imagen <- ee$ImageCollection('LANDSAT/LC08/C01/T1_TOA')$
+  filterBounds(region)$
+  filterDate('2015-01-01','2020-12-31')$
+  filterMetadata('CLOUD_COVER','less_than', 5)
+anual <- ee$List$sequence(2015, 2020)
+
+
+anual_l8 <- function(y) {
+  imagen$filter(ee$Filter$calendarRange(y, y, "year"))$
+    median()$
+    select("B4", "B3", "B2")$
+    clip(region)}
+
+l8_year <- anual$map(ee_utils_pyfunc(anual_l8))
+l8_year_2015 <- ee$Image(l8_year$get(0))
+l8_year_2016 <- ee$Image(l8_year$get(1))
+l8_year_2017 <- ee$Image(l8_year$get(2))
+l8_year_2018 <- ee$Image(l8_year$get(3))
+l8_year_2019 <- ee$Image(l8_year$get(4))
+l8_year_2020 <- ee$Image(l8_year$get(5))
+
+visparams <- list(
+  bands = c("B4", "B3", "B2"), min = 0,max = 0.6,gamma = 1.4)
+
+Map$centerObject(region, zoom = 13)
+map1 <- Map$addLayer(l8_year_2015, visparams, name = "2015")+
+  Map$addLayer(l8_year_2016, visparams, name = "2016")+
+  Map$addLayer(l8_year_2017, visparams, name = "2017")+
+  Map$addLayer(l8_year_2018, visparams, name = "2018")+
+  Map$addLayer(l8_year_2019, visparams, name = "2019")+
+  Map$addLayer(l8_year_2019, visparams, name = "2020")
+map1
+
+# referencias: # https://github.com/r-spatial/rgee/blob/examples/ImageCollection/creating_monthly_imagery.R
+```
+

@@ -10,7 +10,7 @@ subtitle: "Datos Raster"
 
 ## Antecedentes
 
-**Fecha de Entrega**: 05 de Mayo del 2023
+**Fecha de Entrega**: 08 de Mayo del 2023
 
 **Formato de Entrega**: Documento de texto (word, pdf, markdown) + códigos (.R)
 
@@ -32,7 +32,7 @@ subtitle: "Datos Raster"
 2. Desde el raster "r_test", crear una copia pero con la raiz cuadrada de los valores originales, y si existe un valor de pixel mayor a 35 debe ser cambiado por 35, finalmente plot (2 Puntos). 
 
 ::: {.callout-tip}
-## Tip: @sec-funcRaster)
+## Tip: @sec-funcRaster
 :::
 
 

@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.335">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Centro de Inteligencia Territorial">
+<meta name="dcterms.date" content="2023-05-02">
+
+<title>Curso: Análisis de Imágenes Satelitales para SII - 6&nbsp; S4: Procesamiento con GEE desde R</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./indices.html" rel="next">
+<link href="./intro_gee.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="site_libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+<script src="site_libs/jquery-1.12.4/jquery.min.js"></script>
+<link href="site_libs/leaflet-1.3.1/leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-1.3.1/leaflet.js"></script>
+<link href="site_libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet">
+<script src="site_libs/proj4-2.6.2/proj4.min.js"></script>
+<script src="site_libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+<link href="site_libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet">
+<script src="site_libs/leaflet-binding-2.1.2/leaflet.js"></script>
+<script src="site_libs/leaflet-providers-1.9.0/leaflet-providers_1.9.0.js"></script>
+<script src="site_libs/leaflet-providers-plugin-2.1.2/leaflet-providers-plugin.js"></script>
+<script src="site_libs/clipboard-0.0.1/setClipboardText.js"></script>
+
+
+<link rel="stylesheet" href="styles/style.css">
+</head>
+
+<body class="nav-sidebar floating slimcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">S4: Procesamiento con GEE desde R</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Curso: Análisis de Imágenes Satelitales para SII</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introducción</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./objetivos.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Objetivos</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./fundamentos_PR.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">S1: Percepción Remota</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./satelites_sensores.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">S2: Satélites y Sensores</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro_gee.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">S3: Introducción a GEE</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./proc_gee.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">S4: Procesamiento con GEE desde R</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./indices.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">S1: Percepción Remota</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">Tareas</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tarea_1.html" class="sidebar-item-text sidebar-link">Tarea 1</a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./references.html" class="sidebar-item-text sidebar-link">Referencias Bibliográficas</a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">Appendices</a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./intro_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">A</span>&nbsp; <span class="chapter-title">Introducción a R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./variables_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">B</span>&nbsp; <span class="chapter-title">Variables en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./funciones.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">C</span>&nbsp; <span class="chapter-title">Funciones en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./loops_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">D</span>&nbsp; <span class="chapter-title">Estructura de Control en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tidyverse_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">E</span>&nbsp; <span class="chapter-title">Tidyverse en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./espacial_R.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">F</span>&nbsp; <span class="chapter-title">Objetos Espaciales en R</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./install_rgee.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">G</span>&nbsp; <span class="chapter-title">Instalación de Rgee</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#índice-de-diferencia-normalizada-de-agua-ndwi" id="toc-índice-de-diferencia-normalizada-de-agua-ndwi" class="nav-link active" data-scroll-target="#índice-de-diferencia-normalizada-de-agua-ndwi"><span class="toc-section-number">6.1</span>  Índice de Diferencia Normalizada de Agua (NDWI)</a></li>
+  <li><a href="#modelo-digital-de-elevación" id="toc-modelo-digital-de-elevación" class="nav-link" data-scroll-target="#modelo-digital-de-elevación"><span class="toc-section-number">6.2</span>  Modelo Digital de Elevación</a></li>
+  <li><a href="#información-climática" id="toc-información-climática" class="nav-link" data-scroll-target="#información-climática"><span class="toc-section-number">6.3</span>  Información Climática</a>
+  <ul class="collapse">
+  <li><a href="#precipitaciones" id="toc-precipitaciones" class="nav-link" data-scroll-target="#precipitaciones"><span class="toc-section-number">6.3.1</span>  Precipitaciones</a></li>
+  <li><a href="#temperatura" id="toc-temperatura" class="nav-link" data-scroll-target="#temperatura"><span class="toc-section-number">6.3.2</span>  Temperatura</a></li>
+  </ul></li>
+  <li><a href="#ndwi-en-valdivia" id="toc-ndwi-en-valdivia" class="nav-link" data-scroll-target="#ndwi-en-valdivia"><span class="toc-section-number">6.4</span>  NDWI en Valdivia</a>
+  <ul class="collapse">
+  <li><a href="#seleccionar-escena-de-valdivia" id="toc-seleccionar-escena-de-valdivia" class="nav-link" data-scroll-target="#seleccionar-escena-de-valdivia"><span class="toc-section-number">6.4.1</span>  Seleccionar escena de Valdivia</a></li>
+  <li><a href="#visualización-imagen-satelital-en-falso-color" id="toc-visualización-imagen-satelital-en-falso-color" class="nav-link" data-scroll-target="#visualización-imagen-satelital-en-falso-color"><span class="toc-section-number">6.4.2</span>  Visualización Imagen Satelital en Falso Color</a></li>
+  <li><a href="#calcular-ndwi-normalized-difference-water-index" id="toc-calcular-ndwi-normalized-difference-water-index" class="nav-link" data-scroll-target="#calcular-ndwi-normalized-difference-water-index"><span class="toc-section-number">6.4.3</span>  Calcular NDWI (Normalized Difference Water Index)</a></li>
+  <li><a href="#crear-mácara-por-umbral" id="toc-crear-mácara-por-umbral" class="nav-link" data-scroll-target="#crear-mácara-por-umbral"><span class="toc-section-number">6.4.4</span>  Crear Mácara por umbral</a></li>
+  <li><a href="#crear-mosaico" id="toc-crear-mosaico" class="nav-link" data-scroll-target="#crear-mosaico"><span class="toc-section-number">6.4.5</span>  Crear Mosaico</a></li>
+  <li><a href="#generar-área-de-estudio-circular" id="toc-generar-área-de-estudio-circular" class="nav-link" data-scroll-target="#generar-área-de-estudio-circular"><span class="toc-section-number">6.4.6</span>  Generar Área de estudio circular</a></li>
+  </ul></li>
+  <li><a href="#modelo-digital-de-elevación-ejemplo-con-volcanes" id="toc-modelo-digital-de-elevación-ejemplo-con-volcanes" class="nav-link" data-scroll-target="#modelo-digital-de-elevación-ejemplo-con-volcanes"><span class="toc-section-number">6.5</span>  Modelo Digital de Elevación Ejemplo con Volcanes</a>
+  <ul class="collapse">
+  <li><a href="#definir-área-de-estudio" id="toc-definir-área-de-estudio" class="nav-link" data-scroll-target="#definir-área-de-estudio"><span class="toc-section-number">6.5.1</span>  Definir Área de Estudio</a></li>
+  <li><a href="#parámetros-de-visulización" id="toc-parámetros-de-visulización" class="nav-link" data-scroll-target="#parámetros-de-visulización"><span class="toc-section-number">6.5.2</span>  Parámetros de Visulización</a></li>
+  <li><a href="#objetos-de-elevación" id="toc-objetos-de-elevación" class="nav-link" data-scroll-target="#objetos-de-elevación"><span class="toc-section-number">6.5.3</span>  Objetos de Elevación</a></li>
+  <li><a href="#visualización" id="toc-visualización" class="nav-link" data-scroll-target="#visualización"><span class="toc-section-number">6.5.4</span>  Visualización</a></li>
+  </ul></li>
+  <li><a href="#datos-climáticos" id="toc-datos-climáticos" class="nav-link" data-scroll-target="#datos-climáticos"><span class="toc-section-number">6.6</span>  Datos Climáticos</a>
+  <ul class="collapse">
+  <li><a href="#estadística-zonal-de-precipitación-precipitación-con-imágenes-satelitales" id="toc-estadística-zonal-de-precipitación-precipitación-con-imágenes-satelitales" class="nav-link" data-scroll-target="#estadística-zonal-de-precipitación-precipitación-con-imágenes-satelitales"><span class="toc-section-number">6.6.1</span>  Estadística Zonal de precipitación Precipitación con Imágenes Satelitales</a></li>
+  <li><a href="#extraer-valores-de-precipitación-anual-mundial" id="toc-extraer-valores-de-precipitación-anual-mundial" class="nav-link" data-scroll-target="#extraer-valores-de-precipitación-anual-mundial"><span class="toc-section-number">6.6.2</span>  Extraer Valores de Precipitación Anual Mundial</a></li>
+  <li><a href="#precipitación-anual-2019-rm" id="toc-precipitación-anual-2019-rm" class="nav-link" data-scroll-target="#precipitación-anual-2019-rm"><span class="toc-section-number">6.6.3</span>  Precipitación Anual 2019 RM</a></li>
+  <li><a href="#estadísticas-zonal-de-temperatura" id="toc-estadísticas-zonal-de-temperatura" class="nav-link" data-scroll-target="#estadísticas-zonal-de-temperatura"><span class="toc-section-number">6.6.4</span>  Estadísticas Zonal de Temperatura</a></li>
+  </ul></li>
+  <li><a href="#referencias" id="toc-referencias" class="nav-link" data-scroll-target="#referencias"><span class="toc-section-number">6.7</span>  Referencias</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">S4: Procesamiento con GEE desde R</span></h1>
+<p class="subtitle lead">Google Earth Engine</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Centro de Inteligencia Territorial </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 2, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/S4_diagrama.png" class="img-fluid figure-img" width="800"></p>
+</figure>
+</div>
+<hr>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/teorica.png" class="img-fluid figure-img" width="200"></p>
+</figure>
+</div>
+<p>En esta sección, exploraremos el procesamiento de imágenes satelitales y otros datos geoespaciales con Google Earth Engine (GEE) y R. Al utilizar GEE, podremos acceder a una amplia variedad de recursos satelitales y climáticos que nos serán útiles en nuestros análisis. También aprenderemos a crear nuevos índices normalizados para obtener información precisa y detallada sobre los cambios en la superficie terrestre. Por otro lado, R es un lenguaje de programación popular y flexible que nos permitirá realizar análisis avanzados de datos geoespaciales de manera eficiente y efectiva. La combinación de estas dos herramientas nos permitirá realizar análisis complejos y obtener resultados valiosos que nos ayudarán a comprender mejor nuestro entorno.</p>
+<section id="índice-de-diferencia-normalizada-de-agua-ndwi" class="level2 page-columns page-full" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="índice-de-diferencia-normalizada-de-agua-ndwi"><span class="header-section-number">6.1</span> Índice de Diferencia Normalizada de Agua (NDWI)</h2>
+<p>El índice de Diferencia Normalizada de Agua (NDWI) es un índice que se utiliza en percepción remota para identificar cuerpos de agua y humedad en la superficie de la tierra. Este índice es especialmente útil cuando se utiliza con imágenes satelitales de Landsat, ya que utiliza bandas espectrales específicas para detectar la presencia de agua.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="imagenes/ndwi_image.png" class="img-fluid figure-img" width="400"></p>
+<p></p><figcaption class="figure-caption margin-caption">Ejemplo de resultados de NDWI</figcaption><p></p>
+</figure>
+</div>
+<p>El índice NDWI se calcula como (NIR - SWIR) / (NIR + SWIR), donde NIR es la banda del infrarrojo cercano y SWIR es la banda del infrarrojo de onda corta. La razón detrás de este cálculo es que el agua absorbe más radiación en la banda del infrarrojo cercano y refleja menos radiación en la banda del infrarrojo de onda corta, en comparación con otros objetos en la superficie terrestre. Por lo tanto, los cuerpos de agua y la humedad en la superficie de la tierra tendrán un valor NDWI más alto que otros objetos en la imagen.</p>
+<p>El índice NDWI es especialmente útil para la detección de cuerpos de agua y humedad en áreas como los bosques y los cultivos, lo que puede ser importante para la comprensión de la salud del ecosistema y la evaluación de la disponibilidad de agua para los cultivos.</p>
+<p>Dependiendo de la extensión del área de estudio o la disponibilidad de imágenes de calidad (que hayan pasado filtros), a veces es necesario construir un mosaico que es una combinación o fusión de dos o más imágenes.</p>
+<div class="quarto-figure quarto-figure-center page-columns page-full">
+<figure class="figure page-columns page-full">
+<p><img src="imagenes/mosaico.png" class="img-fluid figure-img" width="600"></p>
+<p></p><figcaption class="figure-caption margin-caption">Repressentación Gráfica de un Mosaico</figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="modelo-digital-de-elevación" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="modelo-digital-de-elevación"><span class="header-section-number">6.2</span> Modelo Digital de Elevación</h2>
+<p>Un Modelo Digital de Elevación (MDE) es un conjunto de datos que representa la elevación de la superficie terrestre en una región en particular. Los datos del MDE se utilizan comúnmente en percepción remota para la creación de mapas topográficos y la identificación de características geográficas, como montañas, valles y cuerpos de agua.</p>
+<p>Los MDE se crean mediante la recopilación de datos de elevación a través de diversas técnicas, como la fotogrametría, el LiDAR y la interferometría de radar. Los datos resultantes se procesan para crear un modelo tridimensional de la superficie terrestre que se puede utilizar para análisis y visualizaciones. Los MDE son una herramienta esencial en la percepción remota y se utilizan en una variedad de aplicaciones, desde la gestión de recursos naturales hasta la planificación urbana y la navegación.</p>
+<dl>
+<dt>DSM:</dt>
+<dd>
+El Modelo Digital de Superficie representa las elevaciones sobre el nivel del mar de las superficies reflectantes de árboles, edificios y otras características elevadas sobre la “Tierra desnuda”.
+</dd>
+<dt>AVE:</dt>
+<dd>
+Elevation value calculated by average. Valor de elevación calculado mediante el re-muestreo promedio de un modelo de grilla de 5 metros.
+</dd>
+<dt>Aspect:</dt>
+<dd>
+La orientación puede pensarse como la dirección de la pendiente Slope (pendiente): La pendiente representa la inclinación de la superficie.
+</dd>
+</dl>
+</section>
+<section id="información-climática" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="información-climática"><span class="header-section-number">6.3</span> Información Climática</h2>
+<section id="precipitaciones" class="level3" data-number="6.3.1">
+<h3 data-number="6.3.1" class="anchored" data-anchor-id="precipitaciones"><span class="header-section-number">6.3.1</span> Precipitaciones</h3>
+<p><a href="https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE#bands">TerraClimate</a> is a dataset of monthly climate and climatic water balance for global terrestrial surfaces. University of California Merced.</p>
+<ul>
+<li>Resolución Espacial: 2.5 arc minutes (1 arc min = 1,85 km) = 4625 metros</li>
+<li>Resolución Temporal: 1 mes</li>
+<li>Disponible: 1958-01-01 - 2023-04-30</li>
+</ul>
+</section>
+<section id="temperatura" class="level3" data-number="6.3.2">
+<h3 data-number="6.3.2" class="anchored" data-anchor-id="temperatura"><span class="header-section-number">6.3.2</span> Temperatura</h3>
+<p>NCEP Climate Forecast System es un modelo totalmente acoplado que representa la interacción entre la atmósfera terrestre, los océanos, la tierra y el hielo marino. Desarrollado en el Environmental Modeling Center (EMC) en NCEP.</p>
+<ul>
+<li>Resolución Espacial: 0.2 arc degrees (1 arc min = 1,85 km) = 22.2 Km</li>
+<li>Resolución Temporal: 6 horas</li>
+<li>Disponible: 1979-01-01 - 2020-11-25</li>
+</ul>
+<hr>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/practica.png" class="img-fluid figure-img" width="200"></p>
+</figure>
+</div>
+<p>Cargar Librerías</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(sf))</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(rgee))</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ee_Initialize</span>(<span class="st">'denis.berroeta@gmail.com'</span>, <span class="at">drive =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>── rgee 1.1.5 ─────────────────────────────────────── earthengine-api 0.1.335 ── 
+ ✔ user: denis.berroeta@gmail.com 
+ ✔ Google Drive credentials:
+ ✔ Google Drive credentials:  FOUND
+ ✔ Initializing Google Earth Engine:
+ ✔ Initializing Google Earth Engine:  DONE!
+
+ ✔ Earth Engine account: users/denisberroeta 
+──────────────────────────────────────────────────────────────────────────────── </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(tidyverse))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(ggplot2))</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressMessages</span>(<span class="fu">library</span>(viridis))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="ndwi-en-valdivia" class="level2" data-number="6.4">
+<h2 data-number="6.4" class="anchored" data-anchor-id="ndwi-en-valdivia"><span class="header-section-number">6.4</span> NDWI en Valdivia</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/valdivia.jpg" class="img-fluid figure-img" width="800"></p>
+</figure>
+</div>
+<section id="seleccionar-escena-de-valdivia" class="level3" data-number="6.4.1">
+<h3 data-number="6.4.1" class="anchored" data-anchor-id="seleccionar-escena-de-valdivia"><span class="header-section-number">6.4.1</span> Seleccionar escena de Valdivia</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>coord_valdivia <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="sc">-</span><span class="fl">73.225</span>, <span class="sc">-</span><span class="fl">39.828</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>imagen <span class="ot">&lt;-</span> ee<span class="sc">$</span><span class="fu">ImageCollection</span>(<span class="st">'LANDSAT/LC08/C01/T1_TOA'</span>)<span class="sc">$</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filterBounds</span>(ee<span class="sc">$</span>Geometry<span class="sc">$</span><span class="fu">Point</span>(<span class="at">coords =</span> coord_valdivia))<span class="sc">$</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filterDate</span>(<span class="st">'2021-01-01'</span>,<span class="st">'2021-07-01'</span>)<span class="sc">$</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filterMetadata</span>(<span class="st">'CLOUD_COVER'</span>,<span class="st">'less_than'</span>, <span class="dv">5</span>)<span class="sc">$</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualización-imagen-satelital-en-falso-color" class="level3" data-number="6.4.2">
+<h3 data-number="6.4.2" class="anchored" data-anchor-id="visualización-imagen-satelital-en-falso-color"><span class="header-section-number">6.4.2</span> Visualización Imagen Satelital en Falso Color</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/l8-band-combinations.png" class="img-fluid figure-img" width="600"></p>
+</figure>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>imgViz <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="fl">0.5</span>,  <span class="at">bands =</span> <span class="fu">c</span>(<span class="st">"B5"</span>, <span class="st">"B4"</span>, <span class="st">"B3"</span>), <span class="at">gamma =</span> <span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">1.1</span>, <span class="dv">1</span>))</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">setCenter</span>(<span class="sc">-</span><span class="fl">73.225</span>, <span class="sc">-</span><span class="fl">39.828</span>, <span class="dv">12</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">addLayer</span>(imagen, imgViz,<span class="st">'Landsat 8 Image'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-6fbe446bb85c8f8eb2ce" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-6fbe446bb85c8f8eb2ce">{"x":{"options":{"minZoom":1,"maxZoom":24,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],[],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addTiles","args":["https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/c6be154389ba6b5f5641c0c6efd05d25-80223f1cc088f33c19e4fb2ca07e97a9/tiles/{z}/{x}/{y}","Landsat 8 Image","Landsat 8 Image",{"minZoom":0,"maxZoom":24,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],"Landsat 8 Image",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"hideGroup","args":[null]}],"setView":[[-39.828,-73.225],12,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+</div>
+</div>
+</section>
+<section id="calcular-ndwi-normalized-difference-water-index" class="level3" data-number="6.4.3">
+<h3 data-number="6.4.3" class="anchored" data-anchor-id="calcular-ndwi-normalized-difference-water-index"><span class="header-section-number">6.4.3</span> Calcular NDWI (Normalized Difference Water Index)</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/NDWI_f.png" class="img-fluid figure-img" width="600"></p>
+</figure>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ndwi <span class="ot">&lt;-</span> imagen<span class="sc">$</span><span class="fu">normalizedDifference</span>(<span class="fu">c</span>(<span class="st">"B3"</span>, <span class="st">"B5"</span>)) <span class="co"># Considerar esta otra forma calcular indices normalizados</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>ndwiViz <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">1</span>, <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">"00FFFF"</span>,<span class="st">'0080FF'</span>, <span class="st">"0000FF"</span>))</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">setCenter</span>(<span class="sc">-</span><span class="fl">73.225</span>, <span class="sc">-</span><span class="fl">39.828</span>, <span class="dv">12</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">addLayer</span>(ndwi, ndwiViz,<span class="st">'NDWI'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-1221a651241c53ff0b7e" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-1221a651241c53ff0b7e">{"x":{"options":{"minZoom":1,"maxZoom":24,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],[],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addTiles","args":["https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/af9b74061f425c2187d87faf6977d09c-344dccbcec108a518966caa43899b45b/tiles/{z}/{x}/{y}","NDWI","NDWI",{"minZoom":0,"maxZoom":24,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],"NDWI",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"hideGroup","args":[null]}],"setView":[[-39.828,-73.225],12,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+</div>
+</div>
+</section>
+<section id="crear-mácara-por-umbral" class="level3" data-number="6.4.4">
+<h3 data-number="6.4.4" class="anchored" data-anchor-id="crear-mácara-por-umbral"><span class="header-section-number">6.4.4</span> Crear Mácara por umbral</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ndwiMask <span class="ot">&lt;-</span> ndwi<span class="sc">$</span><span class="fu">updateMask</span>(ndwi<span class="sc">$</span><span class="fu">gte</span>(<span class="fl">0.15</span>)) <span class="co"># similar a los umbrales de NDVI para estimar vegetación</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">addLayer</span>(ndwiMask, ndwiViz,<span class="st">'Máscara NDWI'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-aaabae4ffa02d670d0f5" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-aaabae4ffa02d670d0f5">{"x":{"options":{"minZoom":1,"maxZoom":24,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],[],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addTiles","args":["https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/76f3e3af12067a91e4ec5d79d8e6ac22-74223f1eda99bac9db4464795d24463e/tiles/{z}/{x}/{y}","Máscara NDWI","Máscara NDWI",{"minZoom":0,"maxZoom":24,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],"Máscara NDWI",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"hideGroup","args":[null]}],"setView":[[-39.828,-73.225],12,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+</div>
+</div>
+</section>
+<section id="crear-mosaico" class="level3" data-number="6.4.5">
+<h3 data-number="6.4.5" class="anchored" data-anchor-id="crear-mosaico"><span class="header-section-number">6.4.5</span> Crear Mosaico</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/mosaico.png" class="img-fluid figure-img" width="600"></p>
+</figure>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>imageRGB <span class="ot">&lt;-</span> imagen<span class="sc">$</span><span class="fu">visualize</span>(<span class="at">bands =</span> <span class="fu">c</span>(<span class="st">'B5'</span>, <span class="st">'B4'</span>, <span class="st">'B3'</span>), <span class="at">max =</span> <span class="fl">0.5</span>, <span class="at">gamma =</span> <span class="fu">c</span>(<span class="fl">0.95</span>, <span class="fl">1.1</span>, <span class="dv">1</span>))</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>ndwiRGB <span class="ot">&lt;-</span> ndwiMask<span class="sc">$</span><span class="fu">visualize</span>(<span class="at">min =</span> <span class="fl">0.2</span>, <span class="at">max =</span> <span class="dv">1</span>, <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">'#00FFFF'</span>, <span class="st">'#0000FF'</span>))</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>mosaic <span class="ot">&lt;-</span> ee<span class="sc">$</span><span class="fu">ImageCollection</span>(<span class="fu">c</span>(imageRGB, ndwiRGB))<span class="sc">$</span><span class="fu">mosaic</span>() <span class="co"># función crea mosaico</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">setCenter</span>(<span class="sc">-</span><span class="fl">73.225</span>, <span class="sc">-</span><span class="fl">39.828</span>, <span class="dv">11</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">addLayer</span>(mosaic , <span class="fu">list</span>(), <span class="st">'mosaic'</span>) <span class="co"># </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-b686c257922a66242f4e" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-b686c257922a66242f4e">{"x":{"options":{"minZoom":1,"maxZoom":24,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],[],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addTiles","args":["https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/254f4107488c8c2108dbfed51b9e46e9-6aec8624d6128693bf7577a24220fbd1/tiles/{z}/{x}/{y}","mosaic","mosaic",{"minZoom":0,"maxZoom":24,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],"mosaic",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"hideGroup","args":[null]}],"setView":[[-39.828,-73.225],11,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+</div>
+</div>
+</section>
+<section id="generar-área-de-estudio-circular" class="level3" data-number="6.4.6">
+<h3 data-number="6.4.6" class="anchored" data-anchor-id="generar-área-de-estudio-circular"><span class="header-section-number">6.4.6</span> Generar Área de estudio circular</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>roi <span class="ot">&lt;-</span> ee<span class="sc">$</span>Geometry<span class="sc">$</span><span class="fu">Point</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">73.225</span>, <span class="sc">-</span><span class="fl">39.828</span>))<span class="sc">$</span><span class="fu">buffer</span>(<span class="dv">10000</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> Map<span class="sc">$</span><span class="fu">setCenter</span>(<span class="sc">-</span><span class="fl">73.225</span>, <span class="sc">-</span><span class="fl">39.828</span>, <span class="dv">11</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>m <span class="ot">&lt;-</span> Map<span class="sc">$</span><span class="fu">addLayer</span>(mosaic<span class="sc">$</span><span class="fu">clip</span>(roi))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>m <span class="co"># </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-1a19e15aa8c605cc5d12" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-1a19e15aa8c605cc5d12">{"x":{"options":{"minZoom":1,"maxZoom":24,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],[],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addTiles","args":["https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/6aed4a63f06d4a53fc70cb481cee1936-61b90272e0c181ece8f38d4fb17a703a/tiles/{z}/{x}/{y}","untitled_1e7596e4799","untitled_1e7596e4799",{"minZoom":0,"maxZoom":24,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],"untitled_1e7596e4799",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"hideGroup","args":[null]}],"setView":[[-39.828,-73.225],11,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="modelo-digital-de-elevación-ejemplo-con-volcanes" class="level2" data-number="6.5">
+<h2 data-number="6.5" class="anchored" data-anchor-id="modelo-digital-de-elevación-ejemplo-con-volcanes"><span class="header-section-number">6.5</span> Modelo Digital de Elevación Ejemplo con Volcanes</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/volcanosorno-03-m.jpg" class="img-fluid figure-img" width="600"></p>
+</figure>
+</div>
+<ul>
+<li>Lista de <a href="https://es.wikipedia.org/wiki/Anexo:Volcanes_de_Chile">volcanes de Chile Wikipedia</a><br>
+</li>
+<li>Información de Volcanes de Chile <a href="https://www.volcanesdechile.net">https://www.volcanesdechile.net</a></li>
+</ul>
+<section id="definir-área-de-estudio" class="level3" data-number="6.5.1">
+<h3 data-number="6.5.1" class="anchored" data-anchor-id="definir-área-de-estudio"><span class="header-section-number">6.5.1</span> Definir Área de Estudio</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>coods_volcan <span class="ot">&lt;-</span> <span class="fu">rev</span>(<span class="fu">c</span>(<span class="sc">-</span><span class="fl">41.1</span>, <span class="sc">-</span><span class="fl">72.493056</span>)) <span class="co"># v osorno</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># coods_volcan &lt;- rev(c(-20.933333, -68.483333))     # v elección</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>volcan_p_ee <span class="ot">&lt;-</span> ee<span class="sc">$</span>Geometry<span class="sc">$</span><span class="fu">Point</span>(<span class="at">coords =</span> coods_volcan)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>region <span class="ot">&lt;-</span> volcan_p_ee<span class="sc">$</span><span class="fu">bounds</span>()<span class="sc">$</span><span class="fu">buffer</span>(<span class="dv">10000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="parámetros-de-visulización" class="level3" data-number="6.5.2">
+<h3 data-number="6.5.2" class="anchored" data-anchor-id="parámetros-de-visulización"><span class="header-section-number">6.5.2</span> Parámetros de Visulización</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>viz_gray <span class="ot">&lt;-</span> <span class="fu">list</span>(<span class="at">palette =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">"gray90"</span>,<span class="st">"gray20"</span>))( <span class="dv">100</span> ))</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>viz_pal1 <span class="ot">&lt;-</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="fu">c</span>(</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>      <span class="st">'3ae237'</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>      <span class="st">'b5e22e'</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>      <span class="st">'d6e21f'</span>,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>      <span class="st">'fff705'</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ffd611'</span>,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ffb613'</span>,</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ff8b13'</span>,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ff6e08'</span>,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ff500d'</span>,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ff0000'</span>,</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>      <span class="st">'de0101'</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>      <span class="st">'c21301'</span>,</span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>      <span class="st">'0602ff'</span>,</span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>      <span class="st">'235cb1'</span>,</span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>      <span class="st">'307ef3'</span>,</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>      <span class="st">'269db1'</span>,</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>      <span class="st">'30c8e2'</span>,</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>      <span class="st">'32d3ef'</span>,</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>      <span class="st">'3be285'</span>,</span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>      <span class="st">'3ff38f'</span>,</span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>      <span class="st">'86e26f'</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">min =</span> <span class="fl">0.0</span>,</span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="fl">360.0</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>viz_pal2 <span class="ot">&lt;-</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">palette =</span> <span class="fu">c</span>(</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>      <span class="st">'0602ff'</span>,</span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>      <span class="st">'235cb1'</span>,</span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>      <span class="st">'307ef3'</span>,</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>      <span class="st">'269db1'</span>,</span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>      <span class="st">'30c8e2'</span>,</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>      <span class="st">'32d3ef'</span>,</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a>      <span class="st">'3ae237'</span>,</span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>      <span class="st">'b5e22e'</span>,</span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a>      <span class="st">'d6e21f'</span>,</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a>      <span class="st">'fff705'</span>,</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ffd611'</span>,</span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ffb613'</span>,</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ff8b13'</span>,</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ff6e08'</span>,</span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ff500d'</span>,</span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>      <span class="st">'ff0000'</span>,</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>      <span class="st">'de0101'</span>,</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>      <span class="st">'c21301'</span></span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>    <span class="at">min =</span> <span class="dv">0</span>,</span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>    <span class="at">max =</span> <span class="fl">8859.0</span></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="objetos-de-elevación" class="level3" data-number="6.5.3">
+<h3 data-number="6.5.3" class="anchored" data-anchor-id="objetos-de-elevación"><span class="header-section-number">6.5.3</span> Objetos de Elevación</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>DEM <span class="ot">&lt;-</span> ee<span class="sc">$</span><span class="fu">Image</span>(<span class="st">"JAXA/ALOS/AW3D30/V2_2"</span>)<span class="sc">$</span><span class="fu">clip</span>(region) <span class="co"># cortar por región de estudio</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ee_print(DEM) #visualizar atributos de objeto gee DEM</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>DSM <span class="ot">&lt;-</span> DEM<span class="sc">$</span><span class="fu">select</span>(<span class="st">'AVE_DSM'</span>);</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>aspect <span class="ot">&lt;-</span>  ee<span class="sc">$</span>Terrain<span class="sc">$</span><span class="fu">aspect</span>(DEM)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>slope <span class="ot">&lt;-</span>  ee<span class="sc">$</span>Terrain<span class="sc">$</span><span class="fu">slope</span>(DEM)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="visualización" class="level3" data-number="6.5.4">
+<h3 data-number="6.5.4" class="anchored" data-anchor-id="visualización"><span class="header-section-number">6.5.4</span> Visualización</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">centerObject</span>(region, <span class="at">zoom =</span> <span class="dv">11</span>) </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">addLayer</span>(<span class="at">eeObject =</span> slope, <span class="at">visParams =</span> viz_gray, <span class="at">name =</span> <span class="st">"Slope"</span>) <span class="sc">+</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">addLayer</span>(<span class="at">eeObject =</span> DSM, <span class="at">visParams =</span> viz_pal2, <span class="at">name =</span> <span class="st">"DSM"</span>,  <span class="at">opacity =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">addLayer</span>(<span class="at">eeObject =</span> aspect, <span class="at">visParams =</span> viz_pal1,<span class="at">name =</span>  <span class="st">"aspect"</span>, <span class="at">opacity =</span> <span class="fl">0.5</span>, <span class="at">shown =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-57d4bfa1985997d212b5" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-57d4bfa1985997d212b5">{"x":{"options":{"minZoom":1,"maxZoom":24,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],[],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addTiles","args":["https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/62939973ac30b5159491098f91af2235-e93f8171224acb94507e795e8b0f04b8/tiles/{z}/{x}/{y}","Slope","Slope",{"minZoom":0,"maxZoom":24,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],"Slope",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"hideGroup","args":[null]},{"method":"addTiles","args":["https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/8a6a3b4423a511eb9cdbe1956f39eb1a-215d4104274f0cacd02d38bcc6f39edc/tiles/{z}/{x}/{y}","DSM","DSM",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],["Slope","DSM"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"hideGroup","args":[null]},{"method":"addTiles","args":["https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/aff8202780629f063cfff3b9d19ddead-8dcc926142c991398cdf0c10def43532/tiles/{z}/{x}/{y}","aspect","aspect",{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":0.5,"zIndex":1,"detectRetina":false}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],["Slope","DSM","aspect"],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"hideGroup","args":["aspect"]}],"setView":[[-41.0999897411268,-72.4930556224717],11,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+</div>
+</div>
+</section>
+</section>
+<section id="datos-climáticos" class="level2" data-number="6.6">
+<h2 data-number="6.6" class="anchored" data-anchor-id="datos-climáticos"><span class="header-section-number">6.6</span> Datos Climáticos</h2>
+<section id="estadística-zonal-de-precipitación-precipitación-con-imágenes-satelitales" class="level3" data-number="6.6.1">
+<h3 data-number="6.6.1" class="anchored" data-anchor-id="estadística-zonal-de-precipitación-precipitación-con-imágenes-satelitales"><span class="header-section-number">6.6.1</span> Estadística Zonal de precipitación Precipitación con Imágenes Satelitales</h3>
+<p><a href="https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE">TerraClimate: Monthly Climate and Climatic Water Balance for Global Terrestrial Surfaces, University of Idaho</a></p>
+</section>
+<section id="extraer-valores-de-precipitación-anual-mundial" class="level3" data-number="6.6.2">
+<h3 data-number="6.6.2" class="anchored" data-anchor-id="extraer-valores-de-precipitación-anual-mundial"><span class="header-section-number">6.6.2</span> Extraer Valores de Precipitación Anual Mundial</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>terraclimate <span class="ot">&lt;-</span> ee<span class="sc">$</span><span class="fu">ImageCollection</span>(<span class="st">"IDAHO_EPSCOR/TERRACLIMATE"</span>)<span class="sc">$</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filterDate</span>(<span class="st">"2019-01-01"</span>, <span class="st">"2020-01-01"</span>)<span class="sc">$</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="st">"pr"</span>)<span class="sc">$</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>visParams <span class="ot">=</span> <span class="fu">list</span>(<span class="at">min =</span> <span class="dv">0</span>, <span class="at">max =</span> <span class="dv">100</span>, <span class="at">palette =</span> <span class="fu">c</span>(<span class="st">'#00FFFF'</span>, <span class="st">'#0000FF'</span>))</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">setCenter</span>(<span class="sc">-</span><span class="dv">60</span>, <span class="sc">-</span><span class="dv">21</span>, <span class="dv">3</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">addLayer</span>(terraclimate, visParams, <span class="st">'Prec (mm)'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="leaflet html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-9b2920d5a5fc6958d565" style="width:100%;height:464px;"></div>
+<script type="application/json" data-for="htmlwidget-9b2920d5a5fc6958d565">{"x":{"options":{"minZoom":1,"maxZoom":24,"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}},"preferCanvas":false,"bounceAtZoomLimits":false,"maxBounds":[[[-90,-370]],[[90,370]]]},"calls":[{"method":"addProviderTiles","args":["CartoDB.Positron","CartoDB.Positron","CartoDB.Positron",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenStreetMap","OpenStreetMap","OpenStreetMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["CartoDB.DarkMatter","CartoDB.DarkMatter","CartoDB.DarkMatter",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["Esri.WorldImagery","Esri.WorldImagery","Esri.WorldImagery",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addProviderTiles","args":["OpenTopoMap","OpenTopoMap","OpenTopoMap",{"errorTileUrl":"","noWrap":false,"detectRetina":false,"pane":"tilePane","maxZoom":24}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],[],{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"addScaleBar","args":[{"maxWidth":100,"metric":true,"imperial":true,"updateWhenIdle":true,"position":"bottomleft"}]},{"method":"addTiles","args":["https://earthengine.googleapis.com/v1alpha/projects/earthengine-legacy/maps/9c7a1c88e4f939685bf5405d02a68402-ca61357300d5713085cfb087984bd421/tiles/{z}/{x}/{y}","Prec (mm)","Prec (mm)",{"minZoom":0,"maxZoom":24,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false}]},{"method":"addLayersControl","args":[["CartoDB.Positron","OpenStreetMap","CartoDB.DarkMatter","Esri.WorldImagery","OpenTopoMap"],"Prec (mm)",{"collapsed":true,"autoZIndex":true,"position":"topleft"}]},{"method":"hideGroup","args":[null]}],"setView":[[-21,-60],3,[]]},"evals":[],"jsHooks":{"render":[{"code":"function(el, x, data) {\n  return (\n      function(el, x, data) {\n      // get the leaflet map\n      var map = this; //HTMLWidgets.find('#' + el.id);\n      // we need a new div element because we have to handle\n      // the mouseover output separately\n      // debugger;\n      function addElement () {\n      // generate new div Element\n      var newDiv = $(document.createElement('div'));\n      // append at end of leaflet htmlwidget container\n      $(el).append(newDiv);\n      //provide ID and style\n      newDiv.addClass('lnlt');\n      newDiv.css({\n      'position': 'relative',\n      'bottomleft':  '0px',\n      'background-color': 'rgba(255, 255, 255, 0.7)',\n      'box-shadow': '0 0 2px #bbb',\n      'background-clip': 'padding-box',\n      'margin': '0',\n      'padding-left': '5px',\n      'color': '#333',\n      'font': '9px/1.5 \"Helvetica Neue\", Arial, Helvetica, sans-serif',\n      'z-index': '700',\n      });\n      return newDiv;\n      }\n\n\n      // check for already existing lnlt class to not duplicate\n      var lnlt = $(el).find('.lnlt');\n\n      if(!lnlt.length) {\n      lnlt = addElement();\n\n      // grab the special div we generated in the beginning\n      // and put the mousmove output there\n\n      map.on('mousemove', function (e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                           ' lon: ' + (e.latlng.lng).toFixed(5) +\n                           ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                           ' | zoom: ' + map.getZoom() +\n                           ' | x: ' + L.CRS.EPSG3857.project(e.latlng).x.toFixed(0) +\n                           ' | y: ' + L.CRS.EPSG3857.project(e.latlng).y.toFixed(0) +\n                           ' | epsg: 3857 ' +\n                           ' | proj4: +proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs ');\n      } else {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      }\n      });\n\n      // remove the lnlt div when mouse leaves map\n      map.on('mouseout', function (e) {\n      var strip = document.querySelector('.lnlt');\n      if( strip !==null) strip.remove();\n      });\n\n      };\n\n      //$(el).keypress(67, function(e) {\n      map.on('preclick', function(e) {\n      if (e.originalEvent.ctrlKey) {\n      if (document.querySelector('.lnlt') === null) lnlt = addElement();\n      lnlt.text(\n                      ' lon: ' + (e.latlng.lng).toFixed(5) +\n                      ' | lat: ' + (e.latlng.lat).toFixed(5) +\n                      ' | zoom: ' + map.getZoom() + ' ');\n      var txt = document.querySelector('.lnlt').textContent;\n      console.log(txt);\n      //txt.innerText.focus();\n      //txt.select();\n      setClipboardText('\"' + txt + '\"');\n      }\n      });\n\n      }\n      ).call(this.getMap(), el, x, data);\n}","data":null},{"code":"function(el, x, data) {\n  return (function(el,x,data){\n           var map = this;\n\n           map.on('keypress', function(e) {\n               console.log(e.originalEvent.code);\n               var key = e.originalEvent.code;\n               if (key === 'KeyE') {\n                   var bb = this.getBounds();\n                   var txt = JSON.stringify(bb);\n                   console.log(txt);\n\n                   setClipboardText('\\'' + txt + '\\'');\n               }\n           })\n        }).call(this.getMap(), el, x, data);\n}","data":null}]}}</script>
+</div>
+</div>
+</section>
+<section id="precipitación-anual-2019-rm" class="level3" data-number="6.6.3">
+<h3 data-number="6.6.3" class="anchored" data-anchor-id="precipitación-anual-2019-rm"><span class="header-section-number">6.6.3</span> Precipitación Anual 2019 RM</h3>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/lluvias_rm.jpg" class="img-fluid figure-img" width="600"></p>
+</figure>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Leeer Shape RM</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>rm <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/shape/Reg_Met.shp"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `Reg_Met' from data source 
+  `/Users/denisberroeta/Library/CloudStorage/OneDrive-UniversidadAdolfoIbanez/CIT/DOCENCIA/CURSO_SII_PR/book_PR_SII/data/shape/Reg_Met.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 1 feature and 2 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: -71.71523 ymin: -34.29093 xmax: -69.76999 ymax: -32.92194
+Geodetic CRS:  WGS 84</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>rm_ee <span class="ot">&lt;-</span>  rm<span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_geometry</span>() <span class="sc">%&gt;%</span> <span class="do">## Solamente me quedo con la geometría (descarto la data)</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sf_as_ee</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>terraclimate <span class="ot">&lt;-</span> ee<span class="sc">$</span><span class="fu">ImageCollection</span>(<span class="st">"IDAHO_EPSCOR/TERRACLIMATE"</span>)<span class="sc">$</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filterDate</span>(<span class="st">"2017-01-01"</span>, <span class="st">"2018-01-01"</span>)<span class="sc">$</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="cf">function</span>(x){</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>    date <span class="ot">&lt;-</span> ee<span class="sc">$</span><span class="fu">Date</span>(x<span class="sc">$</span><span class="fu">get</span>(<span class="st">"system:time_start"</span>))<span class="sc">$</span><span class="fu">format</span>(<span class="st">'YYYY_MM_dd'</span>)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>    name <span class="ot">&lt;-</span> ee<span class="sc">$</span>String<span class="sc">$</span><span class="fu">cat</span>(<span class="st">"Terraclimate_pp_"</span>, date)</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>    x<span class="sc">$</span><span class="fu">select</span>(<span class="st">"pr"</span>)<span class="sc">$</span><span class="fu">reproject</span>(<span class="st">"EPSG:4326"</span>)<span class="sc">$</span><span class="fu">set</span>(<span class="st">"RGEE_NAME"</span>, name)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a><span class="co">#proceso clave de extracción de datos satelitales y los lleva a tabla</span></span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>ee_rm_rain <span class="ot">&lt;-</span> <span class="fu">ee_extract</span>(<span class="at">x =</span> terraclimate, <span class="at">y =</span> rm_ee, <span class="at">sf =</span> <span class="cn">FALSE</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of features: Calculating ...
+Number of features: 1                     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(ee_rm_rain) <span class="ot">&lt;-</span> <span class="fu">sprintf</span>(<span class="st">"%02d"</span>, <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ee_rm_rain)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        01       02       03      04       05       06       07      08
+1 2.171239 17.05393 9.221501 35.6614 88.79629 80.26654 29.29532 61.9945
+        09       10       11       12
+1 24.55665 47.34377 12.31215 4.403785</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>pr_data <span class="ot">&lt;-</span> ee_rm_rain <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="dv">01</span><span class="sc">:</span><span class="dv">12</span>, <span class="at">names_to =</span> <span class="st">"month"</span>, <span class="at">values_to =</span> <span class="st">"pr"</span>)</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> pr_data, <span class="fu">aes</span>(<span class="at">x =</span> month, <span class="at">y =</span> pr, <span class="at">color =</span> pr, <span class="at">group=</span><span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">4</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis</span>()<span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>, <span class="at">color =</span> <span class="st">"gray50"</span>) <span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ggtitle</span>(<span class="at">lab =</span> <span class="st">"Precipitaciones: IDAHO_EPSCOR/TERRACLIMATE"</span>, </span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"Región Metropolitana"</span>) <span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Month"</span>) <span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Precipitation (mm)"</span>) <span class="sc">+</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="proc_gee_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="estadísticas-zonal-de-temperatura" class="level3" data-number="6.6.4">
+<h3 data-number="6.6.4" class="anchored" data-anchor-id="estadísticas-zonal-de-temperatura"><span class="header-section-number">6.6.4</span> Estadísticas Zonal de Temperatura</h3>
+<p><a href="https://developers.google.com/earth-engine/datasets/catalog/NOAA_CFSV2_FOR6H">CFSV2: NCEP Climate Forecast System Version 2, 6-Hourly Products</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># https://developers.google.com/earth-engine/datasets/catalog/NOAA_CFSV2_FOR6H#description</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="ot">&lt;-</span> ee<span class="sc">$</span><span class="fu">ImageCollection</span>(<span class="st">'NOAA/CFSV2/FOR6H'</span>)<span class="sc">$</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ee<span class="sc">$</span>Filter<span class="sc">$</span><span class="fu">date</span>(<span class="st">'2019-01-01'</span>, <span class="st">'2020-01-01'</span>))<span class="sc">$</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">median</span>()</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>temperatureAboveGround <span class="ot">=</span> dataset<span class="sc">$</span><span class="fu">select</span>(<span class="st">'Temperature_height_above_ground'</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>visParams <span class="ot">=</span> <span class="fu">list</span>(<span class="at">min=</span> <span class="fl">220.0</span>,  <span class="at">max =</span> <span class="fl">310.0</span>, </span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>                 <span class="at">palette =</span> <span class="fu">colorRampPalette</span>(<span class="fu">c</span>(<span class="st">'blue'</span>, <span class="st">'purple'</span>, <span class="st">'cyan'</span>, <span class="st">'green'</span>, <span class="st">'yellow'</span>, <span class="st">'red'</span>))( <span class="dv">10</span> ))</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">setCenter</span>(<span class="sc">-</span><span class="dv">60</span>, <span class="sc">-</span><span class="dv">21</span>, <span class="dv">3</span>)</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>Map<span class="sc">$</span><span class="fu">addLayer</span>(temperatureAboveGround, visParams, <span class="st">'Temp. Ground'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="temperatura-rm-4-veces-al-día" class="level4" data-number="6.6.4.1">
+<h4 data-number="6.6.4.1" class="anchored" data-anchor-id="temperatura-rm-4-veces-al-día"><span class="header-section-number">6.6.4.1</span> Temperatura RM 4 veces al día</h4>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="imagenes/temp_cordillera.jpg" class="img-fluid figure-img" width="600"></p>
+</figure>
+</div>
+<p><a href="https://www.latercera.com/que-pasa/noticia/alarmante-estimacion-proyecta-que-cordillera-de-los-andes-se-quedaria-sin-nieve-y-los-rios-de-la-zona-central-se-podrian-secar-en-un-plazo-de-40-anos/QRIIWPE7VNAWPIMYGGFJ6N7WXI/">“Alarmante estimación proyecta que cordillera de los Andes se quedaría sin nieve y los ríos de la zona central se podrían secar en un plazo de 40 años”: Diario La Tercera 22-ABR-2021</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>temp <span class="ot">&lt;-</span> ee<span class="sc">$</span><span class="fu">ImageCollection</span>(<span class="st">'NOAA/CFSV2/FOR6H'</span>)<span class="sc">$</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filterDate</span>(<span class="st">'2019-01-01'</span>, <span class="st">'2019-04-01'</span>)<span class="sc">$</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">map</span>(<span class="cf">function</span>(x){</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    date <span class="ot">&lt;-</span> ee<span class="sc">$</span><span class="fu">Date</span>(x<span class="sc">$</span><span class="fu">get</span>(<span class="st">"system:time_start"</span>))<span class="sc">$</span><span class="fu">format</span>(<span class="st">'YYYY_MM_dd'</span>)</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    name <span class="ot">&lt;-</span> ee<span class="sc">$</span>String<span class="sc">$</span><span class="fu">cat</span>(<span class="st">"temp_"</span>, date)</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    x<span class="sc">$</span><span class="fu">select</span>(<span class="st">"Temperature_height_above_ground"</span>)<span class="sc">$</span><span class="fu">set</span>(<span class="st">"RGEE_NAME"</span>, name)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  })</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>ee_rm_temp <span class="ot">&lt;-</span> <span class="fu">ee_extract</span>(<span class="at">x =</span> temp, <span class="at">y =</span> rm_ee, <span class="at">sf =</span> <span class="cn">FALSE</span> )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of features: Calculating ...
+Number of features: 1                     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co">#función para generar vector de días </span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>make_rep <span class="ot">&lt;-</span> <span class="cf">function</span>(min, max, <span class="at">n_rep =</span> <span class="dv">4</span>){</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  vec <span class="ot">&lt;-</span> <span class="cn">NULL</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span>(i <span class="cf">in</span> min<span class="sc">:</span>(max<span class="sc">/</span>n_rep)){</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    num <span class="ot">&lt;-</span> <span class="fu">rep</span>(i, n_rep)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>    vec <span class="ot">&lt;-</span> <span class="fu">c</span>(vec, <span class="fu">as.integer</span>(num))}</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">return</span>(vec)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>dias <span class="ot">&lt;-</span> <span class="fu">make_rep</span>(<span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="fu">length</span>(ee_rm_temp), <span class="at">n_rep =</span> <span class="dv">4</span>)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>temp_data <span class="ot">&lt;-</span> ee_rm_temp <span class="sc">%&gt;%</span></span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ee_rm_temp), <span class="at">names_to =</span> <span class="st">"dia_total"</span>, <span class="at">values_to =</span> <span class="st">"temp"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dia =</span> dias, <span class="at">gr_celcius =</span> <span class="fu">as.numeric</span>(temp) <span class="sc">-</span><span class="fl">273.15</span> )<span class="sc">%&gt;%</span></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dia)<span class="sc">%&gt;%</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">temp_prom =</span> <span class="fu">mean</span>(gr_celcius),<span class="at">.groups =</span> <span class="st">"keep"</span> )<span class="sc">%&gt;%</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> temp_data, <span class="fu">aes</span>(<span class="at">x =</span> dia, <span class="at">y =</span> temp_prom, <span class="at">color =</span> temp_prom)) <span class="sc">+</span></span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb26-25"><a href="#cb26-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis</span>(<span class="at">option=</span><span class="st">"magma"</span>)<span class="sc">+</span></span>
+<span id="cb26-26"><a href="#cb26-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="at">lab =</span> <span class="st">"Temperatura: NOAA/CFSV2/FOR6H"</span>, </span>
+<span id="cb26-27"><a href="#cb26-27" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"Región Metropolitana"</span>) <span class="sc">+</span></span>
+<span id="cb26-28"><a href="#cb26-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Día"</span>) <span class="sc">+</span></span>
+<span id="cb26-29"><a href="#cb26-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Temperatura"</span>) <span class="sc">+</span></span>
+<span id="cb26-30"><a href="#cb26-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="proc_gee_files/figure-html/unnamed-chunk-16-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+<section id="temperatura-las-condes-4-veces-al-día" class="level4" data-number="6.6.4.2">
+<h4 data-number="6.6.4.2" class="anchored" data-anchor-id="temperatura-las-condes-4-veces-al-día"><span class="header-section-number">6.6.4.2</span> Temperatura Las Condes 4 veces al día</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>LC_ee <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"data/shape/LasCondes.shp"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_transform</span>(<span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">st_geometry</span>() <span class="sc">%&gt;%</span> <span class="co"># solo quedarse con la geometría</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">sf_as_ee</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Reading layer `LasCondes' from data source 
+  `/Users/denisberroeta/Library/CloudStorage/OneDrive-UniversidadAdolfoIbanez/CIT/DOCENCIA/CURSO_SII_PR/book_PR_SII/data/shape/LasCondes.shp' 
+  using driver `ESRI Shapefile'
+Simple feature collection with 1 feature and 6 fields
+Geometry type: POLYGON
+Dimension:     XY
+Bounding box:  xmin: 350513.9 ymin: 6293910 xmax: 367354.6 ymax: 6307356
+Projected CRS: WGS 84 / UTM zone 19S</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>ee_lc_temp <span class="ot">&lt;-</span> <span class="fu">ee_extract</span>(<span class="at">x =</span> temp, <span class="at">y =</span> LC_ee, <span class="at">sf =</span> <span class="cn">FALSE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of features: Calculating ...
+Number of features: 1                     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extrae los valores por un promedio por cada geometría</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a> <span class="co"># fun = ee$Reducer$mean()</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>dias <span class="ot">&lt;-</span> <span class="fu">make_rep</span>(<span class="at">min =</span> <span class="dv">1</span>, <span class="at">max =</span> <span class="fu">length</span>(ee_lc_temp), <span class="at">n_rep =</span> <span class="dv">4</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>temp_data <span class="ot">&lt;-</span> ee_lc_temp <span class="sc">%&gt;%</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">length</span>(ee_rm_temp), <span class="at">names_to =</span> <span class="st">"dia_total"</span>, <span class="at">values_to =</span> <span class="st">"temp"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">dia =</span> dias, <span class="at">gr_celcius =</span> <span class="fu">as.numeric</span>(temp) <span class="sc">-</span><span class="fl">273.15</span> )<span class="sc">%&gt;%</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(dia)<span class="sc">%&gt;%</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">temp_prom =</span> <span class="fu">mean</span>(gr_celcius),<span class="at">.groups =</span> <span class="st">"keep"</span> )<span class="sc">%&gt;%</span></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data =</span> temp_data, <span class="fu">aes</span>(<span class="at">x =</span> dia, <span class="at">y =</span> temp_prom, <span class="at">color =</span> temp_prom)) <span class="sc">+</span></span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis</span>(<span class="at">option=</span><span class="st">"magma"</span>)<span class="sc">+</span></span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="at">lab =</span> <span class="st">"Temperatura: NOAA/CFSV2/FOR6H"</span>, </span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>          <span class="at">subtitle =</span> <span class="st">"Comuna de Las Condes"</span>) <span class="sc">+</span></span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">"Día"</span>) <span class="sc">+</span></span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"Temperatura"</span>) <span class="sc">+</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="proc_gee_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="referencias" class="level2" data-number="6.7">
+<h2 data-number="6.7" class="anchored" data-anchor-id="referencias"><span class="header-section-number">6.7</span> Referencias</h2>
+<p>Google Earth Engine for R <a href="https://github.com/r-spatial/rgee">https://github.com/r-spatial/rgee</a></p>
+<p>Ejemplos <a href="https://csaybar.github.io/rgee-examples/">https://csaybar.github.io/rgee-examples/</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./intro_gee.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">S3: Introducción a GEE</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./indices.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">S1: Percepción Remota</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">Copyright 2023, Denis Berroeta</div>   
+  </div>
+</footer>
+
+
+
+</body></html>

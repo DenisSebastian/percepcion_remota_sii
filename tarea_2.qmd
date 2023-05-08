@@ -1,0 +1,71 @@
+---
+subtitle: "Crear un Índice Espectral"
+---
+
+
+# Tarea 2 {.unnumbered}
+
+
+![Estructura de una Raster Espacial](imagenes/Matrix-Raster.png){width="50%" fig-aling=center}
+
+## Antecedentes
+
+**Fecha de Entrega**: 22 de Mayo del 2023
+
+**Formato de Entrega**: Documento de texto (word, pdf, markdown) + códigos (.R)
+
+**Integrantes**: 2 Personas
+
+
+## Enuncuciado
+
+Se necesita crear un índice normalizado espectral que ustedes decidan utilizando Google Earth Engine, cuya área de estudio corresponderá a la zona urbana de una comuna de Chile que prefieran a nivel de Manzana y analizar su distribución espacial visualmente.
+
+## 1. Presentación del Problema  (2 puntos)
+
+Identifique un problema que desea visibilizar a través de un índice normalizado (, seleccione área de estudio e insumo satelital. Justifique lo anterior. (2 puntos). 
+
+::: {.callout-tip}
+## Selección de Índices @sec-indurb
+:::
+
+::: {.callout-tip}
+## Tip: [Aplicación web](https://davemlz-espectro-espectro-91350i.streamlit.app)
+:::
+<br>
+
+## 2. Cáculo de Indicador.  (3 puntos)
+
+Siga los siguientes pasos:
+
+- Acceda al producto satelital (@sec-psat)
+- Filtre por fechas, Corte imagen satelital por área de estudio
+- Construya la función de su índice normalizado y aplicar (@sec-findex)
+
+
+
+## 3. Interpretación de Resultados. (2 puntos)
+
+Siga los siguientes pasos de visualización:
+
+- Identifique si el índice construído requiere que establezca un umbral de corta, si es así aplicar la función.
+- Visualice los resultados a través de un mapa dinámico y/ estático
+- Analice los resultados visualmente y realice una conclusión de la distribución espacial de los valores 
+
+::: {.callout-tip}
+## Tip: Visualización del Mapas @sec-vismap
+:::
+
+
+
+
+
+## Referencias
+
+Learning R for Geoespatial Analysis
+
+[https://rspatial.org/raster/spatial/8-rastermanip.html](https://rspatial.org/raster/spatial/8-rastermanip.html)
+
+[https://r-spatial.github.io/mapview/](https://r-spatial.github.io/mapview/)
+
+<br>

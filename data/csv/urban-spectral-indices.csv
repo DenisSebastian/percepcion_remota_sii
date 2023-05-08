@@ -1,0 +1,20 @@
+short_name,long_name,application_domain,formula,bands,reference,contributor,date_of_addition
+BLFEI,Built-Up Land Features Extraction Index,urban,(((G+R+S2)/3.0)-S1)/(((G+R+S2)/3.0)+S1),"['G', 'R', 'S2', 'S1']",https://doi.org/10.1080/10106049.2018.1497094,https://github.com/davemlz,2022-02-09
+BRBA,Band Ratio for Built-up Area,urban,R/S1,"['R', 'S1']",https://www.omicsonline.org/scientific-reports/JGRS-SR136.pdf,https://github.com/davemlz,2022-09-22
+DBI,Dry Built-Up Index,urban,((B - T1)/(B + T1)) - ((N - R)/(N + R)),"['B', 'T1', 'N', 'R']",https://doi.org/10.3390/land7030081,https://github.com/davemlz,2022-04-18
+EBBI,Enhanced Built-Up and Bareness Index,urban,(S1 - N) / (10.0 * ((S1 + T) ** 0.5)),"['S1', 'N', 'T']",https://doi.org/10.3390/rs4102957,https://github.com/davemlz,2021-09-17
+IBI,Index-Based Built-Up Index,urban,(((S1-N)/(S1+N))-(((N-R)*(1.0+L)/(N+R+L))+((G-S1)/(G+S1)))/2.0)/(((S1-N)/(S1+N))+(((N-R)*(1.0+L)/(N+R+L))+((G-S1)/(G+S1)))/2.0),"['S1', 'N', 'R', 'L', 'G']",https://doi.org/10.1080/01431160802039957,https://github.com/davemlz,2022-02-09
+NBAI,Normalized Built-up Area Index,urban,((S2 - S1)/G)/((S2 + S1)/G),"['S2', 'S1', 'G']",https://www.omicsonline.org/scientific-reports/JGRS-SR136.pdf,https://github.com/davemlz,2022-09-22
+NBUI,New Built-Up Index,urban,((S1 - N)/(10.0 * (T + S1) ** 0.5)) - (((N - R) * (1.0 + L))/(N - R + L)) - (G - S1)/(G + S1),"['S1', 'N', 'T', 'R', 'L', 'G']",https://hdl.handle.net/1959.11/29500,https://github.com/davemlz,2022-04-18
+NDBI,Normalized Difference Built-Up Index,urban,(S1 - N) / (S1 + N),"['S1', 'N']",http://dx.doi.org/10.1080/01431160304987,https://github.com/davemlz,2021-05-14
+NDISIb,Normalized Difference Impervious Surface Index Blue,urban,(T - (B + N + S1) / 3.0)/(T + (B + N + S1) / 3.0),"['T', 'B', 'N', 'S1']",https://doi.org/10.14358/PERS.76.5.557,https://github.com/davemlz,2022-04-18
+NDISIg,Normalized Difference Impervious Surface Index Green,urban,(T - (G + N + S1) / 3.0)/(T + (G + N + S1) / 3.0),"['T', 'G', 'N', 'S1']",https://doi.org/10.14358/PERS.76.5.557,https://github.com/davemlz,2022-04-18
+NDISImndwi,Normalized Difference Impervious Surface Index with MNDWI,urban,(T - (((G - S1)/(G + S1)) + N + S1) / 3.0)/(T + (((G - S1)/(G + S1)) + N + S1) / 3.0),"['T', 'G', 'S1', 'N']",https://doi.org/10.14358/PERS.76.5.557,https://github.com/davemlz,2022-04-18
+NDISIndwi,Normalized Difference Impervious Surface Index with NDWI,urban,(T - (((G - N)/(G + N)) + N + S1) / 3.0)/(T + (((G - N)/(G + N)) + N + S1) / 3.0),"['T', 'G', 'N', 'S1']",https://doi.org/10.14358/PERS.76.5.557,https://github.com/davemlz,2022-04-18
+NDISIr,Normalized Difference Impervious Surface Index Red,urban,(T - (R + N + S1) / 3.0)/(T + (R + N + S1) / 3.0),"['T', 'R', 'N', 'S1']",https://doi.org/10.14358/PERS.76.5.557,https://github.com/davemlz,2022-04-18
+NHFD,Non-Homogeneous Feature Difference,urban,(RE1 - A) / (RE1 + A),"['RE1', 'A']",https://www.semanticscholar.org/paper/Using-WorldView-2-Vis-NIR-MSI-Imagery-to-Support-Wolf/5e5063ccc4ee76b56b721c866e871d47a77f9fb4,https://github.com/davemlz,2021-09-17
+PISI,Perpendicular Impervious Surface Index,urban,0.8192 * B - 0.5735 * N + 0.0750,"['B', 'N']",https://doi.org/10.3390/rs10101521,https://github.com/davemlz,2022-04-18
+UI,Urban Index,urban,(S2 - N)/(S2 + N),"['S2', 'N']",https://www.isprs.org/proceedings/XXXI/congress/part7/321_XXXI-part7.pdf,https://github.com/davemlz,2022-02-07
+VIBI,Vegetation Index Built-up Index,urban,((N-R)/(N+R))/(((N-R)/(N+R)) + ((S1-N)/(S1+N))),"['N', 'R', 'S1']",http://dx.doi.org/10.1080/01431161.2012.687842,https://github.com/davemlz,2022-09-22
+VgNIRBI,Visible Green-Based Built-Up Index,urban,(G - N)/(G + N),"['G', 'N']",https://doi.org/10.1016/j.ecolind.2015.03.037,https://github.com/davemlz,2022-02-09
+VrNIRBI,Visible Red-Based Built-Up Index,urban,(R - N)/(R + N),"['R', 'N']",https://doi.org/10.1016/j.ecolind.2015.03.037,https://github.com/davemlz,2022-02-09

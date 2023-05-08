@@ -6,7 +6,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# S4: Procesamiento a GEE
+# S4: Procesamiento con GEE desde R
 
 
 
@@ -16,9 +16,7 @@ options(scipen = 999, stringsAsFactors=F, encoding = "UTF-8")
 options("rgdal_show_exportToProj4_warnings"="none") 
 ```
 
-![](imagenes/S3_diagrama.png){fig-align="center" width="800"}
-
-
+![](imagenes/S4_diagrama.png){fig-align="center" width="800"}
 
 
 ------------------------------------------------------------------------
@@ -28,12 +26,442 @@ options("rgdal_show_exportToProj4_warnings"="none")
 
 
 
+En esta sección, exploraremos el procesamiento de imágenes satelitales y otros datos geoespaciales con Google Earth Engine (GEE) y R. Al utilizar GEE, podremos acceder a una amplia variedad de recursos satelitales y climáticos que nos serán útiles en nuestros análisis. También aprenderemos a crear nuevos índices normalizados para obtener información precisa y detallada sobre los cambios en la superficie terrestre. Por otro lado, R es un lenguaje de programación popular y flexible que nos permitirá realizar análisis avanzados de datos geoespaciales de manera eficiente y efectiva. La combinación de estas dos herramientas nos permitirá realizar análisis complejos y obtener resultados valiosos que nos ayudarán a comprender mejor nuestro entorno.
+
+
+## Índice de Diferencia Normalizada de Agua (NDWI)
+
+El índice de Diferencia Normalizada de Agua (NDWI) es un índice que se utiliza en percepción remota para identificar cuerpos de agua y humedad en la superficie de la tierra. Este índice es especialmente útil cuando se utiliza con imágenes satelitales de Landsat, ya que utiliza bandas espectrales específicas para detectar la presencia de agua.
+
+![Ejemplo de resultados de NDWI](imagenes/ndwi_image.png){fig-align="center" width="400"}
+
+
+El índice NDWI se calcula como (NIR - SWIR) / (NIR + SWIR), donde NIR es la banda del infrarrojo cercano y SWIR es la banda del infrarrojo de onda corta. La razón detrás de este cálculo es que el agua absorbe más radiación en la banda del infrarrojo cercano y refleja menos radiación en la banda del infrarrojo de onda corta, en comparación con otros objetos en la superficie terrestre. Por lo tanto, los cuerpos de agua y la humedad en la superficie de la tierra tendrán un valor NDWI más alto que otros objetos en la imagen.
+
+El índice NDWI es especialmente útil para la detección de cuerpos de agua y humedad en áreas como los bosques y los cultivos, lo que puede ser importante para la comprensión de la salud del ecosistema y la evaluación de la disponibilidad de agua para los cultivos.
+
+
+Dependiendo de la extensión del área de estudio o la disponibilidad de imágenes de calidad (que hayan pasado filtros), a veces es necesario construir un mosaico que es una combinación o fusión de dos o más imágenes.
+
+![Repressentación Gráfica de un Mosaico](imagenes/mosaico.png){fig-align="center" width="600"}
+
+
+## Modelo Digital de Elevación
+
+Un Modelo Digital de Elevación (MDE) es un conjunto de datos que representa la elevación de la superficie terrestre en una región en particular. Los datos del MDE se utilizan comúnmente en percepción remota para la creación de mapas topográficos y la identificación de características geográficas, como montañas, valles y cuerpos de agua.
+
+
+Los MDE se crean mediante la recopilación de datos de elevación a través de diversas técnicas, como la fotogrametría, el LiDAR y la interferometría de radar. Los datos resultantes se procesan para crear un modelo tridimensional de la superficie terrestre que se puede utilizar para análisis y visualizaciones. Los MDE son una herramienta esencial en la percepción remota y se utilizan en una variedad de aplicaciones, desde la gestión de recursos naturales hasta la planificación urbana y la navegación.
+
+
+DSM: 
+: El Modelo Digital de Superficie representa las elevaciones sobre el nivel del mar de las superficies reflectantes de árboles, edificios y otras características elevadas sobre la “Tierra desnuda”.
+
+AVE:
+: Elevation value calculated by average. Valor de elevación calculado mediante el re-muestreo promedio de un modelo de grilla de 5 metros.
+
+
+Aspect: 
+: La orientación puede pensarse como la dirección de la pendiente
+Slope (pendiente): La pendiente representa la inclinación de la superficie.
+
+
+## Información Climática
+
+### Precipitaciones 
+[TerraClimate](https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE#bands) is a dataset of monthly climate and climatic water balance for global terrestrial surfaces. University of California Merced. 
+
+* Resolución Espacial: 2.5 arc minutes (1 arc min = 1,85 km)  = 4625 metros
+* Resolución Temporal: 1 mes
+* Disponible:  1958-01-01 -  2023-04-30
+
+
+### Temperatura
+
+NCEP Climate Forecast System es un modelo totalmente acoplado que representa la interacción entre la atmósfera terrestre, los océanos, la tierra y el hielo marino. Desarrollado en el Environmental Modeling Center (EMC) en NCEP.
+
+* Resolución Espacial: 0.2 arc degrees (1 arc min = 1,85 km)  = 22.2 Km
+* Resolución Temporal: 6 horas
+* Disponible:  1979-01-01 - 2020-11-25
+
 
 ------------------------------------------------------------------------
 
 ![](imagenes/practica.png){fig-align="center" width="200"}
 
+Cargar Librerías 
 
-<br>
+
+```{r}
+suppressMessages(library(sf))
+suppressMessages(library(rgee))
+ee_Initialize('denis.berroeta@gmail.com', drive = TRUE)
+
+suppressMessages(library(tidyverse))
+suppressMessages(library(ggplot2))
+suppressMessages(library(viridis))
+```
+
+
+
+## NDWI en Valdivia
+
+![](imagenes/valdivia.jpg){fig-align="center" width="800"}
+
+### Seleccionar escena de Valdivia
+
+
+```{r}
+coord_valdivia <- c(-73.225, -39.828)
+imagen <- ee$ImageCollection('LANDSAT/LC08/C01/T1_TOA')$
+  filterBounds(ee$Geometry$Point(coords = coord_valdivia))$
+  filterDate('2021-01-01','2021-07-01')$
+  filterMetadata('CLOUD_COVER','less_than', 5)$
+  median()
+```
+
+### Visualización Imagen Satelital en Falso Color
+
+![](imagenes/l8-band-combinations.png){fig-align="center" width="600"}
+
+
+```{r}
+imgViz <- list(min = 0, max = 0.5,  bands = c("B5", "B4", "B3"), gamma = c(0.95, 1.1, 1))
+Map$setCenter(-73.225, -39.828, 12)
+Map$addLayer(imagen, imgViz,'Landsat 8 Image')
+```
+
+###  Calcular NDWI (Normalized Difference Water Index)
+
+![](imagenes/NDWI_f.png){fig-align="center" width="600"}
+
+```{r}
+ndwi <- imagen$normalizedDifference(c("B3", "B5")) # Considerar esta otra forma calcular indices normalizados
+
+ndwiViz <- list(min = 0, max = 1, palette = c("00FFFF",'0080FF', "0000FF"))
+Map$setCenter(-73.225, -39.828, 12)
+Map$addLayer(ndwi, ndwiViz,'NDWI')
+```
+
+### Crear Mácara por umbral
+
+```{r}
+ndwiMask <- ndwi$updateMask(ndwi$gte(0.15)) # similar a los umbrales de NDVI para estimar vegetación
+Map$addLayer(ndwiMask, ndwiViz,'Máscara NDWI')
+```
+
+### Crear Mosaico
+
+![](imagenes/mosaico.png){fig-align="center" width="600"}
+
+
+```{r}
+imageRGB <- imagen$visualize(bands = c('B5', 'B4', 'B3'), max = 0.5, gamma = c(0.95, 1.1, 1))
+ndwiRGB <- ndwiMask$visualize(min = 0.2, max = 1, palette = c('#00FFFF', '#0000FF'))
+mosaic <- ee$ImageCollection(c(imageRGB, ndwiRGB))$mosaic() # función crea mosaico
+Map$setCenter(-73.225, -39.828, 11)
+Map$addLayer(mosaic , list(), 'mosaic') # 
+```
+
+### Generar Área de estudio circular
+```{r}
+roi <- ee$Geometry$Point(c(-73.225, -39.828))$buffer(10000)
+m <- Map$setCenter(-73.225, -39.828, 11)
+m <- Map$addLayer(mosaic$clip(roi))
+m # 
+```
+
+
+## Modelo Digital de Elevación Ejemplo con Volcanes
+
+![](imagenes/volcanosorno-03-m.jpg){fig-align="center" width="600"}
+
+- Lista de [volcanes de Chile Wikipedia](https://es.wikipedia.org/wiki/Anexo:Volcanes_de_Chile)  
+- Información de Volcanes de Chile [https://www.volcanesdechile.net](https://www.volcanesdechile.net)
+
+
+### Definir Área de Estudio
+```{r}
+coods_volcan <- rev(c(-41.1, -72.493056)) # v osorno
+# coods_volcan <- rev(c(-20.933333, -68.483333))	 # v elección
+volcan_p_ee <- ee$Geometry$Point(coords = coods_volcan)
+region <- volcan_p_ee$bounds()$buffer(10000)
+```
+
+
+### Parámetros de Visulización
+```{r}
+
+viz_gray <- list(palette = colorRampPalette(c("gray90","gray20"))( 100 ))
+
+
+viz_pal1 <-
+  list(
+    palette = c(
+      '3ae237',
+      'b5e22e',
+      'd6e21f',
+      'fff705',
+      'ffd611',
+      'ffb613',
+      'ff8b13',
+      'ff6e08',
+      'ff500d',
+      'ff0000',
+      'de0101',
+      'c21301',
+      '0602ff',
+      '235cb1',
+      '307ef3',
+      '269db1',
+      '30c8e2',
+      '32d3ef',
+      '3be285',
+      '3ff38f',
+      '86e26f'
+    ),
+    min = 0.0,
+    max = 360.0
+  )
+
+
+viz_pal2 <-
+  list(
+    palette = c(
+      '0602ff',
+      '235cb1',
+      '307ef3',
+      '269db1',
+      '30c8e2',
+      '32d3ef',
+      '3ae237',
+      'b5e22e',
+      'd6e21f',
+      'fff705',
+      'ffd611',
+      'ffb613',
+      'ff8b13',
+      'ff6e08',
+      'ff500d',
+      'ff0000',
+      'de0101',
+      'c21301'
+    ),
+    min = 0,
+    max = 8859.0
+  )
+```
+
+### Objetos de Elevación
+
+
+```{r}
+DEM <- ee$Image("JAXA/ALOS/AW3D30/V2_2")$clip(region) # cortar por región de estudio
+# ee_print(DEM) #visualizar atributos de objeto gee DEM
+DSM <- DEM$select('AVE_DSM');
+aspect <-  ee$Terrain$aspect(DEM)
+slope <-  ee$Terrain$slope(DEM)
+```
+
+### Visualización
+
+```{r}
+Map$centerObject(region, zoom = 11) 
+Map$addLayer(eeObject = slope, visParams = viz_gray, name = "Slope") + 
+Map$addLayer(eeObject = DSM, visParams = viz_pal2, name = "DSM",  opacity = 1) +
+Map$addLayer(eeObject = aspect, visParams = viz_pal1,name =  "aspect", opacity = 0.5, shown = FALSE)
+```
+
+
+
+## Datos Climáticos
+
+### Estadística Zonal de precipitación Precipitación con Imágenes Satelitales
+
+
+
+[TerraClimate: Monthly Climate and Climatic Water Balance for Global Terrestrial Surfaces, University of Idaho](https://developers.google.com/earth-engine/datasets/catalog/IDAHO_EPSCOR_TERRACLIMATE)
+
+### Extraer Valores de Precipitación Anual Mundial
+
+
+```{r}
+
+terraclimate <- ee$ImageCollection("IDAHO_EPSCOR/TERRACLIMATE")$
+  filterDate("2019-01-01", "2020-01-01")$
+  select("pr")$
+  median()
+
+visParams = list(min = 0, max = 100, palette = c('#00FFFF', '#0000FF'))
+
+Map$setCenter(-60, -21, 3)
+Map$addLayer(terraclimate, visParams, 'Prec (mm)')
+
+```
+
+### Precipitación Anual 2019 RM
+
+![](imagenes/lluvias_rm.jpg){fig-align="center" width="600"}
+
+
+
+
+
+```{r}
+# Leeer Shape RM
+rm <- st_read("data/shape/Reg_Met.shp") %>% 
+  st_transform("+proj=longlat +datum=WGS84 +no_defs")
+
+rm_ee <-  rm%>%
+  st_geometry() %>% ## Solamente me quedo con la geometría (descarto la data)
+  sf_as_ee()
+```
+
+
+
+```{r}
+
+terraclimate <- ee$ImageCollection("IDAHO_EPSCOR/TERRACLIMATE")$
+  filterDate("2017-01-01", "2018-01-01")$
+  map(function(x){
+    date <- ee$Date(x$get("system:time_start"))$format('YYYY_MM_dd')
+    name <- ee$String$cat("Terraclimate_pp_", date)
+    x$select("pr")$reproject("EPSG:4326")$set("RGEE_NAME", name)
+  })
+
+#proceso clave de extracción de datos satelitales y los lleva a tabla
+ee_rm_rain <- ee_extract(x = terraclimate, y = rm_ee, sf = FALSE )
+colnames(ee_rm_rain) <- sprintf("%02d", 1:12)
+
+head(ee_rm_rain)
+
+pr_data <- ee_rm_rain %>%
+  pivot_longer(cols = 01:12, names_to = "month", values_to = "pr")
+
+ggplot(data = pr_data, aes(x = month, y = pr, color = pr, group=1)) +
+  geom_point(size = 4) +
+  scale_color_viridis()+
+  geom_line(alpha = 0.4, color = "gray50") +
+    ggtitle(lab = "Precipitaciones: IDAHO_EPSCOR/TERRACLIMATE", 
+          subtitle = "Región Metropolitana") +
+  xlab("Month") +
+  ylab("Precipitation (mm)") +
+  theme_minimal()
+```
+
+
+### Estadísticas Zonal de Temperatura
+
+[CFSV2: NCEP Climate Forecast System Version 2, 6-Hourly Products](https://developers.google.com/earth-engine/datasets/catalog/NOAA_CFSV2_FOR6H)
+
+```{r eval =FALSE}
+# https://developers.google.com/earth-engine/datasets/catalog/NOAA_CFSV2_FOR6H#description
+dataset <- ee$ImageCollection('NOAA/CFSV2/FOR6H')$
+  filter(ee$Filter$date('2019-01-01', '2020-01-01'))$
+  median()
+
+temperatureAboveGround = dataset$select('Temperature_height_above_ground')
+visParams = list(min= 220.0,  max = 310.0, 
+                 palette = colorRampPalette(c('blue', 'purple', 'cyan', 'green', 'yellow', 'red'))( 10 ))
+Map$setCenter(-60, -21, 3)
+Map$addLayer(temperatureAboveGround, visParams, 'Temp. Ground')
+```
+
+
+#### Temperatura RM 4 veces al día
+
+![](imagenes/temp_cordillera.jpg){fig-align="center" width="600"}
+
+
+["Alarmante estimación proyecta que cordillera de los Andes se quedaría sin nieve y los ríos de la zona central se podrían secar en un plazo de 40 años": Diario La Tercera 22-ABR-2021 ](https://www.latercera.com/que-pasa/noticia/alarmante-estimacion-proyecta-que-cordillera-de-los-andes-se-quedaria-sin-nieve-y-los-rios-de-la-zona-central-se-podrian-secar-en-un-plazo-de-40-anos/QRIIWPE7VNAWPIMYGGFJ6N7WXI/)
+
+```{r}
+temp <- ee$ImageCollection('NOAA/CFSV2/FOR6H')$
+  filterDate('2019-01-01', '2019-04-01')$
+  map(function(x){
+    date <- ee$Date(x$get("system:time_start"))$format('YYYY_MM_dd')
+    name <- ee$String$cat("temp_", date)
+    x$select("Temperature_height_above_ground")$set("RGEE_NAME", name)
+  })
+
+ee_rm_temp <- ee_extract(x = temp, y = rm_ee, sf = FALSE )
+
+#función para generar vector de días 
+make_rep <- function(min, max, n_rep = 4){
+  vec <- NULL
+  for(i in min:(max/n_rep)){
+    num <- rep(i, n_rep)
+    vec <- c(vec, as.integer(num))}
+  return(vec)
+}
+
+
+dias <- make_rep(min = 1, max = length(ee_rm_temp), n_rep = 4)
+
+
+temp_data <- ee_rm_temp %>%
+  pivot_longer(cols = 1:length(ee_rm_temp), names_to = "dia_total", values_to = "temp")%>%
+  mutate(dia = dias, gr_celcius = as.numeric(temp) -273.15 )%>%
+  group_by(dia)%>%
+  summarise(temp_prom = mean(gr_celcius),.groups = "keep" )%>%
+  as.data.frame()
+  
+
+ggplot(data = temp_data, aes(x = dia, y = temp_prom, color = temp_prom)) +
+  geom_point() +
+  geom_line(alpha = 0.4) +
+  scale_color_viridis(option="magma")+
+  ggtitle(lab = "Temperatura: NOAA/CFSV2/FOR6H", 
+          subtitle = "Región Metropolitana") +
+  xlab("Día") +
+  ylab("Temperatura") +
+  theme_minimal()
+
+```
+
+#### Temperatura Las Condes 4 veces al día
+
+```{r}
+LC_ee <- st_read("data/shape/LasCondes.shp") %>% 
+  st_transform("+proj=longlat +datum=WGS84 +no_defs")%>%
+  st_geometry() %>% # solo quedarse con la geometría
+  sf_as_ee()
+  
+  
+ee_lc_temp <- ee_extract(x = temp, y = LC_ee, sf = FALSE) 
+# Extrae los valores por un promedio por cada geometría
+ # fun = ee$Reducer$mean()
+
+dias <- make_rep(min = 1, max = length(ee_lc_temp), n_rep = 4)
+
+temp_data <- ee_lc_temp %>%
+  pivot_longer(cols = 1:length(ee_rm_temp), names_to = "dia_total", values_to = "temp")%>%
+  mutate(dia = dias, gr_celcius = as.numeric(temp) -273.15 )%>%
+  group_by(dia)%>%
+  summarise(temp_prom = mean(gr_celcius),.groups = "keep" )%>%
+  as.data.frame()
+  
+
+ggplot(data = temp_data, aes(x = dia, y = temp_prom, color = temp_prom)) +
+  geom_point() +
+  geom_line(alpha = 0.4) +
+  scale_color_viridis(option="magma")+
+  ggtitle(lab = "Temperatura: NOAA/CFSV2/FOR6H", 
+          subtitle = "Comuna de Las Condes") +
+  xlab("Día") +
+  ylab("Temperatura") +
+  theme_minimal()
+
+```
+
+
 
 ## Referencias
+
+
+Google Earth Engine for R 
+[https://github.com/r-spatial/rgee](https://github.com/r-spatial/rgee)
+
+Ejemplos
+[https://csaybar.github.io/rgee-examples/](https://csaybar.github.io/rgee-examples/)
+
