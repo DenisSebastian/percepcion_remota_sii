@@ -1,6 +1,8 @@
 <br>
 
+<center>
 [![](imagenes/Logo_CIT_UAI_Negro.png){fig-align="left" width="250"}](https://cit.uai.cl) ![](imagenes/Sentinel-2.png){fig-align="right" width="150"}
+</center>
 
 <br>
 
@@ -10,24 +12,22 @@ El curso se enfoca en entregar a los asistentes las nociones básicas de Percepc
 
 
 ## Programa
-![](imagenes/all_diagrama.png){fig-align="center" width="800"}
+![](imagenes/all_diagrama.png){fig-align="center" width="1000"}
 
 
 
 
-## Profesor: Denis Berroeta González {.unnumbered}
+## Profesor: {{< var profesor.name >}} {.unnumbered}
 
-Coordinador de Investigación en el Centro de Inteligencia Territorial (CIT).   
-email: <denis.berroeta@uai.cl>
+{{< var profesor.cargo >}}, email: {{< var profesor.email >}}
 
 Ingeniero en Prevención de Riesgos, Magíster en Inteligencia Artificial, Doctorado y Master in Data Science (cursando). Experiencia en en Percepción Remota Profesor en Diplomado de Gestión y evidencia Territorial, Servicio Aerofotogramétrico de la Fuerza Aérea de Chile y SII. Tema de Tesis Detección de Cambios en Imágenes Radar con técnicas de deep learning.
 
 Profesor de cursos y postgrados de Facultad de Gobierno UAI, CIAE de Universidad de Chile, Contraloría General de la República.
 
-## Ayudante: Felipe Matas Vicent{.unnumbered}
+## Ayudante:  {{< var ayudante.name >}} {.unnumbered}
 
-Analista de investigación y desarrollo en el Centro de Inteligencia Territorial (CIT).  
-email: <felipe.matas@edu.uai.cl>
+{{< var ayudante.cargo >}}, email: {{< var ayudante.email >}}
 
 Ingeniero Industrial con mención en energía. Levantamiento, implementación y desarrollo de nuevas tecnologías y metodologías, soporte a proyectos.
 

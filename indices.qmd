@@ -20,6 +20,7 @@ suppressMessages(library(sf))
 suppressMessages(library(mapview))
 suppressMessages(library(rgee))
 suppressMessages(library(DT))
+suppressPackageStartupMessages(library(kableExtra))
 ee_Initialize('denis.berroeta@gmail.com', drive = TRUE)
 ```
 
@@ -29,9 +30,18 @@ ee_Initialize('denis.berroeta@gmail.com', drive = TRUE)
 
 Los índices espectrales son herramientas utilizadas en percepción remota para analizar la reflectancia de la superficie terrestre en diferentes longitudes de onda del espectro electromagnético. Estos índices se basan en la relación entre la reflectancia en dos o más bandas espectrales y se utilizan para medir diferentes propiedades de la vegetación, como la salud, la humedad y la densidad.
 
+
+La más comun formula matemática de diferencia normalizada es la siguiente:
+
+$$\frac{(B_x-B_y)}{(B_x+B_y)}$$
+En términos prácticos, se trata de la diferencia entre dos bandas seleccionadas normalizada por su suma. Este tipo de cálculo es muy útil para minimizar (en la medida de lo posible) los efectos de la iluminación (sombras en regiones montañosas, sombras de nubes, etc.) y mejorar las características espectrales que inicialmente no son visibles.
+
+![NDVI (Índice de Vegetación de Diferencia Normalizada)](imagenes/ndvi_index.png){fig-align="center" width="400" #fig-ndviLeaf}
+
+
 Algunos de los índices espectrales más utilizados son:
 
-- **NDVI (Índice de Vegetación de Diferencia Normalizada)**: Este índice se utiliza para medir la salud y densidad de la vegetación. Se calcula utilizando la reflectancia en la banda roja y la banda infrarroja cercana. Un valor alto de NDVI indica una vegetación densa y saludable.
+- **NDVI (Índice de Vegetación de Diferencia Normalizada)**: Este índice se utiliza para medir la salud y densidad de la vegetación. Se calcula utilizando la reflectancia en la banda roja y la banda infrarroja cercana. Un valor alto de NDVI indica una vegetación densa y saludable (@fig-ndviLeaf).
 - **EVI (Índice de Vegetación Mejorado)**: Este índice también se utiliza para medir la salud y densidad de la vegetación, pero tiene en cuenta factores como la influencia del suelo y la atmósfera. Se calcula utilizando la reflectancia en la banda azul, roja e infrarroja cercana.
 - **SAVI (Índice de Vegetación Ajustado para Suelo)**: Este índice se utiliza para reducir la influencia del suelo en la medición de la vegetación. Se calcula utilizando la reflectancia en la banda roja y la infrarroja cercana y tiene en cuenta la cantidad de luz reflejada por el suelo.
 - **NLI (Índice de Línea de Agua Normalizado)**: Este índice se utiliza para medir la cantidad de agua en una superficie. Se calcula utilizando la reflectancia en la banda verde y la banda infrarroja cercana.
@@ -133,7 +143,7 @@ roi_ee <-  roi%>%
 
 ### Selección Imagen Satelital {#sec-psat}
 
-[Harmonized Sentinel-2 MSI: MultiSpectral Instrument, Level-1C](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_HARMONIZED#bands)
+Para el sieguiente análisis usaremos el un producto satelital de {{< var gee.sentinel >}}, denominado [Harmonized Sentinel-2 MSI: MultiSpectral Instrument, Level-1C](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_HARMONIZED#bands)
 
 
 ```{r}
@@ -172,7 +182,7 @@ S2 <- ee$ImageCollection("COPERNICUS/S2_HARMONIZED")$
 ```
 
 
-```{r}
+```{r eval=FALSE}
 
 viz <- list(bands = c("B4", "B3", "B2"), min = 0, max = 0.3)
 Map$centerObject(eeObject = S2,zoom = 12) 
@@ -212,8 +222,8 @@ bands <- data.frame(
                        "Red Edge 4","Water vapor","SWIR 1","SWIR 2")
 )
 bands %>%   
-  datatable(
-            options = list(pageLength = 12))
+  kbl() %>%
+   kable_styling(bootstrap_options = c("striped", "hover", "condensed"), font_size = 16)
 ```
 
 
@@ -240,7 +250,7 @@ S2_NDBI <- F_NDBI(S2)
 ### Visualizar Resultados
 
 
-```{r}
+```{r eval=FALSE}
 pal_ndbi <- c('white' , 'white', 'white', 'red' , 'red', 'red')
 
 viz_ndbi<- list(min=-1,
@@ -313,7 +323,7 @@ ggplot(mz_sii_urb, aes(x = NDBI)) +
 
 ### Visualización espacial de NDBI {#sec-vismap}
 
-```{r}
+```{r eval=FALSE}
 mapview(mz_sii_urb, zcol= "NDBI")
 ```
 
@@ -436,7 +446,7 @@ Map$addLayer(mosaic , list(), 'mosaic')
 
 ### Creación de Serie Anual desde el 2015 al 2020
 
-```{r}
+```{r eval=FALSE}
 imagen <- ee$ImageCollection('LANDSAT/LC08/C01/T1_TOA')$
   filterBounds(region)$
   filterDate('2015-01-01','2020-12-31')$
@@ -473,3 +483,10 @@ map1
 # referencias: # https://github.com/r-spatial/rgee/blob/examples/ImageCollection/creating_monthly_imagery.R
 ```
 
+## Referencias
+
+- [A initial approach on how to understand spectral indices](https://www.geo.university/pages/spectral-indices-in-remote-sensing-and-how-to-interpret-them)
+
+- [Spectral indices in remote sensing- part-1](https://medium.com/@behasg_geo/spectral-indices-in-remote-sensing-part-1-729ec313feff)
+
+- [A standardized catalogue of spectral indices to advance the use of remote sensing in Earth system research](https://www.nature.com/articles/s41597-023-02096-0)

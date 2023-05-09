@@ -1,0 +1,49 @@
+version: 1
+
+email:
+  author: "<denis.berroeta@uai.cl>"
+
+profesor:
+  name: "[Denis Berroeta](https://cit.uai.cl/denis-berroeta/)"
+  cargo: "Coordinador de Investigación, [Centro de Inteligencia Territorial - UAI](https://cit.uai.cl)"
+  email: "<denis.berroeta@uai.cl>"
+
+ayudante:
+  name: "[Felipe Matas](https://cit.uai.cl/felipe-matas/)"
+  cargo: "Analista de investigación y desarrollo, [Centro de Inteligencia Territorial - UAI](https://cit.uai.cl)"
+  email: "<felipe.matas@edu.uai.cl>"
+  
+gee:
+  catalogo: "[Earth Engine Data Catalog](https://developers.google.com/earth-engine/datasets)"
+  landsat: "[Landsat Collections](https://developers.google.com/earth-engine/datasets/catalog/landsat)"
+  landsat_8: "[Landsat 8](https://developers.google.com/earth-engine/datasets/catalog/landsat-8)"
+  landsat_9: "[Landsat 9](https://developers.google.com/earth-engine/datasets/catalog/landsat-9)"
+  sentinel: "[Sentinel Collections](https://developers.google.com/earth-engine/datasets/catalog/sentinel)"
+  sentinel_2: "[Sentinel-2](https://developers.google.com/earth-engine/datasets/catalog/sentinel-2)"
+  code_editor: "[Code Editor](https://code.earthengine.google.com)"
+  doc_python: "[Documentación en Python](https://developers.google.com/earth-engine/guides/python_install)"
+  doc_js: "[Documentación en Javascript](https://developers.google.com/earth-engine/tutorials/tutorial_js_01)"
+  
+engine:
+  jupyter: "[Jupyter](https://jupyter.org)"
+  knitr: "[Knitr](<https://yihui.name/knitr>)"
+  R: "[The R Project for Statistical Computing](https://www.r-project.org)"
+  python: "[Python](https://www.python.org)"
+  
+libs:
+  rgee: "[rgee](https://github.com/r-spatial/rgee)"
+  reticulate: "[reticulate](https://rstudio.github.io/reticulate/)"
+  sf: "[Simple Features for R](https://r-spatial.github.io/sf/articles/sf1.html)"
+  dplyr: "[Dplyr](https://dplyr.tidyverse.org)"
+  purrr: "[Purrr](https://purrr.tidyverse.org)"
+  mapview: "[Mapview](https://r-spatial.github.io/mapview/)"
+  lubridate: "[Lubridate](https://lubridate.tidyverse.org)"
+  tidyr: "[Tidyr](https://tidyr.tidyverse.org)"
+  plotly: "[Plotly](https://plotly.com/r/)"
+  
+organization:
+  sii: "[Servicio de Impuestos Internos](https://homer.sii.cl)"
+  ine: "[Instituto Nacional de Estadísticas](https://www.ine.gob.cl)"
+  
+  
+  

@@ -148,11 +148,13 @@ Algunos productos satelitales son diponibilizados con una o varias correcciones 
 
 ## Satélites más Utilizados
 
+Google Earth Engine ofrece un {{< var gee.catalogo >}} de todos los productos satelitales disponibles en su plataforma, que cuenta con información relevante y como usarse. A continucación se especifica dos de sensores óptimos más utilizados.
+
 ### Landsat 8
 
 ![](imagenes/landsat8.png){fig-align="center"  width="400"}
 
-[Landsat 8](https://es.wikipedia.org/wiki/Landsat_8) es un satélite de observación terrestre estadounidense lanzado el 11 de febrero de 2013. operado en la colaboración de la NASA con el USGS. El estudio de los datos se realiza mediante dos sensores principales. El satélite opera en luz visible, infrarrojo cercano, infrarrojo de onda corta e infrarrojo térmico (de onda larga). Las bandas de Landsat 8 están configuradas en 11 diferentes en base a la longitud de onda de su visión.
+[Landsat 8](https://es.wikipedia.org/wiki/Landsat_8) es un satélite de observación terrestre estadounidense lanzado el 11 de febrero de 2013. operado en la colaboración de la NASA con el USGS. El estudio de los datos se realiza mediante dos sensores principales. El satélite opera en luz visible, infrarrojo cercano, infrarrojo de onda corta e infrarrojo térmico (de onda larga). Las bandas de Landsat 8 están configuradas en 11 diferentes en base a la longitud de onda de su visión. (Catálogo gee {{< var gee.landsat_8 >}})
 
 ![](imagenes/L8_L7bands.jpg){fig-align="center"  width="800"}
 
@@ -189,13 +191,13 @@ tbl_l8 %>%
 
 ![](imagenes/sentinel-2.jpeg){fig-align="center"  width="300"}
 
-[Sentinel-2](https://es.wikipedia.org/wiki/Sentinel-2) es una misión de observación terrestre desarrollada por la ESA dentro del programa Copérnico. Está compuesto por dos satélites idénticos: Sentinel-2A (junio de 2015) y Sentinel-2B (marzo de 2017)
+[Sentinel-2](https://es.wikipedia.org/wiki/Sentinel-2) es una misión de observación terrestre desarrollada por la ESA dentro del programa Copérnico. Está compuesto por dos satélites idénticos: Sentinel-2A (junio de 2015) y Sentinel-2B (marzo de 2017). (Catálogo gee {{< var gee.sentinel_2 >}})
 
 **Características:**
 
 -   Imagen multiespectral datos con 13 bandas
 -   Sentinel-2 realiza las labores cada 5 días, pero con diferentes ángulos de visión.
--   La resolución espacial de 10 m, 20 m y 60 m
+-   La resolución espacial de 10m, 20m y 60m
 -   Política de datos libre y en abierto
 
 ```{r echo=FALSE}

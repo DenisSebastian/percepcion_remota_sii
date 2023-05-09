@@ -54,7 +54,7 @@ La [**Infraestructura de Google**]{style="color: orange;"} pone a disposición d
 
 Google tiene almacenado todas las imágenes de varios sensores (Landsat, Sentinel, MODIS, entre otros). Estas bases de datos se actualizan a medida que se toman nuevas imágenes (cerca de 6000 nuevas escenas diarias). Sin necesidad de descargar ni solicitar acceso a las imágenes.
 
-[Datasets](https://developers.google.com/earth-engine/datasets/) disponibles.
+{{< var gee.catalogo >}}
 
 
 [![Rescursos Satelitales disponibles en Google Earth Engine.](imagenes/recursos_rgee.jpg){fig-align="center" width="600"}](https://developers.google.com/earth-engine/datasets/)
@@ -78,20 +78,20 @@ Python:
 : Es un lenguaje de programación interpretado cuya filosofía hace hincapié en la legibilidad de su código. Multipropósito.
 
 
-- [Documentación Python](https://developers.google.com/earth-engine/guides/python_install) 
+- {{< var gee.doc_python >}}
 
 Javascript: 
 : Es un lenguaje de programación interpretado. Se define como orientado a objetos, basado en prototipos, imperativo, débilmente tipado y dinámico. Uso en la web.
 
-- [Documentación Javascript](https://developers.google.com/earth-engine/tutorials/tutorial_js_01)
+- {{< var gee.doc_js >}}
 
 
 ## Editor de Código GEE
 
 El [**Code Editor**]{style="color: orange;"} es el  entorno de desarrollo integrado en línea, donde se juntan todos los elementos. Aquí es donde el usuario puede, a través de código de trabajo (“scripts”), llamar a los datos, procesar y visualizarlos de manera virtual con los servidores de Google, teniendo así sus resultados e información en la nube.
 
+![Interface del {{< var gee.code_editor >}} en linea](imagenes/code_editor.png){fig-align="center" width="800"}
 
-[![Interface del Code Editor en linea](imagenes/code_editor.png){fig-align="center" width="800"}](https://code.earthengine.google.com/d8efe6c33fd66a940267fa753a2967ef)
 
 
 
@@ -106,9 +106,9 @@ El [**Code Editor**]{style="color: orange;"} es el  entorno de desarrollo integr
 
 ![](imagenes/logo_rgee.png){fig-align="center" width="100"}
 
-[**Rgee**](https://github.com/r-spatial/rgee) es una "librería cliente" de Earth Engine para R, desarrollada por @AybarRgee que permite a los usuarios aprovechar las ventajas que presenta el ecosistema espacial de R dentro de Google Earth Engine y viceversa.
+La librería {{< var libs.rgee >}} es una "librería cliente" de Earth Engine para R, desarrollada por @AybarRgee que permite a los usuarios aprovechar las ventajas que presenta el ecosistema espacial de R dentro de Google Earth Engine y viceversa.
 
-Todas las clases, módulos y funciones de la API de *Python* de Earth Engine están disponibles en R gracias a la librerí a *[reticulate](https://rstudio.github.io/reticulate/)*, finalmente rgee adiciona nuevos features como el diseño del imput y output de datos, la visualización en mapas interactivos, la facil extracción de series de tiempo, el manejo y la visualización de metadatos.
+Todas las clases, módulos y funciones de la API de {{< var engine.python >}} de Earth Engine están disponibles en R gracias a la librería {{< var libs.reticulate >}}, finalmente rgee adiciona nuevos features como el diseño del imput y output de datos, la visualización en mapas interactivos, la facil extracción de series de tiempo, el manejo y la visualización de metadatos.
 
 ![](imagenes/diagrama_rgee.png){fig-align="center" width="800"}
 
@@ -127,7 +127,7 @@ install.packages('viridis') #Para manejar paletas decolores
 install.packages('ggmap') # Para manejar tipos de basemap
 ```
 
-Instalar [Rgee](https://github.com/r-spatial/rgee) (solo si no tiene la librería instalada)
+Instalar {{< var libs.rgee >}}  (solo si no tiene la librería instalada)
 
 ```{r eval=FALSE}
 # remotes::install_github("r-spatial/rgee", force = TRUE)
@@ -179,7 +179,7 @@ Acceso a Recursos Satelitales
 ![](imagenes/recursos_rgee.jpg){fig-align="center" width="800"}
 
 
-Los cátalogos de información satelitan se enuentran en [https://developers.google.com/earth-engine/datasets/](https://developers.google.com/earth-engine/datasets/), donde insluso tiene un buscador.
+Los cátalogos de información satelitan se enuentran en {{< var gee.catalogo >}}, donde insluso tiene un buscador.
 
 Se puede explorar los catálos de Información con **rgee**, por ejemplo:
 
@@ -205,13 +205,13 @@ landsat <- dataset$select('EVI')
 
  A continuación se hara un consulta de imágenes disponibles en una obicación específica (punto), fechas (rango), y con cierta calidad (cobertura de nubes).
  
-Se definirán las coordenadas variables hacer la consulta de disponibilidad de recursos
+Se definirán las coordenadas variables hacer la consulta de disponibilidad de recursos satelitales
 
 
 ```{r}
 
 # Ubicación:
-coordendas <- c(-71.6838, -33.4427) # isla negra
+coordendas <- c(-71.6838, -33.4427) #isla negra
 # coordendas <- c(-70.66, -33.45) # Santiago
 # coordendas <- c(-70.15027, -20.21326) # Iquique
 # coordendas <- c(-73.04977, 36.82699) # Concepción
