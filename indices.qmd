@@ -31,7 +31,7 @@ ee_Initialize('denis.berroeta@gmail.com', drive = TRUE)
 Los índices espectrales son herramientas utilizadas en percepción remota para analizar la reflectancia de la superficie terrestre en diferentes longitudes de onda del espectro electromagnético. Estos índices se basan en la relación entre la reflectancia en dos o más bandas espectrales y se utilizan para medir diferentes propiedades de la vegetación, como la salud, la humedad y la densidad.
 
 
-La más comun formula matemática de diferencia normalizada es la siguiente:
+La más común formula matemática de diferencia normalizada es la siguiente:
 
 $$\frac{(B_x-B_y)}{(B_x+B_y)}$$
 En términos prácticos, se trata de la diferencia entre dos bandas seleccionadas normalizada por su suma. Este tipo de cálculo es muy útil para minimizar (en la medida de lo posible) los efectos de la iluminación (sombras en regiones montañosas, sombras de nubes, etc.) y mejorar las características espectrales que inicialmente no son visibles.
@@ -89,7 +89,7 @@ library(mapview)
 
 <!-- ![Aplicación de Awesome Spectral Indices](imagenes/espectro_app.gif){fig-align="center" width="600"} -->
 
-Si seleccionamos los índices espectrales obtendremos la siguente lista
+Si seleccionamos los índices espectrales obtendremos la siguiente lista
 
 
 ```{r echo=FALSE}
@@ -115,7 +115,7 @@ Seleccionares índices espectrales urbanos ([comparaciones de indices urbanos](h
 
 
 
-![NDBI Normalized Difference Built-Up Index](imagenes/NDBI.png){fig-align="center" width="600"}
+![NDBI Normalized Difference Built-Up Index](imagenes/ndbi.png){fig-align="center" width="600"}
 
 
 
@@ -143,7 +143,7 @@ roi_ee <-  roi%>%
 
 ### Selección Imagen Satelital {#sec-psat}
 
-Para el sieguiente análisis usaremos el un producto satelital de {{< var gee.sentinel >}}, denominado [Harmonized Sentinel-2 MSI: MultiSpectral Instrument, Level-1C](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_HARMONIZED#bands)
+Para el siguiente análisis usaremos el un producto satelital de {{< var gee.sentinel >}}, denominado [Harmonized Sentinel-2 MSI: MultiSpectral Instrument, Level-1C](https://developers.google.com/earth-engine/datasets/catalog/COPERNICUS_S2_HARMONIZED#bands)
 
 
 ```{r}
@@ -198,9 +198,12 @@ Map$addLayer(S2, viz, "RGB")
 la función NDBI corresponde a la siguiente:
 
 $$NDBI = \frac{S1-N}{S1+N}$$
-Por lo anterior es muy importante conocer los nombres de la bandas para crear correctamente la función, a continuación de exponen las bandas del producto satelital sentinel.
+Por lo anterior es muy importante conocer los nombres de la bandas para crear correctamente la función, a continuación de exponen las bandas del producto satelital Sentinel. Buscar información de productos satelitales en {{< var gee.catalogo >}} de donde se obtuvo la siguiente @tbl-bandsS2 para el caso de Sentinel 2.
 
 ```{r echo=FALSE}
+#| label: tbl-bandsS2
+#| tbl-cap: Bandas de Sentinel 2
+
 bands <- data.frame(
   stringsAsFactors = FALSE,
               Name = c("B1","B2","B3","B4","B5",
@@ -269,6 +272,7 @@ Map$addLayer(S2_NDBI,visParams =viz_ndbi)
 mz_sii <- readRDS("data/rds/mz_constru_SII.rds") %>% 
   st_as_sf() %>% 
   filter(n_com == mi_comuna) %>% 
+  st_intersection(roi) %>% # seleccionar solo mazanas urbanas
   mutate(id = 1:nrow(.))
 ```
 
@@ -304,6 +308,7 @@ mz_sii_urb <- mz_sii %>%
 
 ### Corrección
 
+Para eliminar los _falsos positivos_ se propone que todas las manzanas que tengan un total de metros construidos igual a cero el valor de NDBI y sea NA, caso contrario mantiene el valor original.
 
 ```{r}
 mz_sii_urb <- mz_sii_urb %>% 
@@ -312,7 +317,12 @@ mz_sii_urb <- mz_sii_urb %>%
 
 ### Histograma de NDVI
 
+Para conocer la distribución de frecuencia de los valores del Índice se presenta su histograma (@fig-histo). En caso de creer que se necesita definir un umbral de corte se puede tomar esa decisión observando esta distribución.
+
 ```{r}
+#| label: fig-histo
+#| fig-cap: "Histograma de valores de NDBI"
+
 ggplot(mz_sii_urb, aes(x = NDBI)) +
   geom_histogram(bins = 50, fill = "#1d91c0", color ="gray80")+
   theme_bw()+
@@ -323,12 +333,19 @@ ggplot(mz_sii_urb, aes(x = NDBI)) +
 
 ### Visualización espacial de NDBI {#sec-vismap}
 
+Visualización espacial de dinámica de los resultados (book no disponible por memoria)
+
 ```{r eval=FALSE}
 mapview(mz_sii_urb, zcol= "NDBI")
 ```
 
+Para una visualización estática de las manzanas con el valor del índice se crea siguiente de figura (@fig-mapNDBI) utilizando la librería {{< var libs.ggplot >}} y para paleta de colores llamada {{< var libs.viridis >}}.
+
+
 ```{r}
-library(ggplot2)
+#| label: fig-mapNDBI
+#| fig-cap: "Índice NDBI en la comuna de Las Condes"
+
 library(viridis)
 
 # Visualización ggplot y sf
@@ -375,24 +392,47 @@ Para el siguiente análisis utilizaremos el NDWI: Normalized Difference Water In
 
 ### Lectura de Insumo Cuerpos de Agua Nacional
 
+Lectura de los cuerpos de agua a nivel nacional
 ```{r}
 masas_agua <- st_read("data/shape/masas_agua.shp", quiet = T)
 masas_agua
+```
 
+Filtro por patrón de texto para identificar el cuerpo de agua que necesitamos
+
+```{r}
 #Buscar nombre del cuerpo de aguar por patrón de texto
 grep(pattern = "Aculeo$", x = masas_agua$NOMBRE, value = T)
+```
 
+Filtro por patrón de texto para identificar el cuerpo de agua que necesitamos posteriormente se le remueve en las islas interiores en la laguna.
+
+```{r}
 # Leer Laguna Aculeo
 lag_aculeo <- masas_agua%>%
   filter(NOMBRE == "Laguna de Aculeo")%>%
-  sfheaders::sf_remove_holes() ## remover poligonos internos%>%>%
+  sfheaders::sf_remove_holes() ## remover polígonos internos%>%>%
 ```
+
+Visualización de la laguna Acualeo
 
 
 ```{r}
-plot(lag_aculeo$geometry,col = "skyblue",  main = "Laguna Aculeo")
+#| label: fig-lagAculeo
+#| fig-cap: "Laguna de Aculeo"
+
+ggplot() +
+  geom_sf(data = lag_aculeo, fill = "#1d91c0", alpha=0.7)+
+  ggtitle("Laguna Aculeo") +
+  theme_bw() +
+  theme(legend.position="none")+
+  theme(panel.grid.major = element_line(colour = "gray80"),
+        panel.grid.minor = element_line(colour = "gray80"))
+
+
 ```
 
+Crear objetos en formato E.Engine para su utilización con la plataforma
 
 ```{r}
 #Laguna Formato ee
@@ -401,12 +441,14 @@ lag_aculeo_ee <- lag_aculeo%>%
   st_transform(4326)%>%  #crs atlon
   sf_as_ee()
 
-# regiòn  para definir regiòn de interès para los mapas
+# región  para definir región de interés para los mapas
 region <- lag_aculeo_ee$geometry()$bounds()
 
 ```
 
 ### Lectura de insumo satelital visualización previa
+
+A continuación se procederá a calcular el índice normalizado de Water index para un año en específico en este caso 2018 y visualizar su resultado en un mapa
 
 ```{r}
 
@@ -436,6 +478,8 @@ mapa
 
 ### Construcción de un Mosaico con NDWI y Falso Color
 
+Con el producto anterior se procederá a construir un mosaico con la imagen de el índice de agua y la composición falso color para mostrar sus resultados posteriormente en un mapa.
+
 ```{r}
 imageRGB <- imagen$visualize(bands = c('B5', 'B4', 'B3'), max = 0.5, gamma = c(0.95, 1.1, 1))
 ndwiRGB <- ndwiMask$visualize(min = 0, max = 1, palette = c('#00FFFF', '#0000FF'))
@@ -446,28 +490,60 @@ Map$addLayer(mosaic , list(), 'mosaic')
 
 ### Creación de Serie Anual desde el 2015 al 2020
 
+Finalmente lo que se desea es aplicar el procedimiento anterior pero para cada uno de los años de una serie anual de forma automatizada aplicando una función.
+
+
+Cómo primer paso se procede a la generación de la colección de imágenes {{< var gee.landsat_8 >}} que se utilizarán para el generar la serie anual.
+
 ```{r eval=FALSE}
 imagen <- ee$ImageCollection('LANDSAT/LC08/C01/T1_TOA')$
   filterBounds(region)$
   filterDate('2015-01-01','2020-12-31')$
   filterMetadata('CLOUD_COVER','less_than', 5)
+```
+
+
+Definición de la secuencia de años en formato ee.
+
+```{r eval=FALSE}
 anual <- ee$List$sequence(2015, 2020)
+```
 
 
+Generación de una función que permite extraer anualmente la colección de imágenes se le aplique la mediana, se capturé tres bandas `("B4", "B3", "B2")` y finalmente se corte por la región todo esto será aplicado por cada uno de los años.
+
+
+```{r eval=FALSE}
 anual_l8 <- function(y) {
   imagen$filter(ee$Filter$calendarRange(y, y, "year"))$
     median()$
     select("B4", "B3", "B2")$
     clip(region)}
+```
 
+
+Aplicación de la función (`anual_l8()`) por cada uno de los años contenido en la secuencia, de forma iterativa,  guardando todo en uno objeto del cual se podrán extraer sus resultados.
+
+```{r eval=FALSE}
 l8_year <- anual$map(ee_utils_pyfunc(anual_l8))
+```
+
+
+Extracción de los resultados anuales independientes para facilitar la generación de Mapas
+
+```{r eval=FALSE}
 l8_year_2015 <- ee$Image(l8_year$get(0))
 l8_year_2016 <- ee$Image(l8_year$get(1))
 l8_year_2017 <- ee$Image(l8_year$get(2))
 l8_year_2018 <- ee$Image(l8_year$get(3))
 l8_year_2019 <- ee$Image(l8_year$get(4))
 l8_year_2020 <- ee$Image(l8_year$get(5))
+```
 
+
+Generación de Mapas por cada uno de los años considerandos en la serie.
+
+```{r eval=FALSE}
 visparams <- list(
   bands = c("B4", "B3", "B2"), min = 0,max = 0.6,gamma = 1.4)
 

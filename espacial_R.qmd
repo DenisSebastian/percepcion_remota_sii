@@ -17,7 +17,7 @@ Los elementos tienen una geometría que describe su ubicación en la Tierra y at
 library(sf)
 crs_ll <- "+proj=longlat +datum=WGS84 +no_defs"
 crs_utm <- "+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"
-censo <-  readRDS("data/rds/Zonas_Censales_2017_Nacional.rds")
+censo <-  readRDS("data/rds/zonas_urb_consolidadas.rds")
 
 ```
 

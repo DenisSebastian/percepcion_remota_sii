@@ -40,6 +40,9 @@ libs:
   lubridate: "[Lubridate](https://lubridate.tidyverse.org)"
   tidyr: "[Tidyr](https://tidyr.tidyverse.org)"
   plotly: "[Plotly](https://plotly.com/r/)"
+  ggplot: "[ggplot2](https://ggplot2.tidyverse.org)"
+  viridis: "[viridis](https://cran.r-project.org/web/packages/viridis/vignettes/intro-to-viridis.html)"
+  
   
 organization:
   sii: "[Servicio de Impuestos Internos](https://homer.sii.cl)"

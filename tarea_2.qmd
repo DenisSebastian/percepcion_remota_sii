@@ -6,7 +6,7 @@ subtitle: "Crear un Índice Espectral"
 # Tarea 2 {.unnumbered}
 
 
-![Estructura de una Raster Espacial](imagenes/Matrix-Raster.png){width="50%" fig-aling=center}
+![](imagenes/logo_gee.jpeg){width="50%" fig-aling=center}
 
 ## Antecedentes
 
@@ -23,7 +23,7 @@ Se necesita crear un índice normalizado espectral que ustedes decidan utilizand
 
 ## 1. Presentación del Problema  (2 puntos)
 
-Identifique un problema que desea visibilizar a través de un índice normalizado (, seleccione área de estudio e insumo satelital. Justifique lo anterior. (2 puntos). 
+Identifique un problema que desea visibilizar a través de un índice normalizado (seleccione área de estudio e insumo satelital. Justifique lo anterior. (2 puntos). 
 
 ::: {.callout-tip}
 ## Selección de Índices @sec-indurb
@@ -32,13 +32,12 @@ Identifique un problema que desea visibilizar a través de un índice normalizad
 ::: {.callout-tip}
 ## Tip: [Aplicación web](https://davemlz-espectro-espectro-91350i.streamlit.app)
 :::
-<br>
 
-## 2. Cáculo de Indicador.  (3 puntos)
+## 2. Cáculo de Indicador.  (2 puntos)
 
 Siga los siguientes pasos:
 
-- Acceda al producto satelital (@sec-psat)
+- Acceda al producto satelital (@sec-psat). Información de recursos satelitales en {{< var gee.catalogo >}}
 - Filtre por fechas, Corte imagen satelital por área de estudio
 - Construya la función de su índice normalizado y aplicar (@sec-findex)
 
@@ -48,7 +47,7 @@ Siga los siguientes pasos:
 
 Siga los siguientes pasos de visualización:
 
-- Identifique si el índice construído requiere que establezca un umbral de corta, si es así aplicar la función.
+- Identifique si el índice construido requiere que establezca un umbral de corta, si es así aplicar la función.
 - Visualice los resultados a través de un mapa dinámico y/ estático
 - Analice los resultados visualmente y realice una conclusión de la distribución espacial de los valores 
 

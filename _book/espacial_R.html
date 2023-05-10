@@ -184,7 +184,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./proc_gee.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">S4: Procesamiento con GEE desde R</span></a>
+  <a href="./proc_gee.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">S4: Procesamiento con GEE</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -203,6 +203,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./tarea_1.html" class="sidebar-item-text sidebar-link">Tarea 1</a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./tarea_2.html" class="sidebar-item-text sidebar-link">Tarea 2</a>
   </div>
 </li>
       </ul>
@@ -312,7 +317,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>crs_ll <span class="ot">&lt;-</span> <span class="st">"+proj=longlat +datum=WGS84 +no_defs"</span></span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>crs_utm <span class="ot">&lt;-</span> <span class="st">"+proj=utm +zone=19 +south +datum=WGS84 +units=m +no_defs +ellps=WGS84 +towgs84=0,0,0"</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>censo <span class="ot">&lt;-</span>  <span class="fu">readRDS</span>(<span class="st">"data/rds/Zonas_Censales_2017_Nacional.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>censo <span class="ot">&lt;-</span>  <span class="fu">readRDS</span>(<span class="st">"data/rds/zonas_urb_consolidadas.rds"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="transformar-a-objeto-sf-simple-features" class="level2" data-number="F.3">
@@ -325,7 +330,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output cell-output-stdout">
 <pre><code> [1] "REGION"     "NOM_REGION" "PROVINCIA"  "NOM_PROVIN" "COMUNA"    
  [6] "NOM_COMUNA" "URBANO"     "DISTRITO"   "LOC_ZON"    "GEOCODIGO" 
-[11] "SHAPE_Leng" "SHAPE_Area" "geometry"  </code></pre>
+[11] "AREA"       "COD_INE_15" "COD_INE_16" "VALIDO"     "KM2"       
+[16] "ESC_JH"     "PERS"       "M2_O"       "M2_C"       "DENS_HAB"  
+[21] "DENS_OF"    "DENS_COM"   "geometry"  </code></pre>
 </div>
 </div>
 </section>
@@ -340,32 +347,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>zonas_com <span class="sc">%&gt;%</span> <span class="fu">head</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Simple feature collection with 6 features and 12 fields
+<pre><code>Simple feature collection with 6 features and 22 fields
 Geometry type: MULTIPOLYGON
 Dimension:     XY
 Bounding box:  xmin: -70.56629 ymin: -33.41713 xmax: -70.47884 ymax: -33.36421
 Geodetic CRS:  +proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0
-            REGION                       NOM_REGION PROVINCIA NOM_PROVIN COMUNA
-13114051001     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
-13114041001     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
-13114041003     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
-13114161002     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
-13114151003     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
-13114021002     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
-            NOM_COMUNA     URBANO DISTRITO LOC_ZON   GEOCODIGO SHAPE_Leng
-13114051001 LAS CONDES LAS CONDES        5       1 13114051001 0.02302722
-13114041001 LAS CONDES LAS CONDES        4       1 13114041001 0.09575698
-13114041003 LAS CONDES LAS CONDES        4       3 13114041003 0.06782420
-13114161002 LAS CONDES LAS CONDES       16       2 13114161002 0.06482893
-13114151003 LAS CONDES LAS CONDES       15       3 13114151003 0.04135677
-13114021002 LAS CONDES LAS CONDES        2       2 13114021002 0.04687558
-              SHAPE_Area                       geometry
-13114051001 3.357387e-05 MULTIPOLYGON (((-70.56008 -...
-13114041001 2.708800e-04 MULTIPOLYGON (((-70.47951 -...
-13114041003 2.451087e-04 MULTIPOLYGON (((-70.5267 -3...
-13114161002 1.450608e-04 MULTIPOLYGON (((-70.50789 -...
-13114151003 8.288767e-05 MULTIPOLYGON (((-70.51477 -...
-13114021002 5.754391e-05 MULTIPOLYGON (((-70.53606 -...</code></pre>
+  REGION                       NOM_REGION PROVINCIA NOM_PROVIN COMUNA
+1     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+2     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+3     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+4     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+5     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+6     13 REGIÓN METROPOLITANA DE SANTIAGO       131   SANTIAGO  13114
+  NOM_COMUNA     URBANO DISTRITO LOC_ZON   GEOCODIGO      AREA  COD_INE_15
+1 LAS CONDES LAS CONDES        5       1 13114051001  346506.4 13114051001
+2 LAS CONDES LAS CONDES        4       1 13114041001 2797019.6 13114041001
+3 LAS CONDES LAS CONDES        4       3 13114041003 2530681.2 13114041003
+4 LAS CONDES LAS CONDES       16       2 13114161002 1497554.8 13114161002
+5 LAS CONDES LAS CONDES       15       3 13114151003  855603.3 13114151003
+6 LAS CONDES LAS CONDES        2       2 13114021002  594053.2 13114021002
+   COD_INE_16 VALIDO       KM2   ESC_JH PERS       M2_O      M2_C  DENS_HAB
+1 13114051001   TRUE 0.3465064 16.08958 4173  10910.000  18578.00 12043.068
+2 13114041001   TRUE 2.7970196 16.34331 4788   5820.806  48723.11  1711.822
+3 13114041003   TRUE 2.5306812 16.19528 6315 125513.194  84384.89  2495.376
+4 13114161002   TRUE 1.4975548 16.75400 2250    738.000     72.00  1502.449
+5 13114151003   TRUE 0.8556033 16.84848 4675   1130.005  51982.94  5463.981
+6 13114021002   TRUE 0.5940532 15.85904 3987  24382.000 298226.00  6711.520
+     DENS_OF     DENS_COM                       geometry
+1 31485.7121  53615.17494 MULTIPOLYGON (((-70.56008 -...
+2  2081.0745  17419.65356 MULTIPOLYGON (((-70.47951 -...
+3 49596.6041  33344.73221 MULTIPOLYGON (((-70.5267 -3...
+4   492.8033     48.07838 MULTIPOLYGON (((-70.50789 -...
+5  1320.7117  60755.89536 MULTIPOLYGON (((-70.51477 -...
+6 41043.4616 502019.00493 MULTIPOLYGON (((-70.53606 -...</code></pre>
 </div>
 </div>
 </section>

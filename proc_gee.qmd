@@ -6,8 +6,7 @@ editor_options:
   chunk_output_type: console
 ---
 
-# S4: Procesamiento con GEE desde R
-
+# S4: Procesamiento con GEE
 
 
 ```{r setup, include=FALSE}
